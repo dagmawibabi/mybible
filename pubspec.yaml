@@ -1,0 +1,160 @@
+name: mybible
+description: A new Flutter project.
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.6 <4.0.0'
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^2.0.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/holybooks/EN/
+    - assets/holybooks/EN/AP/
+    - assets/holybooks/EN/OT/
+    - assets/holybooks/EN/OT/1CH/
+    - assets/holybooks/EN/OT/1KI/
+    - assets/holybooks/EN/OT/1SA/
+    - assets/holybooks/EN/OT/2CH/
+    - assets/holybooks/EN/OT/2KI/
+    - assets/holybooks/EN/OT/2SA/    
+    - assets/holybooks/EN/OT/AMO/
+    - assets/holybooks/EN/OT/DAN/
+    - assets/holybooks/EN/OT/DEU/
+    - assets/holybooks/EN/OT/ECC/
+    - assets/holybooks/EN/OT/EST/
+    - assets/holybooks/EN/OT/EXO/
+    - assets/holybooks/EN/OT/EZK/
+    - assets/holybooks/EN/OT/EZR/
+    - assets/holybooks/EN/OT/GEN/
+    - assets/holybooks/EN/OT/HAB/
+    - assets/holybooks/EN/OT/HAG/
+    - assets/holybooks/EN/OT/HOS/
+    - assets/holybooks/EN/OT/ISA/
+    - assets/holybooks/EN/OT/JDG/
+    - assets/holybooks/EN/OT/JER/
+    - assets/holybooks/EN/OT/JOB/
+    - assets/holybooks/EN/OT/JOL/
+    - assets/holybooks/EN/OT/JON/
+    - assets/holybooks/EN/OT/JOS/
+    - assets/holybooks/EN/OT/LAM/
+    - assets/holybooks/EN/OT/LEV/
+    - assets/holybooks/EN/OT/MAL/
+    - assets/holybooks/EN/OT/MIC/
+    - assets/holybooks/EN/OT/NAH/
+    - assets/holybooks/EN/OT/NAM/
+    - assets/holybooks/EN/OT/NUM/
+    - assets/holybooks/EN/OT/OBA/
+    - assets/holybooks/EN/OT/PRO/
+    - assets/holybooks/EN/OT/PSA/
+    - assets/holybooks/EN/OT/RUT/
+    - assets/holybooks/EN/OT/SNG/
+    - assets/holybooks/EN/OT/ZEC/
+    - assets/holybooks/EN/OT/ZEP/
+    - assets/holybooks/EN/NT/
+    - assets/holybooks/EN/NT/ACT/
+    - assets/holybooks/EN/NT/1CO/
+    - assets/holybooks/EN/NT/1JN/
+    - assets/holybooks/EN/NT/1PE/
+    - assets/holybooks/EN/NT/1TH/
+    - assets/holybooks/EN/NT/1TI/
+    - assets/holybooks/EN/NT/2CO/
+    - assets/holybooks/EN/NT/2JN/
+    - assets/holybooks/EN/NT/2PE/
+    - assets/holybooks/EN/NT/2TH/
+    - assets/holybooks/EN/NT/2TI/
+    - assets/holybooks/EN/NT/3JN/
+    - assets/holybooks/EN/NT/COL/
+    - assets/holybooks/EN/NT/EPH/
+    - assets/holybooks/EN/NT/GAL/
+    - assets/holybooks/EN/NT/HEB/
+    - assets/holybooks/EN/NT/JAS/
+    - assets/holybooks/EN/NT/JHN/
+    - assets/holybooks/EN/NT/JUD/
+    - assets/holybooks/EN/NT/LKA/
+    - assets/holybooks/EN/NT/LUK/
+    - assets/holybooks/EN/NT/MAT/
+    - assets/holybooks/EN/NT/MRK/
+    - assets/holybooks/EN/NT/PHM/
+    - assets/holybooks/EN/NT/REV/
+    - assets/holybooks/EN/NT/ROM/
+    - assets/holybooks/EN/NT/TIT/
+
+  #   - images/a_dot_ham.jpeg
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
