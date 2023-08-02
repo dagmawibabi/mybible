@@ -205,7 +205,7 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
     return Container(
       padding: EdgeInsets.only(top: 2.0),
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: Colors.red,
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Container(

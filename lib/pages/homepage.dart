@@ -3,7 +3,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mybible/components/chooseBook.dart';
+import 'package:mybible/components/chooseBookBS.dart';
+import 'package:mybible/components/chooseChapter.dart';
 import 'package:mybible/components/eachVerse.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   String currentBook = "GEN";
   int currentChapter = 1;
   int chapterLength = 0;
+  bool isOT = true;
 
   Map abbrv = {
     "1CH": "1 Chronicles",
@@ -101,21 +103,38 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
-  void chooseBookBS() {
+  void getBooks() async {}
+
+  void showBooks() async {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       anchorPoint: Offset(0, 100),
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.8,
+        maxHeight: MediaQuery.of(context).size.height * 0.85,
       ),
       isScrollControlled: true,
       isDismissible: true,
       enableDrag: true,
       context: context,
       builder: (context) {
-        return ChooseBookBS(
-          setContent: setContent,
-        );
+        return ChooseBookBS();
+      },
+    );
+  }
+
+  void showChapters() async {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      anchorPoint: Offset(0, 100),
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.85,
+      ),
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      context: context,
+      builder: (context) {
+        return ChooseChapterBS();
       },
     );
   }
@@ -150,21 +169,21 @@ class _HomePageState extends State<HomePage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                chooseBookBS();
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  bottom: 5.0,
-                                  left: 15.0,
-                                  right: 20.0,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 5.0,
+                                left: 15.0,
+                                right: 20.0,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      showBooks();
+                                    },
+                                    child: Text(
                                       "${abbrv[currentBook]} ${currentChapter + 1}",
                                       style: TextStyle(
                                         color: Colors.white,
@@ -172,7 +191,12 @@ class _HomePageState extends State<HomePage> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Text(
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      showChapters();
+                                    },
+                                    child: Text(
                                       "$currentVersion",
                                       style: TextStyle(
                                         color: Colors.white,
@@ -180,8 +204,8 @@ class _HomePageState extends State<HomePage> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                             Divider(
