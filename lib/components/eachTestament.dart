@@ -32,6 +32,7 @@ class _EachTestamentState extends State<EachTestament> {
         color: Colors.greenAccent.withOpacity(0.05),
         border: Border.all(
           color: Colors.grey[800]!,
+          // color: Colors.greenAccent.withOpacity(0.4),
         ),
         borderRadius: BorderRadius.circular(10.0),
       ),
@@ -40,7 +41,7 @@ class _EachTestamentState extends State<EachTestament> {
         style: const TextStyle(
           color: Colors.white,
           fontSize: 16.0,
-          // fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

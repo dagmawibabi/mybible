@@ -48,10 +48,9 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height,
-      margin: EdgeInsets.only(bottom: 4.0),
+      // height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.greenAccent,
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: ListView(
@@ -59,10 +58,18 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
           Container(
             height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.only(top: 10.0),
+            margin: EdgeInsets.only(top: 2.0),
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               color: Colors.grey[900]!,
-              borderRadius: BorderRadius.circular(20.0),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(
+                  20.0,
+                ),
+                topRight: Radius.circular(
+                  20.0,
+                ),
+              ),
             ),
             child: chapterLength == []
                 ? Container()
@@ -83,10 +90,10 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                         ),
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.5,
+                        height: MediaQuery.of(context).size.height * 0.6,
                         padding: EdgeInsets.symmetric(
                           vertical: 5.0,
-                          horizontal: 15.0,
+                          horizontal: 30.0,
                         ),
                         child: GridView.count(
                           crossAxisCount: 4,

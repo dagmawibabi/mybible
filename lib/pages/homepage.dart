@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   int currentChapter = 1;
   int chapterLength = 0;
   bool isOT = true;
+  bool showComments = true;
 
   Map abbrv = {
     "1CH": "1 Chronicles",
@@ -197,7 +198,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.transparent,
       anchorPoint: Offset(0, 100),
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.85,
+        maxHeight: MediaQuery.of(context).size.height * 0.7,
       ),
       isScrollControlled: true,
       isDismissible: true,
@@ -216,7 +217,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.transparent,
       anchorPoint: Offset(0, 100),
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.6,
+        maxHeight: MediaQuery.of(context).size.height * 0.7,
       ),
       isScrollControlled: true,
       isDismissible: true,
@@ -238,7 +239,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.transparent,
       anchorPoint: Offset(0, 100),
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.5,
+        maxHeight: MediaQuery.of(context).size.height * 0.7,
       ),
       isScrollControlled: true,
       isDismissible: true,
@@ -257,7 +258,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.transparent,
       anchorPoint: Offset(0, 100),
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.5,
+        maxHeight: MediaQuery.of(context).size.height * 0.7,
       ),
       isScrollControlled: true,
       isDismissible: true,
@@ -285,10 +286,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff202020),
-      // appBar: AppBar(
-      //   backgroundColor: Colors.grey[200],
-      //   elevation: 0.0,
-      // ),
       body: SafeArea(
         child: ListView(
           children: [
@@ -342,18 +339,45 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ],
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      showVersions();
-                                    },
-                                    child: Text(
-                                      currentVersion,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.bold,
+                                  Row(
+                                    children: [
+                                      currentVersion == "ERV"
+                                          ? IconButton(
+                                              onPressed: () {
+                                                showComments = !showComments;
+                                                setState(() {});
+                                              },
+                                              icon: Icon(
+                                                showComments == true
+                                                    ? Icons
+                                                        .comments_disabled_outlined
+                                                    : Icons
+                                                        .insert_comment_outlined,
+                                                color: Colors.grey[700]!,
+                                              ),
+                                            )
+                                          : Container(
+                                              height: 50.0,
+                                              color: Colors.red,
+                                            ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          showVersions();
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5.0, vertical: 10.0),
+                                          child: Text(
+                                            currentVersion,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -362,37 +386,47 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.grey[700],
                             ),
                             for (var eachVerse in content)
-                              GestureDetector(
-                                onTap: () {
-                                  showDifferentVersions(
-                                    int.parse(eachVerse["ID"]),
-                                  );
-                                },
-                                child: EachVerse(
-                                  verseData: eachVerse,
-                                ),
+                              Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      showDifferentVersions(
+                                        int.parse(eachVerse["ID"]),
+                                      );
+                                    },
+                                    child: EachVerse(
+                                      verseData: eachVerse,
+                                    ),
+                                  ),
+                                  currentVersion == "ERV" &&
+                                          showComments == true
+                                      ? eachVerse["comments"] != null
+                                          ? Column(
+                                              children: [
+                                                for (var eachComment
+                                                    in eachVerse["comments"])
+                                                  Container(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                      horizontal: 30.0,
+                                                    ),
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            bottom: 10.0),
+                                                    child: Text(
+                                                      eachComment,
+                                                      style: TextStyle(
+                                                        color:
+                                                            Colors.grey[600]!,
+                                                      ),
+                                                    ),
+                                                  ),
+                                              ],
+                                            )
+                                          : Container()
+                                      : Container(),
+                                ],
                               ),
-                            // Row(
-                            //   children: [
-                            //     Text(
-                            //       "${eachVerse["ID"]} ",
-                            //       textAlign: TextAlign.left,
-                            //       style: TextStyle(
-                            //         fontSize: 10.0,
-                            //         // color: Colors.red,
-                            //       ),
-                            //     ),
-                            //     Text(
-                            //       "${eachVerse["text"]}",
-                            //       textAlign: TextAlign.left,
-                            //       style: TextStyle(
-                            //         // color: Colors.red,
-                            //         fontSize: 15.0,
-                            //         fontWeight: FontWeight.bold,
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
                             SizedBox(height: 200.0),
                           ],
                         ),
@@ -406,47 +440,51 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 30.0),
-            child: FloatingActionButton(
-              backgroundColor: Colors.grey[800],
-              mini: true,
-              onPressed: () {
-                if (currentChapter - 1 >= 1) {
-                  currentChapter -= 1;
-                  setContent(
-                    currentVersion,
-                    currentTestament,
-                    currentBook,
-                    currentChapter,
-                  );
-                }
-              },
-              child: Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          FloatingActionButton(
-            backgroundColor: Colors.grey[800],
-            mini: true,
-            onPressed: () {
-              if (currentChapter + 1 <= chapterLength) {
-                currentChapter += 1;
-                setContent(
-                  currentVersion,
-                  currentTestament,
-                  currentBook,
-                  currentChapter,
-                );
-              }
-            },
-            child: Icon(
-              Icons.arrow_forward,
-              color: Colors.white,
-            ),
-          ),
+          currentChapter - 1 >= 1
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 30.0),
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.grey[800],
+                    mini: true,
+                    onPressed: () {
+                      if (currentChapter - 1 >= 1) {
+                        currentChapter -= 1;
+                        setContent(
+                          currentVersion,
+                          currentTestament,
+                          currentBook,
+                          currentChapter,
+                        );
+                      }
+                    },
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              : Container(height: 1.0),
+          currentChapter + 1 <= chapterLength
+              ? FloatingActionButton(
+                  backgroundColor: Colors.grey[800],
+                  mini: true,
+                  onPressed: () {
+                    if (currentChapter + 1 <= chapterLength) {
+                      currentChapter += 1;
+                      setContent(
+                        currentVersion,
+                        currentTestament,
+                        currentBook,
+                        currentChapter,
+                      );
+                    }
+                  },
+                  child: Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                  ),
+                )
+              : Container(height: 1.0)
         ],
       ),
     );

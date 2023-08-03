@@ -95,18 +95,25 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height,
-      margin: EdgeInsets.only(bottom: 4.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.greenAccent,
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Container(
         height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.only(top: 10.0),
+        margin: EdgeInsets.only(top: 2.0),
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
           color: Colors.grey[900]!,
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(
+              20.0,
+            ),
+            topRight: Radius.circular(
+              20.0,
+            ),
+          ),
         ),
         child: ListView(
           children: [
@@ -133,49 +140,33 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      EachTestament(
-                        testament: "Old Testament",
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          isOT = true;
+                          setState(() {});
+                        },
+                        child: EachTestament(
+                          testament: "Old Testament",
+                        ),
                       ),
-                      EachTestament(
-                        testament: "New Testament",
+                      GestureDetector(
+                        onTap: () {
+                          isOT = false;
+                          setState(() {});
+                        },
+                        child: EachTestament(
+                          testament: "New Testament",
+                        ),
                       ),
-                      // ElevatedButton(
-                      //   onPressed: () {
-                      //     isOT = true;
-                      //     setState(() {});
-                      //   },
-                      //   child: Text(
-                      //     "Old Testament",
-                      //   ),
-                      // ),
-                      // SizedBox(width: 10.0),
-                      // ElevatedButton(
-                      //   onPressed: () {
-                      //     isOT = false;
-                      //     setState(() {});
-                      //   },
-                      //   child: Text(
-                      //     "New Testament",
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
                 Divider(
                   color: Colors.grey[800],
                 ),
-                // for (var eachBook in (isOT == true ? otBooks : ntBooks))
-                //   GestureDetector(
-                //     onTap: () {
-                //       String otORnt = isOT == true ? "OT" : "NT";
-                //       widget.setTestamentAndBook(otORnt, eachBook);
-                //       setState(() {});
-                //     },
-                //     child: EachBookButton(book: eachBook),
-                //   ),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.7,
+                  height: MediaQuery.of(context).size.height * 0.54,
                   padding: EdgeInsets.only(
                     top: 5.0,
                     bottom: 15.0,
@@ -201,25 +192,11 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                           child: EachBookButton(
                             book: eachBook,
                           ),
-
-                          //           //     Container(
-                          //           //   decoration: BoxDecoration(
-                          //           //     color: Colors.blue,
-                          //           //     borderRadius: BorderRadius.circular(10.0),
-                          //           //   ),
-                          //           //   child: Center(
-                          //           //     child: Text(
-                          //           //       eachBook,
-                          //           //       style: TextStyle(
-                          //           //         color: Colors.white,
-                          //           //       ),
-                          //           //     ),
-                          //           //   ),
-                          //           // ),
                         )
                     ],
                   ),
                 ),
+                // SizedBox(height: 100.0),
               ],
             ),
           ],

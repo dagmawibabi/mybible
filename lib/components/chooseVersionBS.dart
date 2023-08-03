@@ -37,9 +37,8 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height,
-      margin: const EdgeInsets.only(bottom: 4.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.greenAccent,
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: ListView(
@@ -47,10 +46,18 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
           Container(
             height: MediaQuery.of(context).size.height,
             padding: const EdgeInsets.only(top: 10.0),
+            margin: const EdgeInsets.only(top: 2.0),
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               color: Colors.grey[900]!,
-              borderRadius: BorderRadius.circular(20.0),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(
+                  20.0,
+                ),
+                topRight: Radius.circular(
+                  20.0,
+                ),
+              ),
             ),
             child: bibleVersionsInfo == []
                 ? Container()
