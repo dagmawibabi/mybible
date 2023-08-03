@@ -16,7 +16,7 @@ class _EachVerseState extends State<EachVerse> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onLongPress: () {
         isSelected = !isSelected;
         setState(() {});
       },

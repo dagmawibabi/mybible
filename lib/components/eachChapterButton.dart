@@ -1,25 +1,20 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 
-class EachBookButton extends StatefulWidget {
-  const EachBookButton({
-    super.key,
-    required this.book,
-  });
+class EachChapterButton extends StatefulWidget {
+  const EachChapterButton({super.key, required this.chapter});
 
-  final String book;
+  final String chapter;
 
   @override
-  State<EachBookButton> createState() => _EachBookButtonState();
+  State<EachChapterButton> createState() => _EachChapterButtonState();
 }
 
-class _EachBookButtonState extends State<EachBookButton> {
+class _EachChapterButtonState extends State<EachChapterButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: double.infinity,
-      width: 200.0,
+      width: double.infinity,
+      // width: 200.0,
       margin: const EdgeInsets.symmetric(
         vertical: 5.0,
         horizontal: 15.0,
@@ -37,12 +32,14 @@ class _EachBookButtonState extends State<EachBookButton> {
         ),
         borderRadius: BorderRadius.circular(10.0),
       ),
-      child: Text(
-        widget.book,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 16.0,
-          // fontWeight: FontWeight.bold,
+      child: Center(
+        child: Text(
+          widget.chapter,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16.0,
+            // fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );

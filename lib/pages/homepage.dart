@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:mybible/components/chooseBookBS.dart';
 import 'package:mybible/components/chooseChapterBS.dart';
 import 'package:mybible/components/chooseVersionBS.dart';
+import 'package:mybible/components/differentVersionBS.dart';
 import 'package:mybible/components/eachVerse.dart';
 
 class HomePage extends StatefulWidget {
@@ -251,6 +252,28 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void showDifferentVersions(currentVerse) async {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      anchorPoint: Offset(0, 100),
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.5,
+      ),
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      context: context,
+      builder: (context) {
+        return DifferentVersions(
+          testament: currentTestament,
+          book: currentBook,
+          chapter: currentChapter,
+          verse: currentVerse,
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -324,7 +347,7 @@ class _HomePageState extends State<HomePage> {
                                       showVersions();
                                     },
                                     child: Text(
-                                      "$currentVersion",
+                                      currentVersion,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 12.0,
@@ -339,8 +362,15 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.grey[700],
                             ),
                             for (var eachVerse in content)
-                              EachVerse(
-                                verseData: eachVerse,
+                              GestureDetector(
+                                onTap: () {
+                                  showDifferentVersions(
+                                    int.parse(eachVerse["ID"]),
+                                  );
+                                },
+                                child: EachVerse(
+                                  verseData: eachVerse,
+                                ),
                               ),
                             // Row(
                             //   children: [

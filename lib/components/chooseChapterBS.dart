@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mybible/components/eachChapterButton.dart';
 
 class ChooseChapterBS extends StatefulWidget {
   const ChooseChapterBS({
@@ -88,10 +89,10 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                           horizontal: 15.0,
                         ),
                         child: GridView.count(
-                          crossAxisCount: 8,
-                          childAspectRatio: 1.0,
-                          crossAxisSpacing: 5.0,
-                          mainAxisSpacing: 5.0,
+                          crossAxisCount: 4,
+                          childAspectRatio: 1.4,
+                          crossAxisSpacing: 0.0,
+                          mainAxisSpacing: 0.0,
                           children: [
                             for (var eachChapter in chapterLength)
                               GestureDetector(
@@ -103,20 +104,24 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                                   setState(() {});
                                   Navigator.pop(context);
                                 },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.blue,
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      eachChapter.toString(),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
+                                child: EachChapterButton(
+                                  chapter: eachChapter.toString(),
                                 ),
+
+                                // Container(
+                                //   decoration: BoxDecoration(
+                                //     color: Colors.blue,
+                                //     borderRadius: BorderRadius.circular(10.0),
+                                //   ),
+                                //   child: Center(
+                                //     child: Text(
+                                //       eachChapter.toString(),
+                                //       style: TextStyle(
+                                //         color: Colors.white,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                               )
                           ],
                         ),

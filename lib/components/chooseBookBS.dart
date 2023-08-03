@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mybible/components/eachBookButton.dart';
+import 'package:mybible/components/eachTestament.dart';
 
 class ChooseBookBS extends StatefulWidget {
   const ChooseBookBS({
@@ -132,45 +133,63 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          isOT = true;
-                          setState(() {});
-                        },
-                        child: Text(
-                          "Old Testament",
-                        ),
+                    children: const [
+                      EachTestament(
+                        testament: "Old Testament",
                       ),
-                      SizedBox(width: 10.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          isOT = false;
-                          setState(() {});
-                        },
-                        child: Text(
-                          "New Testament",
-                        ),
+                      EachTestament(
+                        testament: "New Testament",
                       ),
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     isOT = true;
+                      //     setState(() {});
+                      //   },
+                      //   child: Text(
+                      //     "Old Testament",
+                      //   ),
+                      // ),
+                      // SizedBox(width: 10.0),
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     isOT = false;
+                      //     setState(() {});
+                      //   },
+                      //   child: Text(
+                      //     "New Testament",
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
                 Divider(
                   color: Colors.grey[800],
                 ),
+                // for (var eachBook in (isOT == true ? otBooks : ntBooks))
+                //   GestureDetector(
+                //     onTap: () {
+                //       String otORnt = isOT == true ? "OT" : "NT";
+                //       widget.setTestamentAndBook(otORnt, eachBook);
+                //       setState(() {});
+                //     },
+                //     child: EachBookButton(book: eachBook),
+                //   ),
                 Container(
                   height: MediaQuery.of(context).size.height * 0.7,
                   padding: EdgeInsets.only(
                     top: 5.0,
                     bottom: 15.0,
-                    left: 15.0,
-                    right: 15.0,
+                    // left: 15.0,
+                    // right: 15.0,
+                  ),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 0.0,
                   ),
                   child: GridView.count(
-                    crossAxisCount: 3,
-                    childAspectRatio: 3.0,
-                    crossAxisSpacing: 5.0,
-                    mainAxisSpacing: 5.0,
+                    crossAxisCount: 2,
+                    childAspectRatio: 3.5,
+                    crossAxisSpacing: 0.0,
+                    mainAxisSpacing: 0.0,
                     children: [
                       for (var eachBook in (isOT == true ? otBooks : ntBooks))
                         GestureDetector(
@@ -179,22 +198,24 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                             widget.setTestamentAndBook(otORnt, eachBook);
                             setState(() {});
                           },
-                          child: EachBookButton(book: eachBook),
+                          child: EachBookButton(
+                            book: eachBook,
+                          ),
 
-                          // Container(
-                          //   decoration: BoxDecoration(
-                          //     color: Colors.blue,
-                          //     borderRadius: BorderRadius.circular(10.0),
-                          //   ),
-                          //   child: Center(
-                          //     child: Text(
-                          //       eachBook,
-                          //       style: TextStyle(
-                          //         color: Colors.white,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
+                          //           //     Container(
+                          //           //   decoration: BoxDecoration(
+                          //           //     color: Colors.blue,
+                          //           //     borderRadius: BorderRadius.circular(10.0),
+                          //           //   ),
+                          //           //   child: Center(
+                          //           //     child: Text(
+                          //           //       eachBook,
+                          //           //       style: TextStyle(
+                          //           //         color: Colors.white,
+                          //           //       ),
+                          //           //     ),
+                          //           //   ),
+                          //           // ),
                         )
                     ],
                   ),

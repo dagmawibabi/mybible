@@ -14,11 +14,11 @@ class _EachVersionButtonState extends State<EachVersionButton> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         vertical: 5.0,
         horizontal: 15.0,
       ),
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         top: 15.0,
         bottom: 15.0,
         left: 15.0,
@@ -39,7 +39,7 @@ class _EachVersionButtonState extends State<EachVersionButton> {
             children: [
               Text(
                 widget.versionData["ID"].toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
@@ -55,7 +55,7 @@ class _EachVersionButtonState extends State<EachVersionButton> {
           ),
           IconButton(
             onPressed: () {},
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_forward,
               color: Colors.white,
             ),
