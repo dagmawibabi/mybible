@@ -1,9 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:mybible/components/eachBookButton.dart';
 
 class ChooseBookBS extends StatefulWidget {
-  const ChooseBookBS({super.key});
+  const ChooseBookBS({
+    super.key,
+    required this.setTestamentAndBook,
+  });
+
+  final Function setTestamentAndBook;
 
   @override
   State<ChooseBookBS> createState() => _ChooseBookBSState();
@@ -104,7 +110,6 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
         child: ListView(
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -126,6 +131,7 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                     vertical: 5.0,
                   ),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
                         onPressed: () {
@@ -169,22 +175,26 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                       for (var eachBook in (isOT == true ? otBooks : ntBooks))
                         GestureDetector(
                           onTap: () {
+                            String otORnt = isOT == true ? "OT" : "NT";
+                            widget.setTestamentAndBook(otORnt, eachBook);
                             setState(() {});
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: Center(
-                              child: Text(
-                                eachBook,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
+                          child: EachBookButton(book: eachBook),
+
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     color: Colors.blue,
+                          //     borderRadius: BorderRadius.circular(10.0),
+                          //   ),
+                          //   child: Center(
+                          //     child: Text(
+                          //       eachBook,
+                          //       style: TextStyle(
+                          //         color: Colors.white,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                         )
                     ],
                   ),
