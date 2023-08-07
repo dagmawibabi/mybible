@@ -6,9 +6,11 @@ class EachBookButton extends StatefulWidget {
   const EachBookButton({
     super.key,
     required this.book,
+    required this.isAmharic,
   });
 
   final String book;
+  final bool isAmharic;
 
   @override
   State<EachBookButton> createState() => _EachBookButtonState();
@@ -20,8 +22,8 @@ class _EachBookButtonState extends State<EachBookButton> {
     return Container(
       // width: double.infinity,
       width: 200.0,
-      margin: const EdgeInsets.symmetric(
-        vertical: 5.0,
+      margin: EdgeInsets.symmetric(
+        vertical: widget.isAmharic == true ? 3.0 : 5.0,
         horizontal: 15.0,
       ),
       padding: const EdgeInsets.only(

@@ -210,6 +210,8 @@ class _HomePageState extends State<HomePage> {
       builder: (context) {
         return ChooseBookBS(
           setTestamentAndBook: setTestamentAndBook,
+          englishToAmharicMap: englishToAmharicMap,
+          isAmharic: isAmharic,
         );
       },
     );
@@ -289,14 +291,14 @@ class _HomePageState extends State<HomePage> {
     "08_መጽሐፈ ሩት.json",
     "09_መጽሐፈ ሳሙኤል ቀዳማዊ.json",
     "10_መጽሐፈ ሳሙኤል ካል.json",
-    "11_መጽሐፈ ነገሥት ቀዳማዊ።.json",
-    "12_መጽሐፈ ነገሥት ካልዕ።.json",
-    "13_መጽሐፈ ዜና መዋዕል ቀዳማዊ።.json",
-    "14_መጽሐፈ ዜና መዋዕል ካልዕ።.json",
-    "15_መጽሐፈ ዕዝራ።.json",
-    "16_መጽሐፈ ነህምያ።.json",
-    "17_መጽሐፈ አስቴር።.json",
-    "18_መጽሐፈ ኢዮብ።.json",
+    "11_መጽሐፈ ነገሥት ቀዳማዊ.json",
+    "12_መጽሐፈ ነገሥት ካልዕ.json",
+    "13_መጽሐፈ ዜና መዋዕል ቀዳማዊ.json",
+    "14_መጽሐፈ ዜና መዋዕል ካልዕ.json",
+    "15_መጽሐፈ ዕዝራ.json",
+    "16_መጽሐፈ ነህምያ.json",
+    "17_መጽሐፈ አስቴር.json",
+    "18_መጽሐፈ ኢዮብ.json",
     "19_መዝሙረ ዳዊት.json",
     "20_መጽሐፈ ምሳሌ.json",
     "21_መጽሐፈ መክብብ.json",
@@ -350,19 +352,90 @@ class _HomePageState extends State<HomePage> {
     "66_የዮሐንስ ራእይ.json",
   ];
 
+  Map englishToAmharicMap = {
+    "Genesis": "01_ኦሪት ዘፍጥረት.json",
+    "Exodus": "02_ኦሪት ዘጸአት.json",
+    "Leviticus": "03_ኦሪት ዘሌዋውያን.json",
+    "Numbers": "04_ኦሪት ዘኍልቍ.json",
+    "Deuteronomy": "05_ኦሪት ዘዳግም.json",
+    "Joshua": "06_መጽሐፈ ኢያሱ ወልደ ነዌ.json",
+    "Judges": "07_መጽሐፈ መሣፍንት.json",
+    "Ruth": "08_መጽሐፈ ሩት.json",
+    "1 Samuel": "09_መጽሐፈ ሳሙኤል ቀዳማዊ.json",
+    "2 Samuel": "10_መጽሐፈ ሳሙኤል ካል.json",
+    "1 Kings": "11_መጽሐፈ ነገሥት ቀዳማዊ.json",
+    "2 Kings": "12_መጽሐፈ ነገሥት ካልዕ.json",
+    "1 Chronicles": "13_መጽሐፈ ዜና መዋዕል ቀዳማዊ.json",
+    "2 Chronicles": "14_መጽሐፈ ዜና መዋዕል ካልዕ.json",
+    "Ezra": "15_መጽሐፈ ዕዝራ.json",
+    "Nehemiah": "16_መጽሐፈ ነህምያ.json",
+    "Esther": "17_መጽሐፈ አስቴር.json",
+    "Job": "18_መጽሐፈ ኢዮብ.json",
+    "Psalms": "19_መዝሙረ ዳዊት.json",
+    "Proverbs": "20_መጽሐፈ ምሳሌ.json",
+    "Ecclesiastes": "21_መጽሐፈ መክብብ.json",
+    "Song of Solomon": "22_መኃልየ መኃልይ ዘሰሎሞን.json",
+    "Isaiah": "23_ትንቢተ ኢሳይያስ.json",
+    "Jeremiah": "24_ትንቢተ ኤርምያስ.json",
+    "Lamentations": "25_ሰቆቃው ኤርምያስ.json",
+    "Ezekiel": "26_ትንቢተ ሕዝቅኤል.json",
+    "Daniel": "27_ትንቢተ ዳንኤል.json",
+    "Hosea": "28_ትንቢተ ሆሴዕ.json",
+    "Joel": "29_ትንቢተ ኢዮኤል.json",
+    "Amos": "30_ትንቢተ አሞጽ.json",
+    "Obadiah": "31_ትንቢተ አብድዩ.json",
+    "Jonah": "32_ትንቢተ ዮናስ.json",
+    "Micah": "33_ትንቢተ ሚክያስ.json",
+    "Nahum": "34_ትንቢተ ናሆም.json",
+    "Habakkuk": "35_ትንቢተ ዕንባቆም.json",
+    "Zephaniah": "36_ትንቢተ ሶፎንያስ.json",
+    "Haggai": "37_ትንቢተ ሐጌ.json",
+    "Zechariah": "38_ትንቢተ ዘካርያስ.json",
+    "Malachi": "39_ትንቢተ ሚልክያ.json",
+    "Matthew": "40_የማቴዎስ ወንጌል.json",
+    "Mark": "41_የማርቆስ ወንጌል.json",
+    "Luke": "42_የሉቃስ ወንጌል.json",
+    "John": "43_የዮሐንስ ወንጌል.json",
+    "Acts": "44_የሐዋርያት ሥራ.json",
+    "Romans": "45_ወደ ሮሜ ሰዎች.json",
+    "1 Corinthians": "46_1ኛ ወደ ቆሮንቶስ ሰዎች.json",
+    "2 Corinthians": "47_2ኛ ወደ ቆሮንቶስ ሰዎች.json",
+    "Galatians": "48_ወደ ገላትያ ሰዎች.json",
+    "Ephesians": "49_ወደ ኤፌሶን ሰዎች.json",
+    "Philippians": "50_ወደ ፊልጵስዩስ ሰዎች.json",
+    "Colossians": "51_ወደ ቆላስይስ ሰዎች.json",
+    "1 Thessalonians": "52_1ኛ ወደ ተሰሎንቄ ሰዎች.json",
+    "2 Thessalonians": "53_2ኛ ወደ ተሰሎንቄ ሰዎች.json",
+    "1 Timothy": "54_1ኛ ወደ ጢሞቴዎስ.json",
+    "2 Timothy": "55_2ኛ ወደ ጢሞቴዎስ.json",
+    "Titus": "56_ወደ ቲቶ.json",
+    "Philemon": "57_ወደ ፊልሞና.json",
+    "Hebrews": "58_ወደ ዕብራውያን.json",
+    "James": "59_የያዕቆብ መልእክት.json",
+    "1 Peter": "60_1ኛ የጴጥሮስ መልእክት.json",
+    "2 Peter": "61_2ኛ የጴጥሮስ መልእክት.json",
+    "1 John": "62_1ኛ የዮሐንስ መልእክት.json",
+    "2 John": "63_2ኛ የዮሐንስ መልእክት.json",
+    "3 John": "64_3ኛ የዮሐንስ መልእክት.json",
+    "Jude": "65_የይሁዳ መልእክት.json",
+    "Revelation": "66_የዮሐንስ ራእይ.json",
+  };
+
   bool isAmharic = false;
+  List amharicBible = [];
   void loadAmharicBible() async {
     var pathOfJSON = "assets/holybooks/AM/${otBooksAM[0]}";
     String data = await DefaultAssetBundle.of(context).loadString(pathOfJSON);
     final jsonResult = jsonDecode(data);
-    // content = jsonResult["text"][1]["text"];
     chapterLength = jsonResult["chapters"].length;
-    print(chapterLength);
-    content = jsonResult["chapters"][currentChapter - 1];
-    print(jsonResult["chapters"]);
-    print(content["verses"].length);
-    print(content["verses"]);
-    print(content["verses"][0]);
+    // content = jsonResult["chapters"][currentChapter - 1];
+    var result = jsonResult["chapters"][currentChapter - 1]["verses"];
+    for (var i = 0; i < result.length; i++) {
+      amharicBible.add({
+        "text": result[i],
+        "ID": i + 1,
+      });
+    }
     setState(() {});
   }
 
@@ -371,7 +444,7 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     setContent("ESV", "OT", "GEN", 1);
-    // loadAmharicBible();
+    loadAmharicBible();
   }
 
   @override
@@ -408,10 +481,21 @@ class _HomePageState extends State<HomePage> {
                                           showBooks();
                                         },
                                         child: Text(
-                                          "${abbrv[currentBook]} ",
+                                          isAmharic == true
+                                              ? englishToAmharicMap[
+                                                      abbrv[currentBook]]
+                                                  .toString()
+                                                  .substring(
+                                                      3,
+                                                      englishToAmharicMap[abbrv[
+                                                                  currentBook]]
+                                                              .length -
+                                                          5)
+                                              : "${abbrv[currentBook]}",
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 20.0,
+                                            fontSize:
+                                                isAmharic == true ? 18.0 : 20.0,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -421,7 +505,7 @@ class _HomePageState extends State<HomePage> {
                                           showChapters();
                                         },
                                         child: Text(
-                                          " $currentChapter",
+                                          "  $currentChapter",
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 20.0,
@@ -454,8 +538,8 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                       GestureDetector(
                                         onTap: () {
-                                          isAmharic = false;
-                                          setState(() {});
+                                          // isAmharic = false;
+                                          // setState(() {});
                                           showVersions();
                                         },
                                         child: Container(
@@ -473,14 +557,14 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          isAmharic = true;
+                                          isAmharic = !isAmharic;
                                           setState(() {});
                                         },
                                         child: Container(
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 5.0, vertical: 10.0),
                                           child: Text(
-                                            "አማ",
+                                            isAmharic == true ? "EN" : "አማ",
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 14.0,
@@ -501,32 +585,15 @@ class _HomePageState extends State<HomePage> {
                                 ? Container(
                                     child: Column(
                                       children: [
-                                        for (var eachVerse in content["verses"])
-                                          Container(
-                                            decoration: BoxDecoration(),
-                                            padding: const EdgeInsets.only(
-                                              right: 10.0,
-                                              top: 5.0,
-                                              bottom: 5.0,
-                                            ),
-                                            margin: const EdgeInsets.symmetric(
-                                              horizontal: 20.0,
-                                            ),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Flexible(
-                                                  child: Text(
-                                                    "$eachVerse",
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
+                                        for (var eachVerse in amharicBible)
+                                          GestureDetector(
+                                            onTap: () {
+                                              showDifferentVersions(
+                                                eachVerse["ID"],
+                                              );
+                                            },
+                                            child: EachVerse(
+                                              verseData: eachVerse,
                                             ),
                                           ),
                                       ],

@@ -8,9 +8,13 @@ class ChooseBookBS extends StatefulWidget {
   const ChooseBookBS({
     super.key,
     required this.setTestamentAndBook,
+    required this.englishToAmharicMap,
+    required this.isAmharic,
   });
 
   final Function setTestamentAndBook;
+  final Map englishToAmharicMap;
+  final bool isAmharic;
 
   @override
   State<ChooseBookBS> createState() => _ChooseBookBSState();
@@ -125,7 +129,7 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                     vertical: 5.0,
                   ),
                   child: Text(
-                    "Books",
+                    widget.isAmharic == true ? "መፅሀፍቶች" : "Books",
                     style: TextStyle(
                       fontSize: 20.0,
                       color: Colors.white,
@@ -147,7 +151,9 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                           setState(() {});
                         },
                         child: EachTestament(
-                          testament: "Old Testament",
+                          testament: widget.isAmharic == true
+                              ? "ብሉይ ኪዳን"
+                              : "Old Testament",
                         ),
                       ),
                       GestureDetector(
@@ -156,7 +162,9 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                           setState(() {});
                         },
                         child: EachTestament(
-                          testament: "New Testament",
+                          testament: widget.isAmharic == true
+                              ? "አዲስ ኪዳን"
+                              : "New Testament",
                         ),
                       ),
                     ],
@@ -190,7 +198,17 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                             setState(() {});
                           },
                           child: EachBookButton(
-                            book: eachBook,
+                            isAmharic: widget.isAmharic,
+                            book: widget.isAmharic == true
+                                ? widget.englishToAmharicMap[eachBook]
+                                    .toString()
+                                    .substring(
+                                      3,
+                                      widget.englishToAmharicMap[eachBook]
+                                              .length -
+                                          5,
+                                    )
+                                : eachBook,
                           ),
                         )
                     ],
