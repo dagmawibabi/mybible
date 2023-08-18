@@ -27,135 +27,144 @@ class _HomePageState extends State<HomePage> {
   bool showComments = true;
 
   Map abbrv = {
-    "1CH": "1 Chronicles",
-    "1KI": "1 Kings",
-    "1SA": "1 Samuel",
-    "2CH": "2 Chronicles",
-    "2SA": "2 Samuel",
-    "AMO": "Amos",
-    "DAN": "Daniel",
-    "DEU": "Deuteronomy",
-    "ECC": "Ecclesiastes",
-    "EST": "Esther",
-    "EXO": "Exodus",
-    "EZK": "Ezekiel",
-    "EZR": "Ezra",
     "GEN": "Genesis",
-    "HAB": "Habakkuk",
-    "HAG": "Haggai",
-    "HOS": "Hosea",
-    "ISA": "Isaiah",
-    "JDG": "Judges",
-    "JER": "Jeremiah",
-    "JOB": "Job",
-    "JOL": "Joel",
-    "JON": "Jonah",
-    "JOS": "Joshua",
-    "LAM": "Lamentations",
+    "EXO": "Exodus",
     "LEV": "Leviticus",
-    "MAL": "Malachi",
+    "NUM": "Numbers",
+    "DEU": "Deuteronomy",
+    "JOS": "Joshua",
+    "JDG": "Judges",
+    "RUT": "Ruth",
+    "1SA": "1 Samuel",
+    "2SA": "2 Samuel",
+    "1KI": "1 Kings",
+    "2KI": "2 Kings",
+    "1CH": "1 Chronicles",
+    "2CH": "2 Chronicles",
+    "EZR": "Ezra",
+    "NAM": "Nehemiah",
+    "EST": "Esther",
+    "JOB": "Job",
+    "PSA": "Psalms",
+    "PRO": "Proverbs",
+    "ECC": "Ecclesiastes",
+    "SNG": "Song of Solomon",
+    "ISA": "Isaiah",
+    "JER": "Jeremiah",
+    "LAM": "Lamentations",
+    "EZK": "Ezekiel",
+    "DAN": "Daniel",
+    "HOS": "Hosea",
+    "JOL": "Joel",
+    "AMO": "Amos",
+    "OBA": "Obadiah",
+    "JON": "Jonah",
     "MIC": "Micah",
     "NAH": "Nahum",
-    "NAM": "Nehemiah",
-    "NUM": "Numbers",
-    "OBA": "Obadiah",
-    "PRO": "Proverbs",
-    "PSA": "Psalms",
-    "RUT": "Ruth",
-    "SNG": "Song of Solomon",
-    "ZEC": "Zechariah",
+    "HAB": "Habakkuk",
     "ZEP": "Zephaniah",
-    "1JN": "1 John",
-    "1PE": "1 Peter",
-    "1TH": "1 Thessalonians",
-    "1TI": "1 Timothy",
-    "2TI": "2 Timothy",
-    "2JN": "2 John",
-    "2PE": "2 Peter",
-    "2TH": "2 Thessalonians",
-    "3JN": "3 John",
-    "ACT": "Acts",
-    "COL": "Colossians",
-    "EPH": "Ephesians",
-    "GAL": "Galatians",
-    "HEB": "Hebrews",
-    "JAS": "James",
-    "JHN": "John",
-    "JUD": "Jude",
-    "LKA": "Luke",
+    "HAG": "Haggai",
+    "ZEC": "Zechariah",
+    "MAL": "Malachi",
     "MAT": "Matthew",
     "MRK": "Mark",
-    "PHM": "Philemon",
-    "PHP": "Philippians",
-    "REV": "Revelation",
+    "LKA": "Luke",
+    "JHN": "John",
+    "ACT": "Acts",
     "ROM": "Romans",
+    "1CO": "1 Corinthians",
+    "2CO": "2 Corinthians",
+    "GAL": "Galatians",
+    "EPH": "Ephesians",
+    "PHP": "Philippians",
+    "COL": "Colossians",
+    "1TH": "1 Thessalonians",
+    "2TH": "2 Thessalonians",
+    "1TI": "1 Timothy",
+    "2TI": "2 Timothy",
     "TIT": "Titus",
+    "PHM": "Philemon",
+    "HEB": "Hebrews",
+    "JAS": "James",
+    "1PE": "1 Peter",
+    "2PE": "2 Peter",
+    "1JN": "1 John",
+    "2JN": "2 John",
+    "3JN": "3 John",
+    "JUD": "Jude",
+    "REV": "Revelation",
+    
+
   };
 
   Map revAbbrv = {
-    "1 Chronicles": "1CH",
-    "1 Kings": "1KI",
-    "1 Samuel": "1SA",
-    "2 Chronicles": "2CH",
-    "2 Samuel": "2SA",
-    "Amos": "AMO",
-    "Daniel": "DAN",
-    "Deuteronomy": "DEU",
-    "Ecclesiastes": "ECC",
-    "Esther": "EST",
-    "Exodus": "EXO",
-    "Ezekiel": "EZK",
-    "Ezra": "EZR",
     "Genesis": "GEN",
-    "Habakkuk": "HAB",
-    "Haggai": "HAG",
-    "Hosea": "HOS",
-    "Isaiah": "ISA",
-    "Judges": "JDG",
-    "Jeremiah": "JER",
-    "Job": "JOB",
-    "Joel": "JOL",
-    "Jonah": "JON",
-    "Joshua": "JOS",
-    "Lamentations": "LAM",
+    "Exodus": "EXO",
     "Leviticus": "LEV",
-    "Malachi": "MAL",
+    "Numbers": "NUM",
+    "Deuteronomy": "DEU",
+    "Joshua": "JOS",
+    "Judges": "JDG",
+    "Ruth": "RUT",
+    "1 Samuel": "1SA",
+    "2 Samuel": "2SA",
+    "1 Kings": "1KI",
+    "2 Kings": "2KI",
+    "1 Chronicles": "1CH",
+    "2 Chronicles": "2CH",
+    "Ezra": "EZR",
+    "Nehemiah": "NAM",
+    "Esther": "EST",
+    "Job": "JOB",
+    "Psalms": "PSA",
+    "Proverbs": "PRO",
+    "Ecclesiastes": "ECC",
+    "Song of Solomon": "SNG",
+    "Isaiah": "ISA",
+    "Jeremiah": "JER",
+    "Lamentations": "LAM",
+    "Ezekiel": "EZK",
+    "Daniel": "DAN",
+    "Hosea": "HOS",
+    "Joel": "JOL",
+    "Amos": "AMO",
+    "Obadiah": "OBA",
+    "Jonah": "JON",
     "Micah": "MIC",
     "Nahum": "NAH",
-    "Nehemiah": "NAM",
-    "Numbers": "NUM",
-    "Obadiah": "OBA",
-    "Proverbs": "PRO",
-    "Psalms": "PSA",
-    "Ruth": "RUT",
-    "Song of Solomon": "SNG",
-    "Zechariah": "ZEC",
+    "Habakkuk": "HAB",
     "Zephaniah": "ZEP",
-    "1 John": "1JN",
-    "1 Peter": "1PE",
-    "1 Thessalonians": "1TH",
-    "1 Timothy": "1TI",
-    "2 Timothy": "2TI",
-    "2 John": "2JN",
-    "2 Peter": "2PE",
-    "2 Thessalonians": "2TH",
-    "3 John": "3JN",
-    "Acts": "ACT",
-    "Colossians": "COL",
-    "Ephesians": "EPH",
-    "Galatians": "GAL",
-    "Hebrews": "HEB",
-    "James": "JAS",
-    "John": "JHN",
-    "Jude": "JUD",
-    "Luke": "LKA",
+    "Haggai": "HAG",
+    "Zechariah": "ZEC",
+    "Malachi": "MAL",
+
     "Matthew": "MAT",
     "Mark": "MRK",
-    "Philemon": "PHM",
-    "Philippians": "PHP",
-    "Revelation": "REV",
+    "Luke": "LKA",
+    "John": "JHN",
+    "Acts": "ACT",
     "Romans": "ROM",
+    "1 Corinthians": "1CO",
+    "2 Corinthians": "2CO",
+    "Galatians": "GAL",
+    "Ephesians": "EPH",
+    "Philippians": "PHP",
+    "Colossians": "COL",
+    "1 Thessalonians": "1TH",
+    "2 Thessalonians": "2TH",
+    "1 Timothy": "1TI",
+    "2 Timothy": "2TI",
     "Titus": "TIT",
+    "Philemon": "PHM",
+    "Hebrews": "HEB",
+    "James": "JAS",
+    "1 Peter": "1PE",
+    "2 Peter": "2PE",
+    "1 John": "1JN",
+    "2 John": "2JN",
+    "3 John": "3JN",
+    "Jude": "JUD",
+    "Revelation": "REV",
   };
 
   List ervTitle = [];
@@ -166,12 +175,34 @@ class _HomePageState extends State<HomePage> {
     currentBook = book;
     currentChapter = chapter;
 
-    var pathOfJSON = "assets/holybooks/EN/$testament/$book/$version.json";
+    var pathOfJSON = "";
+    if (isAmharic == true) {
+      var chosenBookAM = englishToAmharicMap[abbrv[currentBook]];
+      pathOfJSON = "assets/holybooks/AM/$chosenBookAM";
+    } else {
+      pathOfJSON = "assets/holybooks/EN/$testament/$book/$version.json";
+    }
+
     String data = await DefaultAssetBundle.of(context).loadString(pathOfJSON);
     final jsonResult = jsonDecode(data);
-    chapterLength = jsonResult["text"].length;
-    content = jsonResult["text"][chapter - 1]["text"];
-    ervTitle = jsonResult["text"];
+    print(pathOfJSON);
+
+    if (isAmharic == true) {
+      chapterLength = jsonResult["chapters"].length;
+      content = jsonResult["chapters"][chapter - 1]["verses"];
+      amharicBible = [];
+      for (var i = 0; i < content.length; i++) {
+        amharicBible.add({
+          "text": content[i],
+          "ID": i + 1,
+        });
+      }
+    } else {
+      chapterLength = jsonResult["text"].length;
+      content = jsonResult["text"][chapter - 1]["text"];
+      ervTitle = jsonResult["text"];
+    }
+
     setState(() {});
   }
 
@@ -191,6 +222,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void setVersion(version) async {
+    isAmharic = false;
     currentVersion = version;
     setContent(currentVersion, currentTestament, currentBook, currentChapter);
     setState(() {});
@@ -474,6 +506,7 @@ class _HomePageState extends State<HomePage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
+                                  // Book and Chapter
                                   Row(
                                     children: [
                                       GestureDetector(
@@ -515,6 +548,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ],
                                   ),
+                                  // Translations and Language
                                   Row(
                                     children: [
                                       currentVersion == "ERV"
@@ -534,12 +568,10 @@ class _HomePageState extends State<HomePage> {
                                             )
                                           : Container(
                                               height: 50.0,
-                                              color: Colors.red,
+                                              // color: Colors.red,
                                             ),
                                       GestureDetector(
-                                        onTap: () {
-                                          // isAmharic = false;
-                                          // setState(() {});
+                                        onTap: () { 
                                           showVersions();
                                         },
                                         child: Container(
@@ -586,15 +618,14 @@ class _HomePageState extends State<HomePage> {
                                     child: Column(
                                       children: [
                                         for (var eachVerse in amharicBible)
-                                          GestureDetector(
+                                        eachVerse["text"] == "" || eachVerse["text"] == "-" ? Container() :  GestureDetector(
                                             onTap: () {
                                               showDifferentVersions(
                                                 eachVerse["ID"],
                                               );
+                                              print(eachVerse["ID"]);
                                             },
-                                            child: EachVerse(
-                                              verseData: eachVerse,
-                                            ),
+                                            child: EachVerse(verseData: eachVerse,),
                                           ),
                                       ],
                                     ),
@@ -615,11 +646,8 @@ class _HomePageState extends State<HomePage> {
                                                           bottom: 5.0,
                                                         ),
                                                         child: Text(
-                                                          eachTitle["title"] ==
-                                                                  null
-                                                              ? ""
-                                                              : eachTitle[
-                                                                  "title"],
+                                                          eachTitle[
+                                                                  "title"] ?? "",
                                                           style: TextStyle(
                                                             color: Colors
                                                                 .greenAccent,
@@ -657,7 +685,8 @@ class _HomePageState extends State<HomePage> {
                                                                           horizontal:
                                                                               30.0,
                                                                         ),
-                                                                        margin: const EdgeInsets.only(
+                                                                        margin: const EdgeInsets
+                                                                            .only(
                                                                             bottom:
                                                                                 10.0),
                                                                         child:
@@ -713,7 +742,7 @@ class _HomePageState extends State<HomePage> {
                                                                         30.0,
                                                                   ),
                                                                   margin: const EdgeInsets
-                                                                          .only(
+                                                                      .only(
                                                                       bottom:
                                                                           10.0),
                                                                   child: Text(
@@ -797,3 +826,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
