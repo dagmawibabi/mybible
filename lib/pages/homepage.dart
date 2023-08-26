@@ -93,8 +93,6 @@ class _HomePageState extends State<HomePage> {
     "3JN": "3 John",
     "JUD": "Jude",
     "REV": "Revelation",
-    
-
   };
 
   Map revAbbrv = {
@@ -137,7 +135,6 @@ class _HomePageState extends State<HomePage> {
     "Haggai": "HAG",
     "Zechariah": "ZEC",
     "Malachi": "MAL",
-
     "Matthew": "MAT",
     "Mark": "MRK",
     "Luke": "LKA",
@@ -167,7 +164,7 @@ class _HomePageState extends State<HomePage> {
     "Revelation": "REV",
   };
 
-  List ervTitle = [];
+  dynamic ervTitle = [];
 
   void setContent(version, testament, book, chapter) async {
     currentVersion = version;
@@ -185,7 +182,6 @@ class _HomePageState extends State<HomePage> {
 
     String data = await DefaultAssetBundle.of(context).loadString(pathOfJSON);
     final jsonResult = jsonDecode(data);
-    print(pathOfJSON);
 
     if (isAmharic == true) {
       chapterLength = jsonResult["chapters"].length;
@@ -200,9 +196,19 @@ class _HomePageState extends State<HomePage> {
     } else {
       chapterLength = jsonResult["text"].length;
       content = jsonResult["text"][chapter - 1]["text"];
-      ervTitle = jsonResult["text"];
+      ervTitle = jsonResult["text"][chapter - 1];
+      print(chapter - 1);
+      print(ervTitle.runtimeType);
+      print(ervTitle);
+      print(ervTitle.length);
+      // print(ervTitle[0]);
     }
 
+    setState(() {});
+  }
+
+  void changeToAmharic() {
+    isAmharic = !isAmharic;
     setState(() {});
   }
 
@@ -285,6 +291,7 @@ class _HomePageState extends State<HomePage> {
       builder: (context) {
         return ChooseVersionBS(
           setVersion: setVersion,
+          changeToAmharic: changeToAmharic,
         );
       },
     );
@@ -295,7 +302,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.transparent,
       anchorPoint: Offset(0, 100),
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.7,
+        maxHeight: MediaQuery.of(context).size.height * 0.8,
       ),
       isScrollControlled: true,
       isDismissible: true,
@@ -307,6 +314,8 @@ class _HomePageState extends State<HomePage> {
           book: currentBook,
           chapter: currentChapter,
           verse: currentVerse,
+          abbrv: abbrv,
+          englishToAmharicMap: englishToAmharicMap,
         );
       },
     );
@@ -475,7 +484,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    setContent("ESV", "OT", "GEN", 1);
+    setContent("ERV", "OT", "GEN", 1);
     loadAmharicBible();
   }
 
@@ -500,7 +509,7 @@ class _HomePageState extends State<HomePage> {
                               padding: const EdgeInsets.only(
                                 bottom: 5.0,
                                 left: 15.0,
-                                right: 20.0,
+                                right: 5.0,
                               ),
                               child: Row(
                                 mainAxisAlignment:
@@ -571,40 +580,50 @@ class _HomePageState extends State<HomePage> {
                                               // color: Colors.red,
                                             ),
                                       GestureDetector(
-                                        onTap: () { 
+                                        onTap: () {
                                           showVersions();
                                         },
                                         child: Container(
                                           padding: EdgeInsets.symmetric(
-                                              horizontal: 5.0, vertical: 10.0),
+                                              horizontal: 15.0, vertical: 10.0),
                                           child: Text(
-                                            currentVersion,
+                                            isAmharic == true
+                                                ? "አማ"
+                                                : currentVersion,
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 14.0,
+                                              fontSize: 15.0,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
                                       ),
+                                      // GestureDetector(
+                                      //   onTap: () {
+                                      //     isAmharic = !isAmharic;
+                                      //     setState(() {});
+                                      //   },
+                                      //   child: Container(
+                                      //     padding: EdgeInsets.symmetric(
+                                      //         horizontal: 5.0, vertical: 10.0),
+                                      //     child: Text(
+                                      //       isAmharic == true ? "EN" : "አማ",
+                                      //       style: TextStyle(
+                                      //         color: Colors.white,
+                                      //         fontSize: 14.0,
+                                      //         fontWeight: FontWeight.bold,
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
                                       GestureDetector(
-                                        onTap: () {
-                                          isAmharic = !isAmharic;
-                                          setState(() {});
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 5.0, vertical: 10.0),
-                                          child: Text(
-                                            isAmharic == true ? "EN" : "አማ",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
+                                          child: IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.bookmark_outline,
+                                          color: Colors.white,
                                         ),
-                                      ),
+                                      ))
                                     ],
                                   ),
                                 ],
@@ -618,94 +637,88 @@ class _HomePageState extends State<HomePage> {
                                     child: Column(
                                       children: [
                                         for (var eachVerse in amharicBible)
-                                        eachVerse["text"] == "" || eachVerse["text"] == "-" ? Container() :  GestureDetector(
-                                            onTap: () {
-                                              showDifferentVersions(
-                                                eachVerse["ID"],
-                                              );
-                                              print(eachVerse["ID"]);
-                                            },
-                                            child: EachVerse(verseData: eachVerse,),
-                                          ),
+                                          eachVerse["text"] == "" ||
+                                                  eachVerse["text"] == "-"
+                                              ? Container()
+                                              : GestureDetector(
+                                                  onTap: () {
+                                                    showDifferentVersions(
+                                                      eachVerse["ID"],
+                                                    );
+                                                    print(eachVerse["ID"]);
+                                                  },
+                                                  child: EachVerse(
+                                                    verseData: eachVerse,
+                                                  ),
+                                                ),
                                       ],
                                     ),
                                   )
-                                : currentVersion == "ERV" &&
-                                        ervTitle.isNotEmpty == true
+                                : currentVersion == "ERV"
                                     ? Column(
                                         children: [
-                                          for (var eachTitle in ervTitle)
-                                            Column(
-                                              children: [
-                                                showComments == true
-                                                    ? Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                          top: 15.0,
-                                                          bottom: 5.0,
-                                                        ),
-                                                        child: Text(
-                                                          eachTitle[
-                                                                  "title"] ?? "",
-                                                          style: TextStyle(
-                                                            color: Colors
-                                                                .greenAccent,
-                                                            fontSize: 16.0,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : Container(),
-                                                for (var eachVerse
-                                                    in eachTitle["text"])
-                                                  Column(
-                                                    children: [
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          showDifferentVersions(
-                                                            int.parse(eachVerse[
-                                                                "ID"]),
-                                                          );
-                                                        },
-                                                        child: EachVerse(
-                                                          verseData: eachVerse,
-                                                        ),
-                                                      ),
-                                                      showComments == true
-                                                          ? eachVerse["comments"] !=
-                                                                  null
-                                                              ? Column(
-                                                                  children: [
-                                                                    for (var eachComment
-                                                                        in eachVerse[
-                                                                            "comments"])
-                                                                      Container(
-                                                                        padding:
-                                                                            const EdgeInsets.symmetric(
-                                                                          horizontal:
-                                                                              30.0,
-                                                                        ),
-                                                                        margin: const EdgeInsets
-                                                                            .only(
-                                                                            bottom:
-                                                                                10.0),
-                                                                        child:
-                                                                            Text(
-                                                                          eachComment,
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                Colors.grey[500]!,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                  ],
-                                                                )
-                                                              : Container()
-                                                          : Container(),
-                                                    ],
-                                                  ),
-                                              ],
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: 5.0,
+                                              bottom: 10.0,
+                                            ),
+                                            child: showComments == true
+                                                ? Text(
+                                                    ervTitle["title"],
+                                                    style: TextStyle(
+                                                      color: Colors.greenAccent,
+                                                      fontSize: 17.0,
+                                                    ),
+                                                  )
+                                                : Container(),
+                                          ),
+                                          for (var eachVerse
+                                              in ervTitle["text"])
+                                            GestureDetector(
+                                              onTap: () {
+                                                showDifferentVersions(
+                                                  int.parse(eachVerse["ID"]),
+                                                );
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  EachVerse(
+                                                      verseData: eachVerse),
+                                                  eachVerse["comments"] !=
+                                                              null &&
+                                                          showComments == true
+                                                      ? Column(
+                                                          children: [
+                                                            for (var eachComment
+                                                                in eachVerse[
+                                                                    "comments"])
+                                                              Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .symmetric(
+                                                                  horizontal:
+                                                                      30.0,
+                                                                ),
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                  bottom: 10.0,
+                                                                ),
+                                                                child: Text(
+                                                                  eachComment,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                            .grey[
+                                                                        500]!,
+                                                                  ),
+                                                                ),
+                                                              )
+                                                          ],
+                                                        )
+                                                      : Container()
+                                                ],
+                                              ),
                                             ),
                                         ],
                                       )
@@ -725,40 +738,6 @@ class _HomePageState extends State<HomePage> {
                                                     verseData: eachVerse,
                                                   ),
                                                 ),
-                                                currentVersion == "ERV" &&
-                                                        showComments == true
-                                                    ? eachVerse["comments"] !=
-                                                            null
-                                                        ? Column(
-                                                            children: [
-                                                              for (var eachComment
-                                                                  in eachVerse[
-                                                                      "comments"])
-                                                                Container(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .symmetric(
-                                                                    horizontal:
-                                                                        30.0,
-                                                                  ),
-                                                                  margin: const EdgeInsets
-                                                                      .only(
-                                                                      bottom:
-                                                                          10.0),
-                                                                  child: Text(
-                                                                    eachComment,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: Colors
-                                                                              .grey[
-                                                                          600]!,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                            ],
-                                                          )
-                                                        : Container()
-                                                    : Container(),
                                               ],
                                             ),
                                         ],
@@ -826,4 +805,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
