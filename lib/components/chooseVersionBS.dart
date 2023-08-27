@@ -8,10 +8,14 @@ class ChooseVersionBS extends StatefulWidget {
     super.key,
     required this.setVersion,
     required this.changeToAmharic,
+    required this.currentVersion,
+    required this.isAmharic,
   });
 
   final Function setVersion;
   final Function changeToAmharic;
+  final String currentVersion;
+  final bool isAmharic;
 
   @override
   State<ChooseVersionBS> createState() => _ChooseVersionBSState();
@@ -48,9 +52,9 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
         padding: const EdgeInsets.only(top: 10.0),
         margin: const EdgeInsets.only(top: 2.0),
         clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          color: Colors.grey[900]!,
-          borderRadius: const BorderRadius.only(
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 19, 19, 19),
+          borderRadius: BorderRadius.only(
             topLeft: Radius.circular(
               20.0,
             ),
@@ -65,20 +69,53 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
                 children: [
                   Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(
-                          top: 5.0,
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 10.0,
                           bottom: 10.0,
+                          left: 20.0,
+                          right: 20.0,
                         ),
-                        child: Text(
-                          "Versions",
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Versions",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "  |  ",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.grey[700]!,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const Text(
+                              "ትርጉሞች",
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+
+                      // Divider
+                      const SizedBox(height: 5.0),
+                      Divider(
+                        color: Colors.grey[800]!,
+                        height: 10.0,
+                      ),
+                      const SizedBox(height: 5.0),
+
+                      // Version List
                       Container(
                         height: MediaQuery.of(context).size.height * 0.7,
                         child: ListView(
@@ -89,11 +126,13 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
                                 setState(() {});
                                 Navigator.pop(context);
                               },
-                              child: const EachVersionButton(
+                              child: EachVersionButton(
                                 versionData: {
-                                  "ID": "AMH",
-                                  "title": "Amharic 1954",
+                                  "ID": "አማ",
+                                  "title": "አማርኛ 1954",
                                 },
+                                isSelected:
+                                    widget.isAmharic == true ? true : false,
                               ),
                             ),
                             for (var eachVersion in bibleVersionsInfo)
@@ -105,9 +144,14 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
                                 },
                                 child: EachVersionButton(
                                   versionData: eachVersion,
+                                  isSelected: widget.currentVersion ==
+                                              eachVersion["ID"] &&
+                                          widget.isAmharic == false
+                                      ? true
+                                      : false,
                                 ),
                               ),
-                            SizedBox(height: 200.0)
+                            const SizedBox(height: 200.0)
                           ],
                         ),
                       )

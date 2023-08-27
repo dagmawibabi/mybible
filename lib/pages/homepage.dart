@@ -239,7 +239,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.transparent,
       anchorPoint: Offset(0, 100),
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.7,
+        maxHeight: MediaQuery.of(context).size.height * 0.8,
       ),
       isScrollControlled: true,
       isDismissible: true,
@@ -292,6 +292,8 @@ class _HomePageState extends State<HomePage> {
         return ChooseVersionBS(
           setVersion: setVersion,
           changeToAmharic: changeToAmharic,
+          currentVersion: currentVersion,
+          isAmharic: isAmharic,
         );
       },
     );
@@ -560,7 +562,8 @@ class _HomePageState extends State<HomePage> {
                                   // Translations and Language
                                   Row(
                                     children: [
-                                      currentVersion == "ERV"
+                                      currentVersion == "ERV" &&
+                                              isAmharic == false
                                           ? IconButton(
                                               onPressed: () {
                                                 showComments = !showComments;
@@ -585,7 +588,9 @@ class _HomePageState extends State<HomePage> {
                                         },
                                         child: Container(
                                           padding: EdgeInsets.symmetric(
-                                              horizontal: 15.0, vertical: 10.0),
+                                            horizontal: 15.0,
+                                            vertical: 10.0,
+                                          ),
                                           child: Text(
                                             isAmharic == true
                                                 ? "አማ"
@@ -598,24 +603,6 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ),
                                       ),
-                                      // GestureDetector(
-                                      //   onTap: () {
-                                      //     isAmharic = !isAmharic;
-                                      //     setState(() {});
-                                      //   },
-                                      //   child: Container(
-                                      //     padding: EdgeInsets.symmetric(
-                                      //         horizontal: 5.0, vertical: 10.0),
-                                      //     child: Text(
-                                      //       isAmharic == true ? "EN" : "አማ",
-                                      //       style: TextStyle(
-                                      //         color: Colors.white,
-                                      //         fontSize: 14.0,
-                                      //         fontWeight: FontWeight.bold,
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // ),
                                       GestureDetector(
                                           child: IconButton(
                                         onPressed: () {},
@@ -661,8 +648,11 @@ class _HomePageState extends State<HomePage> {
                                             padding: const EdgeInsets.only(
                                               top: 5.0,
                                               bottom: 10.0,
+                                              left: 20.0,
+                                              right: 20.0,
                                             ),
-                                            child: showComments == true
+                                            child: showComments == true &&
+                                                    ervTitle["title"] != null
                                                 ? Text(
                                                     ervTitle["title"],
                                                     style: TextStyle(
@@ -688,11 +678,16 @@ class _HomePageState extends State<HomePage> {
                                                               null &&
                                                           showComments == true
                                                       ? Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
                                                           children: [
                                                             for (var eachComment
                                                                 in eachVerse[
                                                                     "comments"])
                                                               Container(
+                                                                width: double
+                                                                    .infinity,
                                                                 padding:
                                                                     const EdgeInsets
                                                                         .symmetric(

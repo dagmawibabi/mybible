@@ -29,7 +29,7 @@ class DifferentVersions extends StatefulWidget {
 class _DifferentVersionsState extends State<DifferentVersions> {
   List differentVersion = [];
   List versions = [
-    "AMH",
+    "አማ",
     "NASB",
     "KJV",
     "ERV",
@@ -42,37 +42,42 @@ class _DifferentVersionsState extends State<DifferentVersions> {
 
   void makeList() async {
     for (var eachVersion in versions) {
-      var pathOfJSON = "";
-      if (eachVersion == "AMH") {
-        var chosenBookAM =
-            widget.englishToAmharicMap[widget.abbrv[widget.book]];
-        pathOfJSON = "assets/holybooks/AM/$chosenBookAM";
-      } else {
-        pathOfJSON =
-            "assets/holybooks/EN/${widget.testament}/${widget.book}/$eachVersion.json";
-      }
-
-      String data = await DefaultAssetBundle.of(context).loadString(pathOfJSON);
-      final jsonResult = jsonDecode(data);
-
-      var chosenVerse = {};
-      if (eachVersion == "AMH") {
-        var content = jsonResult["chapters"][widget.chapter - 1]["verses"];
-        var amharicBible = [];
-        for (var i = 0; i < content.length; i++) {
-          amharicBible.add({
-            "text": content[i],
-            "ID": i + 1,
-          });
+      try {
+        var pathOfJSON = "";
+        if (eachVersion == "አማ") {
+          var chosenBookAM =
+              widget.englishToAmharicMap[widget.abbrv[widget.book]];
+          pathOfJSON = "assets/holybooks/AM/$chosenBookAM";
+        } else {
+          pathOfJSON =
+              "assets/holybooks/EN/${widget.testament}/${widget.book}/$eachVersion.json";
         }
-        chosenVerse = amharicBible[widget.verse - 1];
-      } else {
-        chosenVerse =
-            jsonResult["text"][widget.chapter - 1]["text"][widget.verse - 1];
-      }
 
-      chosenVerse["version"] = eachVersion;
-      differentVersion.add(chosenVerse);
+        String data =
+            await DefaultAssetBundle.of(context).loadString(pathOfJSON);
+        final jsonResult = jsonDecode(data);
+
+        var chosenVerse = {};
+        if (eachVersion == "አማ") {
+          var content = jsonResult["chapters"][widget.chapter - 1]["verses"];
+          var amharicBible = [];
+          for (var i = 0; i < content.length; i++) {
+            amharicBible.add({
+              "text": content[i],
+              "ID": i + 1,
+            });
+          }
+          chosenVerse = amharicBible[widget.verse - 1];
+        } else {
+          chosenVerse =
+              jsonResult["text"][widget.chapter - 1]["text"][widget.verse - 1];
+        }
+
+        chosenVerse["version"] = eachVersion;
+        differentVersion.add(chosenVerse);
+      } catch (e) {
+        print(e);
+      }
     }
 
     setState(() {});
@@ -114,6 +119,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                 width: double.infinity,
                 child: Column(
                   children: [
+                    // Book Chapter and Verse
                     Padding(
                       padding: EdgeInsets.only(
                         top: 10.0,
@@ -124,46 +130,88 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            width: 280.0,
-                            clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(),
-                            child: FittedBox(
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "${widget.abbrv[widget.book]} | ",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 160.0,
+                                child: Text(
+                                  "${widget.abbrv[widget.book].toString()}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  Text(
+                                ),
+                              ),
+                              SizedBox(height: 5.0),
+                              Container(
+                                width: 160.0,
+                                alignment: Alignment.centerLeft,
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
                                     "${widget.englishToAmharicMap[widget.abbrv[widget.book]].toString().substring(3, widget.englishToAmharicMap[widget.abbrv[widget.book]].length - 5)}",
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      fontSize: 18.0,
+                                      fontSize: 16.0,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                          Text(
-                            "${widget.chapter.toString()}:${widget.verse.toString()}",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "Chapter ${widget.chapter.toString()}",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.grey[400],
+                                ),
+                              ),
+                              SizedBox(height: 5.0),
+                              Text(
+                                "ምዕራፍ ${widget.chapter.toString()}",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.grey[400],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "Verse ${widget.verse.toString()}",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.grey[400],
+                                ),
+                              ),
+                              SizedBox(height: 5.0),
+                              Text(
+                                "ቁጥር ${widget.verse.toString()}",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.grey[400],
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
+
                     SizedBox(height: 200.0),
                     Center(
                       child: CircularProgressIndicator(
@@ -173,34 +221,41 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                   ],
                 ),
               )
-            : ListView(
+            : Column(
                 children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: 10.0,
-                          bottom: 10.0,
-                          left: 20.0,
-                          right: 20.0,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                  // Book Chapter and Verse
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 10.0,
+                      bottom: 10.0,
+                      left: 20.0,
+                      right: 20.0,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "${widget.abbrv[widget.book].toString()}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                            Container(
+                              width: 160.0,
+                              child: Text(
+                                "${widget.abbrv[widget.book].toString()}",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                Text(
+                              ),
+                            ),
+                            SizedBox(height: 5.0),
+                            Container(
+                              width: 160.0,
+                              alignment: Alignment.centerLeft,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
                                   "${widget.englishToAmharicMap[widget.abbrv[widget.book]].toString().substring(3, widget.englishToAmharicMap[widget.abbrv[widget.book]].length - 5)}",
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -209,114 +264,132 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ],
+                              ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Chapter ${widget.chapter.toString()}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                    color: Colors.grey[400],
-                                  ),
-                                ),
-                                Text(
-                                  "ምዕራፍ ${widget.chapter.toString()}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                    color: Colors.grey[400],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Verse ${widget.verse.toString()}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                    color: Colors.grey[400],
-                                  ),
-                                ),
-                                Text(
-                                  "ቁጥር ${widget.verse.toString()}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                    color: Colors.grey[400],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            // Text(
-                            //   "${widget.chapter.toString()}:${widget.verse.toString()}",
-                            //   style: TextStyle(
-                            //     fontSize: 20.0,
-                            //     color: Colors.white,
-                            //     fontWeight: FontWeight.bold,
-                            //   ),
-                            // ),
                           ],
                         ),
-                      ),
-                      for (var eachVersion in differentVersion)
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {});
-                            Navigator.pop(context);
-                          },
-                          child: eachVersion["text"] == ""
-                              ? Container()
-                              : Container(
-                                  width: double.infinity,
-                                  margin: const EdgeInsets.symmetric(
-                                    vertical: 5.0,
-                                    horizontal: 15.0,
-                                  ),
-                                  padding: const EdgeInsets.only(
-                                    top: 15.0,
-                                    bottom: 15.0,
-                                    left: 15.0,
-                                    right: 10.0,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[900]!,
-                                    border: Border.all(
-                                      color: Colors.grey[800]!,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        eachVersion["version"],
-                                        style: TextStyle(
-                                          fontSize: 14.0,
-                                          color: Colors.grey[500]!,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 5.0),
-                                      Text(
-                                        eachVersion["text"],
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Chapter ${widget.chapter.toString()}",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: Colors.grey[400],
+                              ),
+                            ),
+                            SizedBox(height: 5.0),
+                            Text(
+                              "ምዕራፍ ${widget.chapter.toString()}",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: Colors.grey[400],
+                              ),
+                            ),
+                          ],
                         ),
-                      SizedBox(height: 200.0)
-                    ],
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Verse ${widget.verse.toString()}",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: Colors.grey[400],
+                              ),
+                            ),
+                            SizedBox(height: 5.0),
+                            Text(
+                              "ቁጥር ${widget.verse.toString()}",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: Colors.grey[400],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
+
+                  // Divider
+                  SizedBox(height: 5.0),
+                  Divider(
+                    color: Colors.grey[800]!,
+                    height: 10.0,
+                  ),
+                  SizedBox(height: 5.0),
+
+                  // Each Translation
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.67,
+                    child: ListView(
+                      children: [
+                        for (var eachVersion in differentVersion)
+                          GestureDetector(
+                            onTap: () {
+                              // setState(() {});
+                              // Navigator.pop(context);
+                            },
+                            child: eachVersion["text"] == ""
+                                ? Container()
+                                : Container(
+                                    width: double.infinity,
+                                    margin: const EdgeInsets.symmetric(
+                                      vertical: 5.0,
+                                      horizontal: 15.0,
+                                    ),
+                                    padding: const EdgeInsets.only(
+                                      top: 15.0,
+                                      bottom: 15.0,
+                                      left: 15.0,
+                                      right: 10.0,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[900]!,
+                                      // border: Border.all(
+                                      //   color: Colors.grey[800]!,
+                                      // ),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.black,
+                                          spreadRadius: 1.0,
+                                          offset: Offset(2, 2),
+                                        )
+                                      ],
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          eachVersion["version"],
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            color: Colors.grey[500]!,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5.0),
+                                        Text(
+                                          eachVersion["text"],
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                          ),
+                        SizedBox(height: 200.0)
+                      ],
+                    ),
+                  )
                 ],
               ),
       ),

@@ -34,9 +34,16 @@ class _EachBookButtonState extends State<EachBookButton> {
       ),
       decoration: BoxDecoration(
         color: Colors.grey[900]!,
-        border: Border.all(
-          color: Colors.grey[800]!,
-        ),
+        // border: Border.all(
+        //   color: Colors.grey[800]!,
+        // ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black,
+            spreadRadius: 1.0,
+            offset: Offset(2, 2),
+          )
+        ],
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Text(

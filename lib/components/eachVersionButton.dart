@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 class EachVersionButton extends StatefulWidget {
-  const EachVersionButton({super.key, required this.versionData});
+  const EachVersionButton({
+    super.key,
+    required this.versionData,
+    required this.isSelected,
+  });
 
   final Map versionData;
+  final bool isSelected;
 
   @override
   State<EachVersionButton> createState() => _EachVersionButtonState();
@@ -25,10 +30,17 @@ class _EachVersionButtonState extends State<EachVersionButton> {
         right: 10.0,
       ),
       decoration: BoxDecoration(
-        // color: Colors.white,
-        border: Border.all(
-          color: Colors.grey[800]!,
-        ),
+        color: Colors.grey[900]!,
+        // border: Border.all(
+        //   color: Colors.grey[800]!,
+        // ),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black,
+            spreadRadius: 1.0,
+            offset: Offset(2, 2),
+          )
+        ],
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Row(
@@ -39,8 +51,10 @@ class _EachVersionButtonState extends State<EachVersionButton> {
             children: [
               Text(
                 widget.versionData["ID"].toString(),
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: widget.isSelected == true
+                      ? Colors.greenAccent
+                      : Colors.white,
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -48,16 +62,19 @@ class _EachVersionButtonState extends State<EachVersionButton> {
               Text(
                 widget.versionData["title"].toString(),
                 style: TextStyle(
-                  color: Colors.grey[500]!,
+                  color: widget.isSelected == true
+                      ? Colors.greenAccent.withOpacity(0.7)
+                      : Colors.grey[500]!,
                 ),
               ),
             ],
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_forward,
-              color: Colors.white,
+              color:
+                  widget.isSelected == true ? Colors.greenAccent : Colors.white,
             ),
           ),
         ],

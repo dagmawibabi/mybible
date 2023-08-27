@@ -56,12 +56,12 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
       child: ListView(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height,
+            // height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.only(top: 10.0),
             margin: EdgeInsets.only(top: 2.0),
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
-              color: Colors.grey[900]!,
+              color: Color.fromARGB(255, 19, 19, 19),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(
                   20.0,
@@ -75,64 +75,81 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                 ? Container()
                 : Column(
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(
-                          top: 5.0,
+                          top: 10.0,
                           bottom: 10.0,
+                          left: 20.0,
+                          right: 20.0,
                         ),
-                        child: Text(
-                          "Chapters",
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Chapters",
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "  |  ",
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.grey[700]!,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "ምዕራፎች",
+                              style: TextStyle(
+                                fontSize: 17.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+
+                      // Divider
+                      const SizedBox(height: 5.0),
+                      Divider(
+                        color: Colors.grey[800]!,
+                        height: 10.0,
+                      ),
+                      const SizedBox(height: 5.0),
+
+                      // Chapters
                       Container(
                         height: MediaQuery.of(context).size.height * 0.6,
                         padding: EdgeInsets.symmetric(
                           vertical: 5.0,
-                          horizontal: 30.0,
+                          horizontal: 20.0,
                         ),
                         child: GridView.count(
-                          crossAxisCount: 4,
-                          childAspectRatio: 1.4,
+                          crossAxisCount: 5,
+                          childAspectRatio: 1.25,
                           crossAxisSpacing: 0.0,
-                          mainAxisSpacing: 0.0,
+                          mainAxisSpacing: 6.0,
                           children: [
                             for (var eachChapter in chapterLength)
                               GestureDetector(
                                 onTap: () {
                                   widget.setChapter(eachChapter);
-                                  // chosenChapter = eachChapter - 1;
-                                  // widget.setContent(chosenVersion, otORnt,
-                                  //     chosenBook, chosenChapter);
                                   setState(() {});
                                   Navigator.pop(context);
                                 },
                                 child: EachChapterButton(
                                   chapter: eachChapter.toString(),
                                 ),
-
-                                // Container(
-                                //   decoration: BoxDecoration(
-                                //     color: Colors.blue,
-                                //     borderRadius: BorderRadius.circular(10.0),
-                                //   ),
-                                //   child: Center(
-                                //     child: Text(
-                                //       eachChapter.toString(),
-                                //       style: TextStyle(
-                                //         color: Colors.white,
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
-                              )
+                              ),
+                            const SizedBox(height: 100.0),
                           ],
                         ),
                       ),
+                      const SizedBox(height: 100.0),
                     ],
                   ),
           ),

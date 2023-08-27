@@ -95,6 +95,15 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
     "Revelation",
   ];
 
+  String selectedTestament = "Old Testament";
+
+  void setSelectedTestament(String testament) {
+    isOT = !isOT;
+    selectedTestament = testament;
+    isOT = testament == "Old Testament" ? true : false;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -109,7 +118,7 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
         margin: EdgeInsets.only(top: 2.0),
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-          color: Colors.grey[900]!,
+          color: Color.fromARGB(255, 19, 19, 19),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(
               20.0,
@@ -124,17 +133,40 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0,
-                    vertical: 5.0,
+                  padding: const EdgeInsets.only(
+                    top: 10.0,
+                    bottom: 10.0,
+                    left: 20.0,
+                    right: 20.0,
                   ),
-                  child: Text(
-                    widget.isAmharic == true ? "መፅሀፍቶች" : "Books",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Books",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "  |  ",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.grey[700]!,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Text(
+                        "መፅሀፍቶች",
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
@@ -142,39 +174,43 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                     horizontal: 20.0,
                     vertical: 5.0,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          isOT = true;
-                          setState(() {});
-                        },
-                        child: EachTestament(
-                          testament: widget.isAmharic == true
-                              ? "ብሉይ ኪዳን"
-                              : "Old Testament",
+                  child: FittedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            isOT = true;
+                            setState(() {});
+                          },
+                          child: EachTestament(
+                            english: "Old Testament",
+                            amharic: "ብሉይ ኪዳን",
+                            selectedTestament: selectedTestament,
+                            setSelectedTestament: setSelectedTestament,
+                          ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          isOT = false;
-                          setState(() {});
-                        },
-                        child: EachTestament(
-                          testament: widget.isAmharic == true
-                              ? "አዲስ ኪዳን"
-                              : "New Testament",
+                        GestureDetector(
+                          onTap: () {
+                            isOT = false;
+                            setState(() {});
+                          },
+                          child: EachTestament(
+                            english: "New Testament",
+                            amharic: "አዲስ ኪዳን",
+                            selectedTestament: selectedTestament,
+                            setSelectedTestament: setSelectedTestament,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Divider(
                   color: Colors.grey[800],
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.54,
+                  height: MediaQuery.of(context).size.height * 0.64,
                   padding: EdgeInsets.only(
                     top: 5.0,
                     bottom: 15.0,
@@ -214,7 +250,6 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                     ],
                   ),
                 ),
-                // SizedBox(height: 100.0),
               ],
             ),
           ],
