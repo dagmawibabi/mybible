@@ -27,9 +27,7 @@ class _EachTestamentState extends State<EachTestament> {
         setState(() {});
       },
       child: Container(
-        // width: MediaQuery.of(context).size.width * 0.6,
         width: 200.0,
-        // height: 80.0,
         margin: const EdgeInsets.symmetric(
           vertical: 3.0,
           horizontal: 5.0,
@@ -41,17 +39,15 @@ class _EachTestamentState extends State<EachTestament> {
           right: 20.0,
         ),
         decoration: BoxDecoration(
-          // color: Colors.greenAccent.withOpacity(0.05),
           color: Colors.grey[900]!,
-          // border: Border.all(
-          //   // color: isSelected == true ? Colors.greenAccent : Colors.transparent,
-          //   // color: Colors.greenAccent.withOpacity(0.4),
-          // ),
+          border: Border.all(
+            color: Colors.grey[850]!,
+          ),
           boxShadow: const [
             BoxShadow(
               color: Colors.black,
               spreadRadius: 1.0,
-              offset: Offset(2, 2),
+              offset: Offset(3, 4),
             )
           ],
           borderRadius: BorderRadius.circular(10.0),
@@ -70,7 +66,7 @@ class _EachTestamentState extends State<EachTestament> {
                         : Colors.white,
                     fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 5.0),
+              const SizedBox(height: 5.0),
               Text(
                 widget.amharic,
                 style: TextStyle(

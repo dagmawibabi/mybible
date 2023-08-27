@@ -3,9 +3,16 @@
 import 'package:flutter/material.dart';
 
 class EachVerse extends StatefulWidget {
-  const EachVerse({super.key, required this.verseData});
+  const EachVerse({
+    super.key,
+    required this.verseData,
+    required this.fontSize,
+    required this.eachNumberFontSize,
+  });
 
   final Map verseData;
+  final double fontSize;
+  final double eachNumberFontSize;
 
   @override
   State<EachVerse> createState() => _EachVerseState();
@@ -32,11 +39,12 @@ class _EachVerseState extends State<EachVerse> {
           children: [
             Container(
               width: 30.0,
+              padding: EdgeInsets.only(top: 3.5),
               child: Text(
                 "${widget.verseData["ID"]}  ",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 10.0,
+                  fontSize: widget.eachNumberFontSize,
                   color: isSelected == true
                       ? Colors.lightGreenAccent
                       : Colors.white,
@@ -48,7 +56,8 @@ class _EachVerseState extends State<EachVerse> {
                 "${widget.verseData["text"]}",
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  fontSize: 16.0,
+                  fontSize: widget.fontSize,
+                  height: 1.2,
                   color: isSelected == true
                       ? Colors.lightGreenAccent
                       : Colors.white,

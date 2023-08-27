@@ -344,21 +344,21 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                       horizontal: 15.0,
                                     ),
                                     padding: const EdgeInsets.only(
-                                      top: 15.0,
+                                      top: 10.0,
                                       bottom: 15.0,
-                                      left: 15.0,
-                                      right: 10.0,
+                                      left: 12.0,
+                                      right: 12.0,
                                     ),
                                     decoration: BoxDecoration(
                                       color: Colors.grey[900]!,
-                                      // border: Border.all(
-                                      //   color: Colors.grey[800]!,
-                                      // ),
+                                      border: Border.all(
+                                        color: Colors.grey[850]!,
+                                      ),
                                       boxShadow: const [
                                         BoxShadow(
                                           color: Colors.black,
                                           spreadRadius: 1.0,
-                                          offset: Offset(2, 2),
+                                          offset: Offset(3, 4),
                                         )
                                       ],
                                       borderRadius: BorderRadius.circular(10.0),
@@ -375,7 +375,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(height: 5.0),
+                                        const SizedBox(height: 6.0),
                                         Text(
                                           eachVersion["text"],
                                           style: const TextStyle(

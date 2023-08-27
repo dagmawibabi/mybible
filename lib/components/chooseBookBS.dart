@@ -209,47 +209,135 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                 Divider(
                   color: Colors.grey[800],
                 ),
+
+                // Each Book
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.64,
-                  padding: EdgeInsets.only(
-                    top: 5.0,
-                    bottom: 15.0,
-                    // left: 15.0,
-                    // right: 15.0,
-                  ),
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 0.0,
-                  ),
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    childAspectRatio: 3.5,
-                    crossAxisSpacing: 0.0,
-                    mainAxisSpacing: 0.0,
-                    children: [
-                      for (var eachBook in (isOT == true ? otBooks : ntBooks))
-                        GestureDetector(
-                          onTap: () {
-                            String otORnt = isOT == true ? "OT" : "NT";
-                            widget.setTestamentAndBook(otORnt, eachBook);
-                            setState(() {});
-                          },
-                          child: EachBookButton(
-                            isAmharic: widget.isAmharic,
-                            book: widget.isAmharic == true
-                                ? widget.englishToAmharicMap[eachBook]
-                                    .toString()
-                                    .substring(
-                                      3,
-                                      widget.englishToAmharicMap[eachBook]
-                                              .length -
-                                          5,
-                                    )
-                                : eachBook,
-                          ),
-                        )
-                    ],
-                  ),
-                ),
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(),
+                    padding: EdgeInsets.only(
+                      top: 5.0,
+                      bottom: 15.0,
+                      // left: 15.0,
+                      // right: 15.0,
+                    ),
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 0.0,
+                    ),
+                    child: ListView(
+                      children: [
+                        Column(
+                          children: [
+                            for (var eachBook
+                                in (isOT == true ? otBooks : ntBooks))
+                              GestureDetector(
+                                onTap: () {
+                                  String otORnt = isOT == true ? "OT" : "NT";
+                                  widget.setTestamentAndBook(otORnt, eachBook);
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  margin: EdgeInsets.symmetric(
+                                    vertical: 6.0,
+                                    horizontal: 15.0,
+                                  ),
+                                  padding: const EdgeInsets.only(
+                                    top: 10.0,
+                                    bottom: 10.0,
+                                    left: 15.0,
+                                    right: 10.0,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[900]!,
+                                    border: Border.all(
+                                      color: Colors.grey[850]!,
+                                    ),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black,
+                                        spreadRadius: 1.0,
+                                        offset: Offset(3, 4),
+                                      )
+                                    ],
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        width: 160.0,
+                                        child: Text(
+                                          eachBook,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15.0,
+                                          ),
+                                        ),
+                                      ),
+                                      // Text(
+                                      //   "  |  ",
+                                      //   style: TextStyle(
+                                      //     color: Colors.grey[850]!,
+                                      //   ),
+                                      // ),
+                                      Container(
+                                        width: 170.0,
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          widget.englishToAmharicMap[eachBook]
+                                              .toString()
+                                              .substring(
+                                                3,
+                                                widget
+                                                        .englishToAmharicMap[
+                                                            eachBook]
+                                                        .length -
+                                                    5,
+                                              ),
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ],
+                    )
+
+                    // GridView.count(
+                    //   crossAxisCount: 1,
+                    //   childAspectRatio: 7.0,
+                    //   crossAxisSpacing: 0.0,
+                    //   mainAxisSpacing: 0.0,
+                    //   children: [
+                    //     for (var eachBook in (isOT == true ? otBooks : ntBooks))
+                    //       GestureDetector(
+                    //         onTap: () {
+                    //           String otORnt = isOT == true ? "OT" : "NT";
+                    //           widget.setTestamentAndBook(otORnt, eachBook);
+                    //           setState(() {});
+                    //         },
+                    //         child: EachBookButton(
+                    //           english: eachBook,
+                    //           amharic: widget.englishToAmharicMap[eachBook]
+                    //               .toString()
+                    //               .substring(
+                    //                 3,
+                    //                 widget.englishToAmharicMap[eachBook].length -
+                    //                     5,
+                    //               ),
+                    //         ),
+                    //       ),
+                    //   ],
+                    // ),
+                    ),
               ],
             ),
           ],

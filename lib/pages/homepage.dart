@@ -464,6 +464,28 @@ class _HomePageState extends State<HomePage> {
     "Revelation": "66_የዮሐንስ ራእይ.json",
   };
 
+  double eachVerseFontSize = 16.0;
+  double eachNumberFontSize = 10.0;
+  double eachCommentFontSize = 14.0;
+  double eachTopicFontSize = 17.0;
+  void increaseFontSize() {
+    eachVerseFontSize++;
+    eachNumberFontSize++;
+    eachCommentFontSize++;
+    eachTopicFontSize++;
+    setState(() {});
+  }
+
+  void decreaseFontSize() {
+    if (eachNumberFontSize >= 1) {
+      eachVerseFontSize--;
+      eachNumberFontSize--;
+      eachCommentFontSize--;
+      eachTopicFontSize--;
+      setState(() {});
+    }
+  }
+
   bool isAmharic = false;
   List amharicBible = [];
   void loadAmharicBible() async {
@@ -493,7 +515,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff202020),
+      backgroundColor: Color.fromARGB(255, 19, 19, 19),
       body: SafeArea(
         child: ListView(
           children: [
@@ -636,6 +658,9 @@ class _HomePageState extends State<HomePage> {
                                                   },
                                                   child: EachVerse(
                                                     verseData: eachVerse,
+                                                    fontSize: eachVerseFontSize,
+                                                    eachNumberFontSize:
+                                                        eachNumberFontSize,
                                                   ),
                                                 ),
                                       ],
@@ -657,11 +682,13 @@ class _HomePageState extends State<HomePage> {
                                                     ervTitle["title"],
                                                     style: TextStyle(
                                                       color: Colors.greenAccent,
-                                                      fontSize: 17.0,
+                                                      fontSize:
+                                                          eachTopicFontSize,
                                                     ),
                                                   )
                                                 : Container(),
                                           ),
+                                          // Each ERV Verse
                                           for (var eachVerse
                                               in ervTitle["text"])
                                             GestureDetector(
@@ -673,7 +700,11 @@ class _HomePageState extends State<HomePage> {
                                               child: Column(
                                                 children: [
                                                   EachVerse(
-                                                      verseData: eachVerse),
+                                                    verseData: eachVerse,
+                                                    fontSize: eachVerseFontSize,
+                                                    eachNumberFontSize:
+                                                        eachNumberFontSize,
+                                                  ),
                                                   eachVerse["comments"] !=
                                                               null &&
                                                           showComments == true
@@ -706,6 +737,8 @@ class _HomePageState extends State<HomePage> {
                                                                     color: Colors
                                                                             .grey[
                                                                         500]!,
+                                                                    fontSize:
+                                                                        eachCommentFontSize,
                                                                   ),
                                                                 ),
                                                               )
@@ -729,9 +762,15 @@ class _HomePageState extends State<HomePage> {
                                                           eachVerse["ID"]),
                                                     );
                                                   },
-                                                  child: EachVerse(
-                                                    verseData: eachVerse,
-                                                  ),
+                                                  child: eachVerse["text"] != ""
+                                                      ? EachVerse(
+                                                          verseData: eachVerse,
+                                                          fontSize:
+                                                              eachVerseFontSize,
+                                                          eachNumberFontSize:
+                                                              eachNumberFontSize,
+                                                        )
+                                                      : Container(),
                                                 ),
                                               ],
                                             ),
@@ -750,51 +789,90 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          currentChapter - 1 >= 1
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 30.0),
-                  child: FloatingActionButton(
-                    backgroundColor: Colors.grey[800],
-                    mini: true,
-                    onPressed: () {
-                      if (currentChapter - 1 >= 1) {
-                        currentChapter -= 1;
-                        setContent(
-                          currentVersion,
-                          currentTestament,
-                          currentBook,
-                          currentChapter,
-                        );
-                      }
-                    },
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
+          Row(
+            children: [
+              currentChapter - 1 >= 1
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 30.0),
+                      child: FloatingActionButton(
+                        backgroundColor: Colors.grey[800],
+                        mini: true,
+                        onPressed: () {
+                          if (currentChapter - 1 >= 1) {
+                            currentChapter -= 1;
+                            setContent(
+                              currentVersion,
+                              currentTestament,
+                              currentBook,
+                              currentChapter,
+                            );
+                          }
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                  : Container(
+                      height: 1.0,
+                      width: 30.0,
                     ),
-                  ),
-                )
-              : Container(height: 1.0),
-          currentChapter + 1 <= chapterLength
-              ? FloatingActionButton(
+              Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: FloatingActionButton(
                   backgroundColor: Colors.grey[800],
                   mini: true,
                   onPressed: () {
-                    if (currentChapter + 1 <= chapterLength) {
-                      currentChapter += 1;
-                      setContent(
-                        currentVersion,
-                        currentTestament,
-                        currentBook,
-                        currentChapter,
-                      );
-                    }
+                    decreaseFontSize();
                   },
                   child: Icon(
-                    Icons.arrow_forward,
+                    Icons.remove,
                     color: Colors.white,
                   ),
-                )
-              : Container(height: 1.0)
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: FloatingActionButton(
+                  backgroundColor: Colors.grey[800],
+                  mini: true,
+                  onPressed: () {
+                    increaseFontSize();
+                  },
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              currentChapter + 1 <= chapterLength
+                  ? FloatingActionButton(
+                      backgroundColor: Colors.grey[800],
+                      mini: true,
+                      onPressed: () {
+                        if (currentChapter + 1 <= chapterLength) {
+                          currentChapter += 1;
+                          setContent(
+                            currentVersion,
+                            currentTestament,
+                            currentBook,
+                            currentChapter,
+                          );
+                        }
+                      },
+                      child: Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                      ),
+                    )
+                  : Container(height: 1.0)
+            ],
+          )
         ],
       ),
     );

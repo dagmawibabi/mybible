@@ -13,30 +13,21 @@ class _EachChapterButtonState extends State<EachChapterButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: double.infinity,
-      width: 10.0,
-      height: 20.0,
       margin: const EdgeInsets.symmetric(
         vertical: 4.0,
         horizontal: 5.0,
       ),
-      padding: EdgeInsets.symmetric(vertical: 5.0),
-      // padding: const EdgeInsets.only(
-      //   top: 15.0,
-      //   bottom: 15.0,
-      //   left: 15.0,
-      //   right: 10.0,
-      // ),
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
       decoration: BoxDecoration(
         color: Colors.grey[900]!,
-        // border: Border.all(
-        //   color: Colors.grey[800]!,
-        // ),
+        border: Border.all(
+          color: Colors.grey[850]!,
+        ),
         boxShadow: const [
           BoxShadow(
             color: Colors.black,
             spreadRadius: 1.0,
-            offset: Offset(2, 2),
+            offset: Offset(3, 4),
           )
         ],
         borderRadius: BorderRadius.circular(10.0),
@@ -49,7 +40,6 @@ class _EachChapterButtonState extends State<EachChapterButton> {
             style: const TextStyle(
               color: Colors.white,
               fontSize: 16.0,
-              // fontWeight: FontWeight.bold,
             ),
           ),
         ),

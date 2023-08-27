@@ -31,14 +31,14 @@ class _EachVersionButtonState extends State<EachVersionButton> {
       ),
       decoration: BoxDecoration(
         color: Colors.grey[900]!,
-        // border: Border.all(
-        //   color: Colors.grey[800]!,
-        // ),
+        border: Border.all(
+          color: Colors.grey[850]!,
+        ),
         boxShadow: const [
           BoxShadow(
             color: Colors.black,
             spreadRadius: 1.0,
-            offset: Offset(2, 2),
+            offset: Offset(3, 4),
           )
         ],
         borderRadius: BorderRadius.circular(10.0),
