@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, file_names
 
 import 'dart:convert';
 
@@ -76,7 +76,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
         chosenVerse["version"] = eachVersion;
         differentVersion.add(chosenVerse);
       } catch (e) {
-        print(e);
+        rethrow;
       }
     }
 
@@ -85,7 +85,6 @@ class _DifferentVersionsState extends State<DifferentVersions> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     makeList();
   }
@@ -115,7 +114,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
           ),
         ),
         child: differentVersion.isEmpty == true
-            ? Container(
+            ? SizedBox(
                 width: double.infinity,
                 child: Column(
                   children: [
@@ -133,10 +132,10 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 160.0,
                                 child: Text(
-                                  "${widget.abbrv[widget.book].toString()}",
+                                  widget.abbrv[widget.book].toString(),
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 18.0,
@@ -152,7 +151,16 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Text(
-                                    "${widget.englishToAmharicMap[widget.abbrv[widget.book]].toString().substring(3, widget.englishToAmharicMap[widget.abbrv[widget.book]].length - 5)}",
+                                    widget.englishToAmharicMap[
+                                            widget.abbrv[widget.book]]
+                                        .toString()
+                                        .substring(
+                                            3,
+                                            widget
+                                                    .englishToAmharicMap[widget
+                                                        .abbrv[widget.book]]
+                                                    .length -
+                                                5),
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       fontSize: 16.0,
@@ -237,10 +245,10 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
+                            SizedBox(
                               width: 160.0,
                               child: Text(
-                                "${widget.abbrv[widget.book].toString()}",
+                                widget.abbrv[widget.book].toString(),
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 18.0,
@@ -256,7 +264,16 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                               child: FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text(
-                                  "${widget.englishToAmharicMap[widget.abbrv[widget.book]].toString().substring(3, widget.englishToAmharicMap[widget.abbrv[widget.book]].length - 5)}",
+                                  widget.englishToAmharicMap[
+                                          widget.abbrv[widget.book]]
+                                      .toString()
+                                      .substring(
+                                          3,
+                                          widget
+                                                  .englishToAmharicMap[
+                                                      widget.abbrv[widget.book]]
+                                                  .length -
+                                              5),
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 16.0,
@@ -325,7 +342,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                   SizedBox(height: 5.0),
 
                   // Each Translation
-                  Container(
+                  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.67,
                     child: ListView(
                       children: [

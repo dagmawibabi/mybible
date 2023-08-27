@@ -1,7 +1,6 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, file_names
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 class ChooseBookBS extends StatefulWidget {
@@ -174,7 +173,6 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
     String data = await DefaultAssetBundle.of(context).loadString(
         "assets/holybooks/EN/$otORnt/$chosenBook/$chosenVersion.json");
     final jsonResult = jsonDecode(data);
-    print(jsonResult);
     chapterLength = [];
     for (var i = 0; i < jsonResult["text"].length; i++) {
       chapterLength.add(i + 1);
@@ -194,7 +192,6 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     currentTestament = otBooks;
     getBibleVersions();

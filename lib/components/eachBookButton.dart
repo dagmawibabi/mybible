@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, file_names
 
 import 'package:flutter/material.dart';
 
@@ -7,10 +7,12 @@ class EachBookButton extends StatefulWidget {
     super.key,
     required this.english,
     required this.amharic,
+    required this.isSelected,
   });
 
   final String english;
   final String amharic;
+  final bool isSelected;
 
   @override
   State<EachBookButton> createState() => _EachBookButtonState();
@@ -20,9 +22,9 @@ class _EachBookButtonState extends State<EachBookButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200.0,
+      width: double.infinity,
       margin: EdgeInsets.symmetric(
-        vertical: 5.0,
+        vertical: 6.0,
         horizontal: 15.0,
       ),
       padding: const EdgeInsets.only(
@@ -45,40 +47,41 @@ class _EachBookButtonState extends State<EachBookButton> {
         ],
         borderRadius: BorderRadius.circular(10.0),
       ),
-      child: FittedBox(
-        child: Container(
-          width: 300.0,
-          // height: 100.0,
-
-          child: FittedBox(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  widget.english,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                  ),
-                ),
-                Text(
-                  "  |  ",
-                  style: TextStyle(
-                    color: Colors.grey[800]!,
-                    fontSize: 16.0,
-                  ),
-                ),
-                Text(
-                  widget.amharic,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ],
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: 160.0,
+            child: Text(
+              widget.english,
+              style: TextStyle(
+                color: widget.isSelected == true
+                    ? Colors.greenAccent
+                    : Colors.white,
+                fontSize: 15.0,
+              ),
             ),
           ),
-        ),
+          // Text(
+          //   "  |  ",
+          //   style: TextStyle(
+          //     color: Colors.grey[850]!,
+          //   ),
+          // ),
+          Container(
+            width: 170.0,
+            alignment: Alignment.centerRight,
+            child: Text(
+              widget.amharic,
+              style: TextStyle(
+                color: widget.isSelected == true
+                    ? Colors.greenAccent
+                    : Colors.white,
+                fontSize: 14.0,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

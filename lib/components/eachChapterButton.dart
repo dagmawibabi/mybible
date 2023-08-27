@@ -1,9 +1,16 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class EachChapterButton extends StatefulWidget {
-  const EachChapterButton({super.key, required this.chapter});
+  const EachChapterButton({
+    super.key,
+    required this.chapter,
+    required this.isSelected,
+  });
 
   final String chapter;
+  final bool isSelected;
 
   @override
   State<EachChapterButton> createState() => _EachChapterButtonState();
@@ -37,8 +44,9 @@ class _EachChapterButtonState extends State<EachChapterButton> {
         child: Center(
           child: Text(
             widget.chapter,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color:
+                  widget.isSelected == true ? Colors.greenAccent : Colors.white,
               fontSize: 16.0,
             ),
           ),

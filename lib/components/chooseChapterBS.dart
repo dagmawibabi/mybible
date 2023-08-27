@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, file_names
 
 import 'dart:convert';
 
@@ -12,12 +12,14 @@ class ChooseChapterBS extends StatefulWidget {
     required this.chosenBook,
     required this.chosenVersion,
     required this.setChapter,
+    required this.currentChapter,
   });
 
   final String otORnt;
   final String chosenBook;
   final String chosenVersion;
   final Function setChapter;
+  final int currentChapter;
 
   @override
   State<ChooseChapterBS> createState() => _ChooseChapterBSState();
@@ -31,7 +33,6 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
         "assets/holybooks/EN/${widget.otORnt}/${widget.chosenBook}/${widget.chosenVersion}.json");
     final jsonResult = jsonDecode(data);
     chapterLength = [];
-    print(chapterLength);
     for (var i = 0; i < jsonResult["text"].length; i++) {
       chapterLength.add(i + 1);
     }
@@ -40,7 +41,6 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getChapters();
   }
@@ -97,7 +97,7 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                               "  |  ",
                               style: TextStyle(
                                 fontSize: 20.0,
-                                color: Colors.grey[700]!,
+                                color: Colors.grey[800]!,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -143,6 +143,10 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                                 },
                                 child: EachChapterButton(
                                   chapter: eachChapter.toString(),
+                                  isSelected:
+                                      widget.currentChapter == eachChapter
+                                          ? true
+                                          : false,
                                 ),
                               ),
                             const SizedBox(height: 100.0),

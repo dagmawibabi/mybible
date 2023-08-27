@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -34,7 +36,6 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getBibleVersions();
   }
@@ -91,7 +92,7 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
                               "  |  ",
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color: Colors.grey[700]!,
+                                color: Colors.grey[800]!,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -116,7 +117,7 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
                       const SizedBox(height: 5.0),
 
                       // Version List
-                      Container(
+                      SizedBox(
                         height: MediaQuery.of(context).size.height * 0.7,
                         child: ListView(
                           children: [
@@ -127,9 +128,11 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
                                 Navigator.pop(context);
                               },
                               child: EachVersionButton(
-                                versionData: {
+                                versionData: const {
                                   "ID": "አማ",
                                   "title": "አማርኛ 1954",
+                                  "details":
+                                      "Christianity entered Ethiopia in the 4th century, and the Bible was translated into Geez (Ethiopic) thereafter. This Bible was revised in the 14th Century. The first complete Amharic Bible was produced in 1840, and went through several revisions thereafter. The version of the Bible presented here was the fulfillment of the expressed desire of Haile Selassie, and was first published in 1962. \n\nIn 1962, a new Amharic translation from Ge'ez was printed with the patronage of the Emperor Haile Selassie. The preface by Emperor Haile Selassie I is dated '1955' (E.C.), and the 31st year of his reign (i.e. AD 1962 in the Gregorian Calendar), and states that it was translated by the Bible Committee he convened between AD 1947 and 1952, realizing that there ought to be a revision from the original Hebrew and Greek of the existing translation of the Bible \n\nIn 1992-93, with the blessing and support of the Ethiopian Bible Society and Ato Kebede Mamo, the Director, the Bible was computerized by Hiruye Stige and his wife Genet.",
                                 },
                                 isSelected:
                                     widget.isAmharic == true ? true : false,
