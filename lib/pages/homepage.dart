@@ -3,11 +3,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:mybible/components/chooseBookBS.dart';
 import 'package:mybible/components/chooseChapterBS.dart';
 import 'package:mybible/components/chooseVersionBS.dart';
 import 'package:mybible/components/differentVersionBS.dart';
 import 'package:mybible/components/eachVerse.dart';
+import 'package:mybible/models/savedVerses.dart';
+import 'package:mybible/pages/bookmarksPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -500,10 +503,75 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
+  List<SavedVerse> selectedVerse = [];
+  void selectVerses(id, text) async {
+    // Check if verse is selected or not
+    bool isFound = false;
+    for (SavedVerse eachSelectedVerse in selectedVerse) {
+      if (eachSelectedVerse.verse == text) {
+        isFound = true;
+        break;
+      }
+    }
+    // If a verse is already selected remove it
+    if (isFound == true) {
+      List<SavedVerse> newSelectedVerse = [];
+      for (SavedVerse eachSelectedVerse in selectedVerse) {
+        if (eachSelectedVerse.verse != text) {
+          newSelectedVerse.add(eachSelectedVerse);
+        }
+      }
+      selectedVerse.clear();
+      selectedVerse = newSelectedVerse;
+    } else {
+      SavedVerse newSelectedVerse = SavedVerse()
+        ..version = currentVersion
+        ..testament = currentTestament
+        ..book = currentBook
+        ..chapter = currentChapter
+        ..number = int.parse(id)
+        ..verse = text;
+      selectedVerse.add(newSelectedVerse);
+    }
+    print(selectedVerse);
+    setState(() {});
+  }
+
+  void addToBookmarks() async {
+    Box savedVersesBox = await Hive.openBox("SavedVersesBox");
+    // await savedVersesBox.clear();
+    var oldSavedVerses = await savedVersesBox.get("savedVerses");
+    var saveableVerses = [];
+    // Filter Out Selected Verses
+    if (oldSavedVerses == null) {
+      await savedVersesBox.put("savedVerses", saveableVerses);
+    } else {
+      for (SavedVerse eachSelectedVerse in selectedVerse) {
+        bool isFound = false;
+        for (SavedVerse eachOldSavedVerse in oldSavedVerses) {
+          if (eachOldSavedVerse.verse == eachSelectedVerse.verse) {
+            isFound = true;
+            break;
+          }
+        }
+        // If verse isn't saved alread.. save
+        if (isFound == false) {
+          saveableVerses.add(eachSelectedVerse);
+        }
+      }
+      // Save
+      // oldSavedVerses = [];
+      // oldSavedVerses = [...oldSavedVerses, ...saveableVerses];
+      saveableVerses = [...oldSavedVerses];
+      await savedVersesBox.put("savedVerses", saveableVerses);
+    }
+    await Hive.close();
+  }
+
   @override
   void initState() {
     super.initState();
-    setContent("ERV", "OT", "GEN", 1);
+    setContent("NASB", "OT", "GEN", 1);
     loadAmharicBible();
   }
 
@@ -574,7 +642,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ],
                                 ),
-                                // Translations and Language
+                                // Translations and Bookmarks
                                 Row(
                                   children: [
                                     currentVersion == "ERV" &&
@@ -620,7 +688,15 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     GestureDetector(
                                         child: IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                BookmarksPage(),
+                                          ),
+                                        );
+                                      },
                                       icon: Icon(
                                         Icons.bookmark_outline,
                                         color: Colors.white,
@@ -652,6 +728,7 @@ class _HomePageState extends State<HomePage> {
                                                 fontSize: eachVerseFontSize,
                                                 eachNumberFontSize:
                                                     eachNumberFontSize,
+                                                selectedVerse: selectedVerse,
                                               ),
                                             ),
                                   ],
@@ -692,6 +769,7 @@ class _HomePageState extends State<HomePage> {
                                                   fontSize: eachVerseFontSize,
                                                   eachNumberFontSize:
                                                       eachNumberFontSize,
+                                                  selectedVerse: selectedVerse,
                                                 ),
                                                 eachVerse["comments"] != null &&
                                                         showComments == true
@@ -748,6 +826,10 @@ class _HomePageState extends State<HomePage> {
                                                     int.parse(eachVerse["ID"]),
                                                   );
                                                 },
+                                                onLongPress: () {
+                                                  selectVerses(eachVerse["ID"],
+                                                      eachVerse["text"]);
+                                                },
                                                 child: eachVerse["text"] != ""
                                                     ? EachVerse(
                                                         verseData: eachVerse,
@@ -755,6 +837,8 @@ class _HomePageState extends State<HomePage> {
                                                             eachVerseFontSize,
                                                         eachNumberFontSize:
                                                             eachNumberFontSize,
+                                                        selectedVerse:
+                                                            selectedVerse,
                                                       )
                                                     : Container(),
                                               ),
@@ -780,6 +864,7 @@ class _HomePageState extends State<HomePage> {
                   ? Padding(
                       padding: const EdgeInsets.only(left: 30.0),
                       child: FloatingActionButton(
+                        heroTag: "backChapter",
                         backgroundColor: Colors.grey[800],
                         mini: true,
                         onPressed: () {
@@ -806,6 +891,7 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.only(left: 5.0),
                 child: FloatingActionButton(
+                  heroTag: "decreaseFont",
                   backgroundColor: Colors.grey[800],
                   mini: true,
                   onPressed: () {
@@ -819,11 +905,49 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+          selectedVerse.isNotEmpty == false
+              ? Container(
+                  height: 1.0,
+                  width: 30.0,
+                )
+              : Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5.0),
+                      child: FloatingActionButton(
+                        heroTag: "copyVerse",
+                        backgroundColor: Colors.grey[800],
+                        mini: true,
+                        onPressed: () {},
+                        child: Icon(
+                          Icons.copy_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5.0),
+                      child: FloatingActionButton(
+                        heroTag: "bookmarkVerse",
+                        backgroundColor: Colors.grey[800],
+                        mini: true,
+                        onPressed: () {
+                          addToBookmarks();
+                        },
+                        child: Icon(
+                          Icons.bookmark_add_outlined,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
           Row(
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 5.0),
                 child: FloatingActionButton(
+                  heroTag: "increaseFont",
                   backgroundColor: Colors.grey[800],
                   mini: true,
                   onPressed: () {
@@ -837,6 +961,7 @@ class _HomePageState extends State<HomePage> {
               ),
               currentChapter + 1 <= chapterLength
                   ? FloatingActionButton(
+                      heroTag: "nextChapter",
                       backgroundColor: Colors.grey[800],
                       mini: true,
                       onPressed: () {
