@@ -225,6 +225,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  flip_card:
+    dependency: "direct main"
+    description:
+      name: flip_card
+      sha256: "5d4aa58f3983cced0782f4ce45826b7eea36e8e464964d9209dcbc7a87b2292f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -331,6 +339,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  ionicons:
+    dependency: "direct main"
+    description:
+      name: ionicons
+      sha256: "5496bc65a16115ecf05b15b78f494ee4a8869504357668f0a11d689e970523cf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
   js:
     dependency: transitive
     description:
@@ -347,6 +363,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
+  line_icons:
+    dependency: "direct main"
+    description:
+      name: line_icons
+      sha256: "249d781d922f5437ac763d9c8f5a02cf5b499a6dc3f85e4b92e074cff0a932ab"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.3"
   lints:
     dependency: transitive
     description:
@@ -608,6 +632,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.0"
+  tiktoklikescroller:
+    dependency: "direct main"
+    description:
+      name: tiktoklikescroller
+      sha256: "4d984830e3e12c26251a05f55ae9bae0409612b5acc9a8b8ae4aafe5f7e3c008"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.5"
   timing:
     dependency: transitive
     description:

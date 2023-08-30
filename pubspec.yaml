@@ -32,6 +32,11 @@ dependencies:
     sdk: flutter
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  ionicons: ^0.2.2 # remove
+  line_icons: ^2.0.2
+  flip_card: ^0.7.0
+  tiktoklikescroller: ^0.2.5
+
   
 
 
