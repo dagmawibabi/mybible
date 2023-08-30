@@ -98,7 +98,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
 
   void deleteAllBookmarks() async {
     Box savedVersesBox = await Hive.openBox("SavedVersesBox");
-    await savedVersesBox.clear();
+    await savedVersesBox.delete("savedVerses");
     await Hive.close();
     savedVerses = [];
     setState(() {});

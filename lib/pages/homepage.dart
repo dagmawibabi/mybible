@@ -9,6 +9,7 @@ import 'package:mybible/components/differentVersionBS.dart';
 import 'package:mybible/components/eachVerse.dart';
 import 'package:mybible/models/savedVerses.dart';
 import 'package:mybible/pages/bookmarksPage.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -200,11 +201,23 @@ class _HomePageState extends State<HomePage> {
       ervTitle = jsonResult["text"][chapter - 1];
     }
 
+    Box savedVersesBox = await Hive.openBox("SavedVersesBox");
+    await savedVersesBox.put("lastVersion", currentVersion);
+    await savedVersesBox.put("lastTestament", currentTestament);
+    await savedVersesBox.put("lastBook", currentBook);
+    await savedVersesBox.put("lastChapter", currentChapter);
+    await savedVersesBox.put("wasAmharic", isAmharic);
+    await Hive.close();
     setState(() {});
   }
 
-  void changeToAmharic() {
+  void changeToAmharic() async {
     isAmharic = !isAmharic;
+    Box savedVersesBox = await Hive.openBox("SavedVersesBox");
+    await savedVersesBox.put("wasAmharic", isAmharic);
+    await Hive.close();
+    setState(() {});
+    loadAmharicBible();
     setState(() {});
   }
 
@@ -486,12 +499,22 @@ class _HomePageState extends State<HomePage> {
   bool isAmharic = false;
   List amharicBible = [];
   void loadAmharicBible() async {
-    var pathOfJSON = "assets/holybooks/AM/${otBooksAM[0]}";
+    var bookName = abbrv[currentBook];
+    var bookName1 = englishToAmharicMap[bookName];
+
+    var index = 0;
+    if (currentTestament == "OT") {
+      index = otBooksAM.indexOf(bookName1);
+    } else {
+      index = ntBooksAM.indexOf(bookName1);
+    }
+    var pathOfJSON =
+        "assets/holybooks/AM/${currentTestament == "OT" ? otBooksAM[index] : ntBooksAM[index]}";
     String data = await DefaultAssetBundle.of(context).loadString(pathOfJSON);
     final jsonResult = jsonDecode(data);
     chapterLength = jsonResult["chapters"].length;
-    // content = jsonResult["chapters"][currentChapter - 1];
     var result = jsonResult["chapters"][currentChapter - 1]["verses"];
+    amharicBible = [];
     for (var i = 0; i < result.length; i++) {
       amharicBible.add({
         "text": result[i],
@@ -549,7 +572,7 @@ class _HomePageState extends State<HomePage> {
     // Filter Out Selected Verses
     if (oldSavedVerses == null) {
       oldSavedVerses = [];
-      saveableVerses = [...oldSavedVerses, ...saveableVerses];
+      saveableVerses = [...oldSavedVerses, ...selectedVerse];
       await savedVersesBox.put("savedVerses", saveableVerses);
     } else {
       for (SavedVerse eachSelectedVerse in selectedVerse) {
@@ -576,11 +599,191 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
+  List<TargetFocus> targets = [];
+  GlobalKey keyButton = GlobalKey();
+  GlobalKey keyButton2 = GlobalKey();
+  GlobalKey keyButton3 = GlobalKey();
+  GlobalKey keyButton4 = GlobalKey();
+  GlobalKey keyButton5 = GlobalKey();
+  GlobalKey keyButton6 = GlobalKey();
+  GlobalKey keyButton7 = GlobalKey();
+  GlobalKey keyButton8 = GlobalKey();
+  GlobalKey keyButton9 = GlobalKey();
+
+  void showTutorial() async {
+    Box savedVersesBox = await Hive.openBox("SavedVersesBox");
+    dynamic haveSeenTutorial = await savedVersesBox.get("seenTutorial");
+    haveSeenTutorial = haveSeenTutorial ?? false;
+    // await savedVersesBox.clear();
+    await Hive.close();
+    if (haveSeenTutorial == false) {
+      TutorialCoachMark tutorial = TutorialCoachMark(
+          targets: targets,
+          colorShadow: Colors.black,
+          opacityShadow: 0.9,
+          alignSkip: Alignment.bottomCenter,
+          textSkip: "SKIP",
+          // paddingFocus: 10,
+          // focusAnimationDuration: Duration(milliseconds: 500),
+          // unFocusAnimationDuration: Duration(milliseconds: 500),
+          // pulseAnimationDuration: Duration(milliseconds: 500),
+          // pulseVariation: Tween(begin: 1.0, end: 0.99),
+          // showSkipInLastTarget: true,
+          // imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+          onFinish: () async {
+            Box savedVersesBox = await Hive.openBox("SavedVersesBox");
+            await savedVersesBox.put("seenTutorial", true);
+            await Hive.close();
+          },
+          onClickTargetWithTapPosition: (target, tapDetails) {
+            print("target: $target");
+            print(
+                "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+          },
+          onClickTarget: (target) {
+            print(target);
+          },
+          onSkip: () {
+            print("skip");
+          })
+        ..show(context: context);
+    }
+
+    // tutorial.skip();
+    // tutorial.finish();
+    // tutorial.next(); // call next target programmatically
+    // tutorial.previous(); // call previous target programmatically
+  }
+
+  void createTutorial() {
+    // targets.add();
+    targets.add(
+      targetFocusWidget(
+        "keyButton1",
+        keyButton,
+        "Click on book title to browse through other books",
+        true,
+      ),
+    );
+    targets.add(
+      targetFocusWidget(
+        "keyButton2",
+        keyButton2,
+        "Click on chapter number to browse through other chapters",
+        true,
+      ),
+    );
+    targets.add(
+      targetFocusWidget(
+        "keyButton3",
+        keyButton3,
+        "Click on translation version to browse through other translations",
+        true,
+      ),
+    );
+    targets.add(
+      targetFocusWidget(
+        "keyButton4",
+        keyButton4,
+        "Click here to browse through your saved verses",
+        true,
+      ),
+    );
+    targets.add(
+      targetFocusWidget(
+        "keyButton5",
+        keyButton5,
+        "Click on plus sign to increase font size of the verses",
+        false,
+      ),
+    );
+    targets.add(
+      targetFocusWidget(
+        "keyButton6",
+        keyButton6,
+        "Click on minus sign to decrease font size of the verses",
+        false,
+      ),
+    );
+    targets.add(
+      targetFocusWidget(
+        "keyButton7",
+        keyButton7,
+        "Click here or swipe left on the center of the screen to goto the next chapter",
+        false,
+      ),
+    );
+    targets.add(
+      targetFocusWidget(
+        "keyButton8",
+        keyButton8,
+        "Click on verses to see different version of translations of them. Long press to select to copy or bookmark.",
+        true,
+        topSizedBox: 300.0,
+      ),
+    );
+  }
+
+  TargetFocus targetFocusWidget(identify, keyTarget, tutorialText, isUp,
+      {topSizedBox = 50.0}) {
+    return TargetFocus(
+      identify: identify.toString(),
+      keyTarget: keyTarget,
+      enableOverlayTab: true,
+      contents: [
+        TargetContent(
+          align: isUp == true ? ContentAlign.bottom : ContentAlign.top,
+          builder: (context, controller) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                isUp == true
+                    ? SizedBox(height: topSizedBox)
+                    : const SizedBox(height: 0.0),
+                Text(
+                  tutorialText.toString(),
+                  style: const TextStyle(
+                    color: Colors.greenAccent,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 19.0,
+                  ),
+                ),
+                isUp == true
+                    ? const SizedBox(height: 0.0)
+                    : const SizedBox(height: 50.0),
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  void loadLastContext() async {
+    Box savedVersesBox = await Hive.openBox("SavedVersesBox");
+    dynamic lastVersion = await savedVersesBox.get("lastVersion");
+    if (lastVersion == null) {
+      setContent("NASB", "OT", "GEN", 1);
+    } else {
+      var lastTestament = await savedVersesBox.get("lastTestament");
+      var lastBook = await savedVersesBox.get("lastBook");
+      var lastChapter = await savedVersesBox.get("lastChapter");
+      isAmharic = await savedVersesBox.get("wasAmharic");
+      setContent(lastVersion, lastTestament, lastBook, lastChapter);
+    }
+    // haveSeenTutorial = haveSeenTutorial ?? false;
+    await Hive.close();
+  }
+
   @override
   void initState() {
     super.initState();
-    setContent("NASB", "OT", "GEN", 1);
+    // setContent("NASB", "OT", "GEN", 1);
+    loadLastContext();
     loadAmharicBible();
+    createTutorial();
+    Future.delayed(const Duration(seconds: 1), showTutorial);
   }
 
   @override
@@ -641,6 +844,7 @@ class _HomePageState extends State<HomePage> {
                                           showBooks();
                                         },
                                         child: Text(
+                                          key: keyButton,
                                           isAmharic == true
                                               ? englishToAmharicMap[
                                                       abbrv[currentBook]]
@@ -665,6 +869,7 @@ class _HomePageState extends State<HomePage> {
                                           showChapters();
                                         },
                                         child: Text(
+                                          key: keyButton2,
                                           "  $currentChapter",
                                           style: const TextStyle(
                                             color: Colors.white,
@@ -703,6 +908,7 @@ class _HomePageState extends State<HomePage> {
                                           showVersions();
                                         },
                                         child: Container(
+                                          key: keyButton3,
                                           padding: const EdgeInsets.symmetric(
                                             horizontal: 15.0,
                                             vertical: 10.0,
@@ -719,8 +925,8 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ),
                                       ),
-                                      GestureDetector(
-                                          child: IconButton(
+                                      IconButton(
+                                        key: keyButton4,
                                         onPressed: () {
                                           Navigator.push(
                                             context,
@@ -734,7 +940,7 @@ class _HomePageState extends State<HomePage> {
                                           Icons.bookmark_outline,
                                           color: Colors.white,
                                         ),
-                                      ))
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -881,6 +1087,15 @@ class _HomePageState extends State<HomePage> {
                                                   },
                                                   child: eachVerse["text"] != ""
                                                       ? EachVerse(
+                                                          key: int.parse(eachVerse[
+                                                                          "ID"]
+                                                                      .toString()) ==
+                                                                  4
+                                                              ? keyButton8
+                                                              : GlobalKey(
+                                                                  debugLabel:
+                                                                      eachVerse[
+                                                                          "ID"]),
                                                           verseData: eachVerse,
                                                           fontSize:
                                                               eachVerseFontSize,
@@ -941,6 +1156,7 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.only(left: 5.0),
                 child: FloatingActionButton(
+                  key: keyButton6,
                   heroTag: "decreaseFont",
                   backgroundColor: Colors.grey[800],
                   mini: true,
@@ -997,6 +1213,7 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.only(left: 5.0),
                 child: FloatingActionButton(
+                  key: keyButton5,
                   heroTag: "increaseFont",
                   backgroundColor: Colors.grey[800],
                   mini: true,
@@ -1011,6 +1228,7 @@ class _HomePageState extends State<HomePage> {
               ),
               currentChapter + 1 <= chapterLength
                   ? FloatingActionButton(
+                      key: keyButton7,
                       heroTag: "nextChapter",
                       backgroundColor: Colors.grey[800],
                       mini: true,

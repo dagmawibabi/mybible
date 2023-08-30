@@ -238,7 +238,7 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                         ),
                       ),
                       const Text(
-                        "መፅሀፍቶች",
+                        "መጽሐፍት",
                         style: TextStyle(
                           fontSize: 16.0,
                           color: Colors.white,

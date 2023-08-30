@@ -1,0 +1,80 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  void loadingDelay() {
+    Timer.periodic(
+      const Duration(seconds: 2),
+      (time) {
+        time.cancel();
+        Navigator.popAndPushNamed(context, "homePage");
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // loadingDelay();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Container(
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Spacer(),
+            Image.asset(
+              "assets/icons/bibleLogo.jpg",
+              width: 200.0,
+            ),
+            const Text(
+              "My Bible",
+              style: GoogleFonts.lato(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Spacer(),
+            Column(
+              children: [
+                Text(
+                  "August 30, 2023",
+                  style: TextStyle(
+                    color: Colors.grey[800]!,
+                    fontSize: 12.0,
+                    // fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 5.0),
+                Text(
+                  "Dream Intelligence",
+                  style: TextStyle(
+                    color: Colors.grey[800]!,
+                    // fontSize: 20.0,
+                    // fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 30.0),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

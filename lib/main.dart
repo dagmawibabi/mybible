@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mybible/models/savedVerses.dart';
 import 'package:mybible/pages/homepage.dart';
+import 'package:mybible/pages/splashscreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +35,8 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: "/",
       routes: {
-        "/": (context) => HomePage(),
+        "/": (context) => SplashScreen(),
+        "homePage": (context) => HomePage(),
       },
     );
   }
