@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, file_names
+// ignore_for_file: file_names
 
 import 'dart:convert';
 
@@ -102,9 +102,9 @@ class _DifferentVersionsState extends State<DifferentVersions> {
         padding: const EdgeInsets.only(top: 10.0),
         margin: const EdgeInsets.only(top: 2.0),
         clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 19, 19, 19),
-          borderRadius: const BorderRadius.only(
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 19, 19, 19),
+          borderRadius: BorderRadius.only(
             topLeft: Radius.circular(
               20.0,
             ),
@@ -120,7 +120,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                   children: [
                     // Book Chapter and Verse
                     Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                         top: 10.0,
                         bottom: 10.0,
                         left: 20.0,
@@ -137,14 +137,14 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                 child: Text(
                                   widget.abbrv[widget.book].toString(),
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 18.0,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 5.0),
+                              const SizedBox(height: 5.0),
                               Container(
                                 width: 160.0,
                                 alignment: Alignment.centerLeft,
@@ -162,7 +162,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                                     .length -
                                                 5),
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 16.0,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -183,7 +183,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                   color: Colors.grey[400],
                                 ),
                               ),
-                              SizedBox(height: 5.0),
+                              const SizedBox(height: 5.0),
                               Text(
                                 "ምዕራፍ ${widget.chapter.toString()}",
                                 overflow: TextOverflow.ellipsis,
@@ -205,7 +205,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                   color: Colors.grey[400],
                                 ),
                               ),
-                              SizedBox(height: 5.0),
+                              const SizedBox(height: 5.0),
                               Text(
                                 "ቁጥር ${widget.verse.toString()}",
                                 overflow: TextOverflow.ellipsis,
@@ -220,8 +220,8 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                       ),
                     ),
 
-                    SizedBox(height: 200.0),
-                    Center(
+                    const SizedBox(height: 200.0),
+                    const Center(
                       child: CircularProgressIndicator(
                         color: Colors.greenAccent,
                       ),
@@ -233,7 +233,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                 children: [
                   // Book Chapter and Verse
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       top: 10.0,
                       bottom: 10.0,
                       left: 20.0,
@@ -250,14 +250,14 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                               child: Text(
                                 widget.abbrv[widget.book].toString(),
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                            SizedBox(height: 5.0),
+                            const SizedBox(height: 5.0),
                             Container(
                               width: 160.0,
                               alignment: Alignment.centerLeft,
@@ -275,7 +275,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                                   .length -
                                               5),
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16.0,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -296,7 +296,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                 color: Colors.grey[400],
                               ),
                             ),
-                            SizedBox(height: 5.0),
+                            const SizedBox(height: 5.0),
                             Text(
                               "ምዕራፍ ${widget.chapter.toString()}",
                               overflow: TextOverflow.ellipsis,
@@ -318,7 +318,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                 color: Colors.grey[400],
                               ),
                             ),
-                            SizedBox(height: 5.0),
+                            const SizedBox(height: 5.0),
                             Text(
                               "ቁጥር ${widget.verse.toString()}",
                               overflow: TextOverflow.ellipsis,
@@ -334,12 +334,12 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                   ),
 
                   // Divider
-                  SizedBox(height: 5.0),
+                  const SizedBox(height: 5.0),
                   Divider(
                     color: Colors.grey[800]!,
                     height: 10.0,
                   ),
-                  SizedBox(height: 5.0),
+                  const SizedBox(height: 5.0),
 
                   // Each Translation
                   SizedBox(
@@ -403,7 +403,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                     ),
                                   ),
                           ),
-                        SizedBox(height: 200.0)
+                        const SizedBox(height: 200.0)
                       ],
                     ),
                   )

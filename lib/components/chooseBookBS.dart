@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, file_names
+// ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
 import 'package:mybible/components/eachBookButton.dart';
@@ -193,10 +193,10 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
       ),
       child: Container(
         height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.only(top: 10.0),
-        margin: EdgeInsets.only(top: 2.0),
+        padding: const EdgeInsets.only(top: 10.0),
+        margin: const EdgeInsets.only(top: 2.0),
         clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color.fromARGB(255, 19, 19, 19),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(
@@ -293,14 +293,14 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.6,
                   clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(),
-                  padding: EdgeInsets.only(
+                  decoration: const BoxDecoration(),
+                  padding: const EdgeInsets.only(
                     top: 5.0,
                     bottom: 15.0,
                     // left: 15.0,
                     // right: 15.0,
                   ),
-                  margin: EdgeInsets.symmetric(
+                  margin: const EdgeInsets.symmetric(
                     horizontal: 0.0,
                   ),
                   child: ListView(

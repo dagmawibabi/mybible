@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, file_names
+// ignore_for_file:, file_names
 
 import 'package:flutter/material.dart';
 import 'package:mybible/models/savedVerses.dart';
@@ -33,21 +33,18 @@ class _EachVerseState extends State<EachVerse> {
       }
     }
     isSelected = isFound;
-    // setState(() {});
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // checkSelection();
   }
 
   @override
   Widget build(BuildContext context) {
     checkSelection();
     return Container(
-      decoration: BoxDecoration(),
+      decoration: const BoxDecoration(),
       padding: const EdgeInsets.only(
         right: 10.0,
         top: 5.0,
@@ -58,7 +55,7 @@ class _EachVerseState extends State<EachVerse> {
         children: [
           Container(
             width: 30.0,
-            padding: EdgeInsets.only(top: 3.5),
+            padding: const EdgeInsets.only(top: 3.5),
             child: Text(
               "${widget.verseData["ID"]}  ",
               textAlign: TextAlign.center,

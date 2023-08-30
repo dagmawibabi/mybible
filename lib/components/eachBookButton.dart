@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, file_names
+// ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
 
@@ -23,7 +23,7 @@ class _EachBookButtonState extends State<EachBookButton> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         vertical: 6.0,
         horizontal: 15.0,
       ),

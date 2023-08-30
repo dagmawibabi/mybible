@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, file_names
+// ignore_for_file: file_names
 
 import 'dart:convert';
 
@@ -57,10 +57,10 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
         children: [
           Container(
             // height: MediaQuery.of(context).size.height,
-            padding: EdgeInsets.only(top: 10.0),
-            margin: EdgeInsets.only(top: 2.0),
+            padding: const EdgeInsets.only(top: 10.0),
+            margin: const EdgeInsets.only(top: 2.0),
             clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color.fromARGB(255, 19, 19, 19),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(
@@ -76,7 +76,7 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                 : Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           top: 10.0,
                           bottom: 10.0,
                           left: 20.0,
@@ -85,7 +85,7 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
+                            const Text(
                               "Chapters",
                               style: TextStyle(
                                 fontSize: 20.0,
@@ -101,7 +101,7 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text(
+                            const Text(
                               "ምዕራፎች",
                               style: TextStyle(
                                 fontSize: 17.0,
@@ -124,7 +124,7 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                       // Chapters
                       Container(
                         height: MediaQuery.of(context).size.height * 0.6,
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           vertical: 5.0,
                           horizontal: 20.0,
                         ),

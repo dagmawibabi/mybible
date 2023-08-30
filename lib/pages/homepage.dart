@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -235,7 +233,7 @@ class _HomePageState extends State<HomePage> {
   void showBooks() async {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
-      anchorPoint: Offset(0, 100),
+      anchorPoint: const Offset(0, 100),
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.8,
       ),
@@ -257,7 +255,7 @@ class _HomePageState extends State<HomePage> {
   void showChapters() async {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
-      anchorPoint: Offset(0, 100),
+      anchorPoint: const Offset(0, 100),
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.7,
       ),
@@ -279,7 +277,7 @@ class _HomePageState extends State<HomePage> {
   void showVersions() async {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
-      anchorPoint: Offset(0, 100),
+      anchorPoint: const Offset(0, 100),
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.8,
       ),
@@ -301,7 +299,7 @@ class _HomePageState extends State<HomePage> {
   void showDifferentVersions(currentVerse) async {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
-      anchorPoint: Offset(0, 100),
+      anchorPoint: const Offset(0, 100),
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.8,
       ),
@@ -538,12 +536,8 @@ class _HomePageState extends State<HomePage> {
         ..chapter = currentChapter
         ..number = int.parse(id)
         ..verse = text;
-      print(newSelectedVerse.version);
-      print(newSelectedVerse.testament);
-      print(newSelectedVerse.book);
       selectedVerse.add(newSelectedVerse);
     }
-    print(selectedVerse);
     setState(() {});
   }
 
@@ -551,7 +545,6 @@ class _HomePageState extends State<HomePage> {
     Box savedVersesBox = await Hive.openBox("SavedVersesBox");
     // await savedVersesBox.clear();
     var oldSavedVerses = await savedVersesBox.get("savedVerses");
-    print(oldSavedVerses);
     var saveableVerses = [];
     // Filter Out Selected Verses
     if (oldSavedVerses == null) {
@@ -593,7 +586,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 19, 19, 19),
+      backgroundColor: const Color.fromARGB(255, 19, 19, 19),
       body: SafeArea(
         child: ListView(
           children: [
@@ -673,7 +666,7 @@ class _HomePageState extends State<HomePage> {
                                         },
                                         child: Text(
                                           "  $currentChapter",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 20.0,
                                             fontWeight: FontWeight.bold,
@@ -710,7 +703,7 @@ class _HomePageState extends State<HomePage> {
                                           showVersions();
                                         },
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                             horizontal: 15.0,
                                             vertical: 10.0,
                                           ),
@@ -718,7 +711,7 @@ class _HomePageState extends State<HomePage> {
                                             isAmharic == true
                                                 ? "አማ"
                                                 : currentVersion,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 15.0,
                                               fontWeight: FontWeight.bold,
@@ -733,11 +726,11 @@ class _HomePageState extends State<HomePage> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  BookmarksPage(),
+                                                  const BookmarksPage(),
                                             ),
                                           );
                                         },
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.bookmark_outline,
                                           color: Colors.white,
                                         ),
@@ -902,7 +895,7 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                         ],
                                       ),
-                            SizedBox(height: 200.0),
+                            const SizedBox(height: 200.0),
                           ],
                         )
                       : Container(),
@@ -935,13 +928,13 @@ class _HomePageState extends State<HomePage> {
                             );
                           }
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.arrow_back,
                           color: Colors.white,
                         ),
                       ),
                     )
-                  : SizedBox(
+                  : const SizedBox(
                       height: 1.0,
                       width: 30.0,
                     ),
@@ -954,7 +947,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     decreaseFontSize();
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.remove,
                     color: Colors.white,
                   ),
@@ -963,7 +956,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           selectedVerse.isNotEmpty == false
-              ? Container(
+              ? const SizedBox(
                   height: 1.0,
                   width: 30.0,
                 )
@@ -976,7 +969,7 @@ class _HomePageState extends State<HomePage> {
                         backgroundColor: Colors.grey[800],
                         mini: true,
                         onPressed: () {},
-                        child: Icon(
+                        child: const Icon(
                           Icons.copy_rounded,
                           color: Colors.white,
                         ),
@@ -991,7 +984,7 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {
                           addToBookmarks();
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.bookmark_add_outlined,
                           color: Colors.white,
                         ),
@@ -1010,7 +1003,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     increaseFontSize();
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.add,
                     color: Colors.white,
                   ),
@@ -1032,7 +1025,7 @@ class _HomePageState extends State<HomePage> {
                           );
                         }
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.arrow_forward,
                         color: Colors.white,
                       ),
