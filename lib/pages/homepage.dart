@@ -525,12 +525,22 @@ class _HomePageState extends State<HomePage> {
       selectedVerse = newSelectedVerse;
     } else {
       SavedVerse newSelectedVerse = SavedVerse()
-        ..version = currentVersion
-        ..testament = currentTestament
-        ..book = currentBook
+        ..version = isAmharic == true ? "አማ" : currentVersion
+        ..testament = isAmharic == true
+            ? isOT == true
+                ? "ብሉይ ኪዳን"
+                : "አዲስ ኪዳን"
+            : currentTestament
+        ..book = isAmharic == true
+            ? englishToAmharicMap[abbrv[currentBook]].toString().substring(
+                3, englishToAmharicMap[abbrv[currentBook]].length - 5)
+            : currentBook
         ..chapter = currentChapter
         ..number = int.parse(id)
         ..verse = text;
+      print(newSelectedVerse.version);
+      print(newSelectedVerse.testament);
+      print(newSelectedVerse.book);
       selectedVerse.add(newSelectedVerse);
     }
     print(selectedVerse);
@@ -541,9 +551,12 @@ class _HomePageState extends State<HomePage> {
     Box savedVersesBox = await Hive.openBox("SavedVersesBox");
     // await savedVersesBox.clear();
     var oldSavedVerses = await savedVersesBox.get("savedVerses");
+    print(oldSavedVerses);
     var saveableVerses = [];
     // Filter Out Selected Verses
     if (oldSavedVerses == null) {
+      oldSavedVerses = [];
+      saveableVerses = [...oldSavedVerses, ...saveableVerses];
       await savedVersesBox.put("savedVerses", saveableVerses);
     } else {
       for (SavedVerse eachSelectedVerse in selectedVerse) {
@@ -554,7 +567,7 @@ class _HomePageState extends State<HomePage> {
             break;
           }
         }
-        // If verse isn't saved alread.. save
+        // If verse isn't saved already.. save
         if (isFound == false) {
           saveableVerses.add(eachSelectedVerse);
         }
@@ -562,10 +575,12 @@ class _HomePageState extends State<HomePage> {
       // Save
       // oldSavedVerses = [];
       // oldSavedVerses = [...oldSavedVerses, ...saveableVerses];
-      saveableVerses = [...oldSavedVerses];
+      saveableVerses = [...oldSavedVerses, ...saveableVerses];
       await savedVersesBox.put("savedVerses", saveableVerses);
     }
+    selectedVerse = [];
     await Hive.close();
+    setState(() {});
   }
 
   @override
@@ -582,275 +597,317 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: ListView(
           children: [
-            Column(
-              children: [
-                Container(
-                  height: 20.0,
-                ),
-                content != null
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: 5.0,
-                              left: 15.0,
-                              right: 5.0,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Book and Chapter
-                                Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        showBooks();
-                                      },
-                                      child: Text(
-                                        isAmharic == true
-                                            ? englishToAmharicMap[
-                                                    abbrv[currentBook]]
-                                                .toString()
-                                                .substring(
-                                                    3,
-                                                    englishToAmharicMap[abbrv[
-                                                                currentBook]]
-                                                            .length -
-                                                        5)
-                                            : "${abbrv[currentBook]}",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize:
-                                              isAmharic == true ? 18.0 : 20.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        showChapters();
-                                      },
-                                      child: Text(
-                                        "  $currentChapter",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                // Translations and Bookmarks
-                                Row(
-                                  children: [
-                                    currentVersion == "ERV" &&
-                                            isAmharic == false
-                                        ? IconButton(
-                                            onPressed: () {
-                                              showComments = !showComments;
-                                              setState(() {});
-                                            },
-                                            icon: Icon(
-                                              showComments == true
-                                                  ? Icons
-                                                      .comments_disabled_outlined
-                                                  : Icons
-                                                      .insert_comment_outlined,
-                                              color: Colors.grey[700]!,
-                                            ),
-                                          )
-                                        : Container(
-                                            height: 50.0,
-                                            // color: Colors.red,
-                                          ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        showVersions();
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 15.0,
-                                          vertical: 10.0,
-                                        ),
+            GestureDetector(
+              onHorizontalDragStart: (details) {
+                if (details.localPosition.dx < 230.0) {
+                  if (currentChapter - 1 >= 1) {
+                    currentChapter -= 1;
+                    setContent(
+                      currentVersion,
+                      currentTestament,
+                      currentBook,
+                      currentChapter,
+                    );
+                  }
+                } else {
+                  if (currentChapter + 1 <= chapterLength) {
+                    currentChapter += 1;
+                    setContent(
+                      currentVersion,
+                      currentTestament,
+                      currentBook,
+                      currentChapter,
+                    );
+                  }
+                }
+              },
+              child: Column(
+                children: [
+                  Container(
+                    height: 20.0,
+                  ),
+                  content != null
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 5.0,
+                                left: 15.0,
+                                right: 5.0,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Book and Chapter
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          showBooks();
+                                        },
                                         child: Text(
                                           isAmharic == true
-                                              ? "አማ"
-                                              : currentVersion,
+                                              ? englishToAmharicMap[
+                                                      abbrv[currentBook]]
+                                                  .toString()
+                                                  .substring(
+                                                      3,
+                                                      englishToAmharicMap[abbrv[
+                                                                  currentBook]]
+                                                              .length -
+                                                          5)
+                                              : "${abbrv[currentBook]}",
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 15.0,
+                                            fontSize:
+                                                isAmharic == true ? 18.0 : 20.0,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    GestureDetector(
-                                        child: IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                BookmarksPage(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          showChapters();
+                                        },
+                                        child: Text(
+                                          "  $currentChapter",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                        );
-                                      },
-                                      icon: Icon(
-                                        Icons.bookmark_outline,
-                                        color: Colors.white,
-                                      ),
-                                    ))
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Divider(
-                            color: Colors.grey[700],
-                          ),
-                          isAmharic == true
-                              ? Column(
-                                  children: [
-                                    for (var eachVerse in amharicBible)
-                                      eachVerse["text"] == "" ||
-                                              eachVerse["text"] == "-"
-                                          ? Container()
-                                          : GestureDetector(
-                                              onTap: () {
-                                                showDifferentVersions(
-                                                  eachVerse["ID"],
-                                                );
-                                              },
-                                              child: EachVerse(
-                                                verseData: eachVerse,
-                                                fontSize: eachVerseFontSize,
-                                                eachNumberFontSize:
-                                                    eachNumberFontSize,
-                                                selectedVerse: selectedVerse,
-                                              ),
-                                            ),
-                                  ],
-                                )
-                              : currentVersion == "ERV"
-                                  ? Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            top: 5.0,
-                                            bottom: 10.0,
-                                            left: 20.0,
-                                            right: 20.0,
-                                          ),
-                                          child: showComments == true &&
-                                                  ervTitle["title"] != null
-                                              ? Text(
-                                                  ervTitle["title"],
-                                                  style: TextStyle(
-                                                    color: Colors.greenAccent,
-                                                    fontSize: eachTopicFontSize,
-                                                  ),
-                                                )
-                                              : Container(),
                                         ),
-                                        // Each ERV Verse
-                                        for (var eachVerse in ervTitle["text"])
-                                          GestureDetector(
-                                            onTap: () {
-                                              showDifferentVersions(
-                                                int.parse(eachVerse["ID"]),
-                                              );
-                                            },
-                                            child: Column(
-                                              children: [
-                                                EachVerse(
+                                      ),
+                                    ],
+                                  ),
+                                  // Translations and Bookmarks
+                                  Row(
+                                    children: [
+                                      currentVersion == "ERV" &&
+                                              isAmharic == false
+                                          ? IconButton(
+                                              onPressed: () {
+                                                showComments = !showComments;
+                                                setState(() {});
+                                              },
+                                              icon: Icon(
+                                                showComments == true
+                                                    ? Icons
+                                                        .comments_disabled_outlined
+                                                    : Icons
+                                                        .insert_comment_outlined,
+                                                color: Colors.grey[700]!,
+                                              ),
+                                            )
+                                          : Container(
+                                              height: 50.0,
+                                              // color: Colors.red,
+                                            ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          showVersions();
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 15.0,
+                                            vertical: 10.0,
+                                          ),
+                                          child: Text(
+                                            isAmharic == true
+                                                ? "አማ"
+                                                : currentVersion,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                          child: IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  BookmarksPage(),
+                                            ),
+                                          );
+                                        },
+                                        icon: Icon(
+                                          Icons.bookmark_outline,
+                                          color: Colors.white,
+                                        ),
+                                      ))
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Divider(
+                              color: Colors.grey[700],
+                            ),
+                            isAmharic == true
+                                ? Column(
+                                    children: [
+                                      for (var eachVerse in amharicBible)
+                                        eachVerse["text"] == "" ||
+                                                eachVerse["text"] == "-"
+                                            ? Container()
+                                            : GestureDetector(
+                                                onTap: () {
+                                                  showDifferentVersions(
+                                                    eachVerse["ID"],
+                                                  );
+                                                },
+                                                onLongPress: () {
+                                                  selectVerses(
+                                                      eachVerse["ID"]
+                                                          .toString(),
+                                                      eachVerse["text"]);
+                                                },
+                                                child: EachVerse(
                                                   verseData: eachVerse,
                                                   fontSize: eachVerseFontSize,
                                                   eachNumberFontSize:
                                                       eachNumberFontSize,
                                                   selectedVerse: selectedVerse,
                                                 ),
-                                                eachVerse["comments"] != null &&
-                                                        showComments == true
-                                                    ? Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          for (var eachComment
-                                                              in eachVerse[
-                                                                  "comments"])
-                                                            Container(
-                                                              width: double
-                                                                  .infinity,
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .symmetric(
-                                                                horizontal:
-                                                                    30.0,
-                                                              ),
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                bottom: 10.0,
-                                                              ),
-                                                              child: Text(
-                                                                eachComment,
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                          .grey[
-                                                                      500]!,
-                                                                  fontSize:
-                                                                      eachCommentFontSize,
+                                              ),
+                                    ],
+                                  )
+                                : currentVersion == "ERV"
+                                    ? Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: 5.0,
+                                              bottom: 10.0,
+                                              left: 20.0,
+                                              right: 20.0,
+                                            ),
+                                            child: showComments == true &&
+                                                    ervTitle["title"] != null
+                                                ? Text(
+                                                    ervTitle["title"],
+                                                    style: TextStyle(
+                                                      color: Colors.greenAccent,
+                                                      fontSize:
+                                                          eachTopicFontSize,
+                                                    ),
+                                                  )
+                                                : Container(),
+                                          ),
+                                          // Each ERV Verse
+                                          for (var eachVerse
+                                              in ervTitle["text"])
+                                            GestureDetector(
+                                              onTap: () {
+                                                showDifferentVersions(
+                                                  int.parse(eachVerse["ID"]),
+                                                );
+                                              },
+                                              onLongPress: () {
+                                                selectVerses(eachVerse["ID"],
+                                                    eachVerse["text"]);
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  EachVerse(
+                                                    verseData: eachVerse,
+                                                    fontSize: eachVerseFontSize,
+                                                    eachNumberFontSize:
+                                                        eachNumberFontSize,
+                                                    selectedVerse:
+                                                        selectedVerse,
+                                                  ),
+                                                  eachVerse["comments"] !=
+                                                              null &&
+                                                          showComments == true
+                                                      ? Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            for (var eachComment
+                                                                in eachVerse[
+                                                                    "comments"])
+                                                              Container(
+                                                                width: double
+                                                                    .infinity,
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .symmetric(
+                                                                  horizontal:
+                                                                      30.0,
                                                                 ),
-                                                              ),
-                                                            )
-                                                        ],
-                                                      )
-                                                    : Container()
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                  bottom: 10.0,
+                                                                ),
+                                                                child: Text(
+                                                                  eachComment,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                            .grey[
+                                                                        500]!,
+                                                                    fontSize:
+                                                                        eachCommentFontSize,
+                                                                  ),
+                                                                ),
+                                                              )
+                                                          ],
+                                                        )
+                                                      : Container()
+                                                ],
+                                              ),
+                                            ),
+                                        ],
+                                      )
+                                    : Column(
+                                        children: [
+                                          for (var eachVerse in content)
+                                            Column(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    showDifferentVersions(
+                                                      int.parse(
+                                                          eachVerse["ID"]),
+                                                    );
+                                                  },
+                                                  onLongPress: () {
+                                                    selectVerses(
+                                                        eachVerse["ID"],
+                                                        eachVerse["text"]);
+                                                  },
+                                                  child: eachVerse["text"] != ""
+                                                      ? EachVerse(
+                                                          verseData: eachVerse,
+                                                          fontSize:
+                                                              eachVerseFontSize,
+                                                          eachNumberFontSize:
+                                                              eachNumberFontSize,
+                                                          selectedVerse:
+                                                              selectedVerse,
+                                                        )
+                                                      : Container(),
+                                                ),
                                               ],
                                             ),
-                                          ),
-                                      ],
-                                    )
-                                  : Column(
-                                      children: [
-                                        for (var eachVerse in content)
-                                          Column(
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () {
-                                                  showDifferentVersions(
-                                                    int.parse(eachVerse["ID"]),
-                                                  );
-                                                },
-                                                onLongPress: () {
-                                                  selectVerses(eachVerse["ID"],
-                                                      eachVerse["text"]);
-                                                },
-                                                child: eachVerse["text"] != ""
-                                                    ? EachVerse(
-                                                        verseData: eachVerse,
-                                                        fontSize:
-                                                            eachVerseFontSize,
-                                                        eachNumberFontSize:
-                                                            eachNumberFontSize,
-                                                        selectedVerse:
-                                                            selectedVerse,
-                                                      )
-                                                    : Container(),
-                                              ),
-                                            ],
-                                          ),
-                                      ],
-                                    ),
-                          SizedBox(height: 200.0),
-                        ],
-                      )
-                    : Container(),
-              ],
+                                        ],
+                                      ),
+                            SizedBox(height: 200.0),
+                          ],
+                        )
+                      : Container(),
+                ],
+              ),
             ),
           ],
         ),

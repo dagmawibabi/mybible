@@ -84,7 +84,9 @@ class _EachVersionButtonState extends State<EachVersionButton> {
                     setState(() {});
                   },
                   icon: Icon(
-                    Icons.expand_more_sharp,
+                    isExpanded == true
+                        ? Icons.expand_less_sharp
+                        : Icons.expand_more_sharp,
                     color: widget.isSelected == true
                         ? Colors.greenAccent
                         : Colors.white,
