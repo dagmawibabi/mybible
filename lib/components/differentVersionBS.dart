@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 
 class DifferentVersions extends StatefulWidget {
@@ -80,6 +81,23 @@ class _DifferentVersionsState extends State<DifferentVersions> {
       }
     }
 
+    setState(() {});
+  }
+
+  void copyDifferentVersion() async {
+    var copyableText =
+        "${widget.abbrv[widget.book]} | ${widget.englishToAmharicMap[widget.abbrv[widget.book]].toString().substring(3, widget.englishToAmharicMap[widget.abbrv[widget.book]].length - 5)} ${widget.chapter}:${widget.verse}\n\n";
+
+    for (var eachVersion in differentVersion) {
+      if (eachVersion["text"].toString().isNotEmpty) {
+        copyableText +=
+            eachVersion["version"] + "\n\"" + eachVersion["text"] + "\"\n\n";
+      }
+    }
+
+    await FlutterClipboard.copy(copyableText).then(
+      (value) {},
+    );
     setState(() {});
   }
 
@@ -348,9 +366,12 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                       children: [
                         for (var eachVersion in differentVersion)
                           GestureDetector(
-                            onTap: () {
-                              // setState(() {});
-                              // Navigator.pop(context);
+                            onTap: () async {
+                              var copyableText =
+                                  "\"${eachVersion["text"]}\"\n — ${eachVersion["version"] == "አማ" ? widget.englishToAmharicMap[widget.abbrv[widget.book]].toString().substring(3, widget.englishToAmharicMap[widget.abbrv[widget.book]].length - 5) : widget.abbrv[widget.book]} ${widget.chapter}:${widget.verse} (${eachVersion["version"]})";
+                              await FlutterClipboard.copy(copyableText).then(
+                                (value) {},
+                              );
                             },
                             child: eachVersion["text"] == ""
                                 ? Container()
@@ -403,10 +424,44 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                     ),
                                   ),
                           ),
-                        const SizedBox(height: 200.0)
+                        const SizedBox(height: 10.0),
+                        const Column(
+                          children: [
+                            Text(
+                              "Tap on individual translations to copy individually",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 80.0),
+                        // Copy
+                        Column(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                copyDifferentVersion();
+                              },
+                              icon: const Icon(
+                                Icons.copy_all,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const Text(
+                              "Copy All",
+                              style: TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 50.0)
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
       ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:mybible/components/chooseBookBS.dart';
@@ -635,16 +636,12 @@ class _HomePageState extends State<HomePage> {
             await savedVersesBox.put("seenTutorial", true);
             await Hive.close();
           },
-          onClickTargetWithTapPosition: (target, tapDetails) {
-            print("target: $target");
-            print(
-                "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
-          },
-          onClickTarget: (target) {
-            print(target);
-          },
-          onSkip: () {
-            print("skip");
+          onClickTargetWithTapPosition: (target, tapDetails) {},
+          onClickTarget: (target) {},
+          onSkip: () async {
+            Box savedVersesBox = await Hive.openBox("SavedVersesBox");
+            await savedVersesBox.put("seenTutorial", true);
+            await Hive.close();
           })
         ..show(context: context);
     }
@@ -774,6 +771,21 @@ class _HomePageState extends State<HomePage> {
     }
     // haveSeenTutorial = haveSeenTutorial ?? false;
     await Hive.close();
+  }
+
+  void copySelectedVerses() async {
+    String copyableText = "";
+    for (SavedVerse eachSelectedVerse in selectedVerse) {
+      var abc =
+          "\"${eachSelectedVerse.verse}\"\n — ${eachSelectedVerse.version == "አማ" ? eachSelectedVerse.book : abbrv[eachSelectedVerse.book]} ${eachSelectedVerse.chapter}:${eachSelectedVerse.number} (${eachSelectedVerse.version}) \n\n";
+      copyableText += abc;
+    }
+
+    await FlutterClipboard.copy(copyableText).then(
+      (value) {},
+    );
+    selectedVerse = [];
+    setState(() {});
   }
 
   @override
@@ -1085,7 +1097,9 @@ class _HomePageState extends State<HomePage> {
                                                         eachVerse["ID"],
                                                         eachVerse["text"]);
                                                   },
-                                                  child: eachVerse["text"] != ""
+                                                  child: eachVerse["text"]
+                                                              .toString() !=
+                                                          ""
                                                       ? EachVerse(
                                                           key: int.parse(eachVerse[
                                                                           "ID"]
@@ -1184,7 +1198,9 @@ class _HomePageState extends State<HomePage> {
                         heroTag: "copyVerse",
                         backgroundColor: Colors.grey[800],
                         mini: true,
-                        onPressed: () {},
+                        onPressed: () {
+                          copySelectedVerses();
+                        },
                         child: const Icon(
                           Icons.copy_rounded,
                           color: Colors.white,

@@ -23,33 +23,33 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // loadingDelay();
+    loadingDelay();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Spacer(),
+            const Spacer(),
             Image.asset(
               "assets/icons/bibleLogo.jpg",
               width: 200.0,
             ),
-            const Text(
+            Text(
               "My Bible",
-              style: GoogleFonts.lato(
+              style: GoogleFonts.ubuntu(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Column(
               children: [
                 Text(
@@ -60,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     // fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 5.0),
+                const SizedBox(height: 5.0),
                 Text(
                   "Dream Intelligence",
                   style: TextStyle(
@@ -69,7 +69,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     // fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 30.0),
+                const SizedBox(height: 30.0),
               ],
             ),
           ],

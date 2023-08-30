@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:line_icons/line_icons.dart';
@@ -351,6 +352,13 @@ class _BookmarksPageState extends State<BookmarksPage> {
                       children: [
                         for (var eachSavedVerse in savedVerses)
                           GestureDetector(
+                            onTap: () async {
+                              var copyableText =
+                                  "\"${eachSavedVerse.verse}\"\n — ${eachSavedVerse.version == "አማ" ? eachSavedVerse.book : abbrv[eachSavedVerse.book]} ${eachSavedVerse.chapter}:${eachSavedVerse.number} (${eachSavedVerse.version})";
+                              await FlutterClipboard.copy(copyableText).then(
+                                (value) {},
+                              );
+                            },
                             onLongPress: () {
                               deleteIndividualBookmark(eachSavedVerse);
                             },
@@ -450,8 +458,22 @@ class _BookmarksPageState extends State<BookmarksPage> {
                     const SizedBox(height: 5.0),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 5.0,
+                        horizontal: 22.0,
                         vertical: 10.0,
+                      ),
+                      child: Text(
+                        "Tap on individual bookmarks to copy.",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: Colors.grey[700]!,
+                          fontSize: 13.0,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 5.0,
+                        vertical: 0.0,
                       ),
                       child: Text(
                         "Long press on individual bookmarks to delete individually.",
