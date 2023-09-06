@@ -636,6 +636,7 @@ class _HomePageState extends State<HomePage> {
             Box savedVersesBox = await Hive.openBox("SavedVersesBox");
             await savedVersesBox.put("seenTutorial", true);
             await Hive.close();
+            setContent("ERV", "OT", "GEN", 1);
           },
           onClickTargetWithTapPosition: (target, tapDetails) {},
           onClickTarget: (target) {},
@@ -643,6 +644,7 @@ class _HomePageState extends State<HomePage> {
             Box savedVersesBox = await Hive.openBox("SavedVersesBox");
             await savedVersesBox.put("seenTutorial", true);
             await Hive.close();
+            setContent("ERV", "OT", "GEN", 1);
           })
         ..show(context: context);
     }
