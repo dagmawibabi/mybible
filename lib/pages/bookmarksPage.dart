@@ -2,6 +2,7 @@
 
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:mybible/models/savedVerses.dart';
@@ -17,6 +18,7 @@ class BookmarksPage extends StatefulWidget {
 
 class _BookmarksPageState extends State<BookmarksPage> {
   bool isMemorizing = false;
+  Controller scrollController = Controller();
   Map abbrv = {
     "GEN": "Genesis",
     "EXO": "Exodus",
@@ -193,6 +195,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
             )
           : isMemorizing == true
               ? TikTokStyleFullPageScroller(
+                  controller: scrollController,
                   contentSize: savedVerses.length,
                   swipePositionThreshold: 0.2,
                   swipeVelocityThreshold: 2000,
@@ -200,146 +203,152 @@ class _BookmarksPageState extends State<BookmarksPage> {
                     milliseconds: 400,
                   ),
                   builder: (BuildContext context, int index) {
-                    return FlipCard(
-                      fill: Fill.fillBack,
-                      direction: FlipDirection.HORIZONTAL,
-                      side: CardSide.FRONT,
-                      front: Column(
-                        children: [
-                          Container(
-                            height: 400.0,
-                            margin: const EdgeInsets.only(
-                              left: 20.0,
-                              right: 15.0,
-                              top: 120.0,
-                              bottom: 220.0,
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0,
-                              vertical: 15.0,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 26, 26, 26),
-                              border: Border.all(
-                                color: Colors.grey[850]!,
+                    return Container(
+                      color: Colors.grey[900]!,
+                      child: FlipCard(
+                        fill: Fill.fillBack,
+                        direction: FlipDirection.HORIZONTAL,
+                        side: CardSide.FRONT,
+                        front: Column(
+                          children: [
+                            Container(
+                              height: 400.0,
+                              margin: const EdgeInsets.only(
+                                left: 20.0,
+                                right: 15.0,
+                                top: 120.0,
+                                bottom: 220.0,
                               ),
-                              borderRadius: BorderRadius.circular(20.0),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black,
-                                  spreadRadius: 1.0,
-                                  offset: Offset(4, 5),
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(),
-                                Text(
-                                  savedVerses[index].verse,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20.0,
-                                    height: 1.2,
-                                  ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                                vertical: 15.0,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 26, 26, 26),
+                                border: Border.all(
+                                  color: Colors.grey[850]!,
                                 ),
-                                Text(
-                                  "Click to know location of verse",
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    color: Colors.grey[700]!,
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black,
+                                    spreadRadius: 1.0,
+                                    offset: Offset(4, 5),
+                                  )
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(),
+                                  Text(
+                                    savedVerses[index].verse,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                      height: 1.2,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    "Click to know location of verse",
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: Colors.grey[700]!,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Text(
-                            "Swipe up for the next verse to memorize",
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              color: Colors.grey[700]!,
+                            Text(
+                              "Swipe up for the next verse to memorize",
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.grey[700]!,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      back: Container(
-                        margin: const EdgeInsets.only(
-                          left: 20.0,
-                          right: 15.0,
-                          top: 120.0,
-                          bottom: 250.0,
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0,
-                        ),
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 26, 26, 26),
-                          border: Border.all(
-                            color: Colors.grey[850]!,
-                          ),
-                          borderRadius: BorderRadius.circular(20.0),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black,
-                              spreadRadius: 1.0,
-                              offset: Offset(4, 5),
-                            )
                           ],
                         ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                savedVerses[index].version,
-                                style: TextStyle(
-                                  color: Colors.grey[500]!,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              const SizedBox(height: 10.0),
-                              savedVerses[index].version == "አማ"
-                                  ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          savedVerses[index].book + " ",
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
-                                          ),
-                                        ),
-                                        Text(
-                                          "${savedVerses[index].chapter}:${savedVerses[index].number}",
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.0,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : Text(
-                                      abbrv[savedVerses[index].book] +
-                                          " " +
-                                          savedVerses[index]
-                                              .chapter
-                                              .toString() +
-                                          ":" +
-                                          savedVerses[index].number.toString(),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18.0,
-                                      ),
-                                    ),
-                              const SizedBox(height: 40.0),
+                        back: Container(
+                          margin: const EdgeInsets.only(
+                            left: 20.0,
+                            right: 15.0,
+                            top: 120.0,
+                            bottom: 250.0,
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 26, 26, 26),
+                            border: Border.all(
+                              color: Colors.grey[850]!,
+                            ),
+                            borderRadius: BorderRadius.circular(20.0),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black,
+                                spreadRadius: 1.0,
+                                offset: Offset(4, 5),
+                              )
                             ],
+                          ),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  savedVerses[index].version,
+                                  style: TextStyle(
+                                    color: Colors.grey[500]!,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                                const SizedBox(height: 10.0),
+                                savedVerses[index].version == "አማ"
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            savedVerses[index].book + " ",
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.0,
+                                            ),
+                                          ),
+                                          Text(
+                                            "${savedVerses[index].chapter}:${savedVerses[index].number}",
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.0,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : Text(
+                                        abbrv[savedVerses[index].book] +
+                                            " " +
+                                            savedVerses[index]
+                                                .chapter
+                                                .toString() +
+                                            ":" +
+                                            savedVerses[index]
+                                                .number
+                                                .toString(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18.0,
+                                        ),
+                                      ),
+                                const SizedBox(height: 40.0),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -358,9 +367,27 @@ class _BookmarksPageState extends State<BookmarksPage> {
                               await FlutterClipboard.copy(copyableText).then(
                                 (value) {},
                               );
+                              Fluttertoast.showToast(
+                                msg: "Bookmarked Verse Copied",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.TOP,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.black,
+                                textColor: Colors.white,
+                                fontSize: 16.0,
+                              );
                             },
                             onLongPress: () {
                               deleteIndividualBookmark(eachSavedVerse);
+                              Fluttertoast.showToast(
+                                msg: "Bookmarked Verse Deleted",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.TOP,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.black,
+                                textColor: Colors.white,
+                                fontSize: 16.0,
+                              );
                             },
                             child: Container(
                               margin: const EdgeInsets.symmetric(
@@ -488,6 +515,15 @@ class _BookmarksPageState extends State<BookmarksPage> {
                     GestureDetector(
                       onLongPress: () {
                         deleteAllBookmarks();
+                        Fluttertoast.showToast(
+                          msg: "All Bookmarks Deleted",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.TOP,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.black,
+                          textColor: Colors.white,
+                          fontSize: 16.0,
+                        );
                       },
                       child: Column(
                         children: [

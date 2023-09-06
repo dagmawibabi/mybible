@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:mybible/components/chooseBookBS.dart';
 import 'package:mybible/components/chooseChapterBS.dart';
@@ -1200,6 +1201,17 @@ class _HomePageState extends State<HomePage> {
                         mini: true,
                         onPressed: () {
                           copySelectedVerses();
+                          Fluttertoast.showToast(
+                            msg: selectedVerse.length > 1
+                                ? "Verses Copied"
+                                : "Verse Copied",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.black,
+                            textColor: Colors.white,
+                            fontSize: 16.0,
+                          );
                         },
                         child: const Icon(
                           Icons.copy_rounded,
@@ -1215,6 +1227,17 @@ class _HomePageState extends State<HomePage> {
                         mini: true,
                         onPressed: () {
                           addToBookmarks();
+                          Fluttertoast.showToast(
+                            msg: selectedVerse.length > 1
+                                ? "Verses Added to Bookmark"
+                                : "Verse Added to Bookmark",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.black,
+                            textColor: Colors.white,
+                            fontSize: 16.0,
+                          );
                         },
                         child: const Icon(
                           Icons.bookmark_add_outlined,

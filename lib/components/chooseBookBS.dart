@@ -219,32 +219,47 @@ class _ChooseBookBSState extends State<ChooseBookBS> {
                     right: 20.0,
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        "Books",
-                        style: TextStyle(
-                          fontSize: 18.0,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(
+                          Icons.arrow_back,
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        "  |  ",
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.grey[800]!,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Books",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "  |  ",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color: Colors.grey[800]!,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const Text(
+                            "መጽሐፍት",
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      const Text(
-                        "መጽሐፍት",
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      const SizedBox(width: 10.0),
                     ],
                   ),
                 ),

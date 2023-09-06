@@ -83,32 +83,47 @@ class _ChooseChapterBSState extends State<ChooseChapterBS> {
                           right: 20.0,
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              "Chapters",
-                              style: TextStyle(
-                                fontSize: 20.0,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Icon(
+                                Icons.arrow_back,
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text(
-                              "  |  ",
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.grey[800]!,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Chapters",
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  "  |  ",
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    color: Colors.grey[800]!,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const Text(
+                                  "ምዕራፎች",
+                                  style: TextStyle(
+                                    fontSize: 17.0,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const Text(
-                              "ምዕራፎች",
-                              style: TextStyle(
-                                fontSize: 17.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            const SizedBox(width: 10.0),
                           ],
                         ),
                       ),

@@ -80,6 +80,16 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(width: 10.0),
                             const Text(
                               "Versions",
                               style: TextStyle(

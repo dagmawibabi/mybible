@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DifferentVersions extends StatefulWidget {
   const DifferentVersions({
@@ -147,6 +148,15 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ),
+                          ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -247,220 +257,254 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                   ],
                 ),
               )
-            : Column(
+            : ListView(
                 children: [
-                  // Book Chapter and Verse
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 10.0,
-                      bottom: 10.0,
-                      left: 20.0,
-                      right: 20.0,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 160.0,
-                              child: Text(
-                                widget.abbrv[widget.book].toString(),
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 5.0),
-                            Container(
-                              width: 160.0,
-                              alignment: Alignment.centerLeft,
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  widget.englishToAmharicMap[
-                                          widget.abbrv[widget.book]]
-                                      .toString()
-                                      .substring(
-                                          3,
-                                          widget
-                                                  .englishToAmharicMap[
-                                                      widget.abbrv[widget.book]]
-                                                  .length -
-                                              5),
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                  Column(
+                    children: [
+                      // Book Chapter and Verse
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 10.0,
+                          bottom: 10.0,
+                          left: 20.0,
+                          right: 20.0,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Chapter ${widget.chapter.toString()}",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                color: Colors.grey[400],
-                              ),
-                            ),
-                            const SizedBox(height: 5.0),
-                            Text(
-                              "ምዕራፍ ${widget.chapter.toString()}",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                color: Colors.grey[400],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "Verse ${widget.verse.toString()}",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                color: Colors.grey[400],
-                              ),
-                            ),
-                            const SizedBox(height: 5.0),
-                            Text(
-                              "ቁጥር ${widget.verse.toString()}",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                color: Colors.grey[400],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Divider
-                  const SizedBox(height: 5.0),
-                  Divider(
-                    color: Colors.grey[800]!,
-                    height: 10.0,
-                  ),
-                  const SizedBox(height: 5.0),
-
-                  // Each Translation
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.67,
-                    child: ListView(
-                      children: [
-                        for (var eachVersion in differentVersion)
-                          GestureDetector(
-                            onTap: () async {
-                              var copyableText =
-                                  "\"${eachVersion["text"]}\"\n — ${eachVersion["version"] == "አማ" ? widget.englishToAmharicMap[widget.abbrv[widget.book]].toString().substring(3, widget.englishToAmharicMap[widget.abbrv[widget.book]].length - 5) : widget.abbrv[widget.book]} ${widget.chapter}:${widget.verse} (${eachVersion["version"]})";
-                              await FlutterClipboard.copy(copyableText).then(
-                                (value) {},
-                              );
-                            },
-                            child: eachVersion["text"] == ""
-                                ? Container()
-                                : Container(
-                                    width: double.infinity,
-                                    margin: const EdgeInsets.symmetric(
-                                      vertical: 5.0,
-                                      horizontal: 15.0,
-                                    ),
-                                    padding: const EdgeInsets.only(
-                                      top: 10.0,
-                                      bottom: 15.0,
-                                      left: 12.0,
-                                      right: 12.0,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[900]!,
-                                      border: Border.all(
-                                        color: Colors.grey[850]!,
-                                      ),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.black,
-                                          spreadRadius: 1.0,
-                                          offset: Offset(3, 4),
-                                        )
-                                      ],
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          eachVersion["version"],
-                                          style: TextStyle(
-                                            fontSize: 14.0,
-                                            color: Colors.grey[500]!,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 6.0),
-                                        Text(
-                                          eachVersion["text"],
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                          ),
-                        const SizedBox(height: 10.0),
-                        const Column(
-                          children: [
-                            Text(
-                              "Tap on individual translations to copy individually",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 80.0),
-                        // Copy
-                        Column(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                copyDifferentVersion();
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
                               },
-                              icon: const Icon(
-                                Icons.copy_all,
+                              child: const Icon(
+                                Icons.arrow_back,
                                 color: Colors.white,
                               ),
                             ),
-                            const Text(
-                              "Copy All",
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 160.0,
+                                  child: Text(
+                                    widget.abbrv[widget.book].toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 5.0),
+                                Container(
+                                  width: 160.0,
+                                  alignment: Alignment.centerLeft,
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      widget.englishToAmharicMap[
+                                              widget.abbrv[widget.book]]
+                                          .toString()
+                                          .substring(
+                                              3,
+                                              widget
+                                                      .englishToAmharicMap[
+                                                          widget.abbrv[
+                                                              widget.book]]
+                                                      .length -
+                                                  5),
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "Chapter ${widget.chapter.toString()}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                    color: Colors.grey[400],
+                                  ),
+                                ),
+                                const SizedBox(height: 5.0),
+                                Text(
+                                  "ምዕራፍ ${widget.chapter.toString()}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                    color: Colors.grey[400],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "Verse ${widget.verse.toString()}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                    color: Colors.grey[400],
+                                  ),
+                                ),
+                                const SizedBox(height: 5.0),
+                                Text(
+                                  "ቁጥር ${widget.verse.toString()}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                    color: Colors.grey[400],
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
+                      ),
 
-                        const SizedBox(height: 50.0)
-                      ],
-                    ),
+                      // Divider
+                      const SizedBox(height: 5.0),
+                      Divider(
+                        color: Colors.grey[800]!,
+                        height: 10.0,
+                      ),
+                      const SizedBox(height: 5.0),
+
+                      // Each Translation
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.67,
+                        child: ListView(
+                          children: [
+                            for (var eachVersion in differentVersion)
+                              GestureDetector(
+                                onTap: () async {
+                                  var copyableText =
+                                      "\"${eachVersion["text"]}\"\n — ${eachVersion["version"] == "አማ" ? widget.englishToAmharicMap[widget.abbrv[widget.book]].toString().substring(3, widget.englishToAmharicMap[widget.abbrv[widget.book]].length - 5) : widget.abbrv[widget.book]} ${widget.chapter}:${widget.verse} (${eachVersion["version"]})";
+                                  await FlutterClipboard.copy(copyableText)
+                                      .then(
+                                    (value) {},
+                                  );
+                                  Fluttertoast.showToast(
+                                    msg: "Version Copied",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.TOP,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.black,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0,
+                                  );
+                                },
+                                child: eachVersion["text"] == ""
+                                    ? Container()
+                                    : Container(
+                                        width: double.infinity,
+                                        margin: const EdgeInsets.symmetric(
+                                          vertical: 5.0,
+                                          horizontal: 15.0,
+                                        ),
+                                        padding: const EdgeInsets.only(
+                                          top: 10.0,
+                                          bottom: 15.0,
+                                          left: 12.0,
+                                          right: 12.0,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[900]!,
+                                          border: Border.all(
+                                            color: Colors.grey[850]!,
+                                          ),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Colors.black,
+                                              spreadRadius: 1.0,
+                                              offset: Offset(3, 4),
+                                            )
+                                          ],
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              eachVersion["version"],
+                                              style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.grey[500]!,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 6.0),
+                                            Text(
+                                              eachVersion["text"],
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                              ),
+                            const SizedBox(height: 10.0),
+                            const Column(
+                              children: [
+                                Text(
+                                  "Tap on individual translations to copy individually",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 80.0),
+                            // Copy
+                            Column(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    copyDifferentVersion();
+                                    Fluttertoast.showToast(
+                                      msg: "All Versions Copied",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.TOP,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.black,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0,
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.copy_all,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const Text(
+                                  "Copy All",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            const SizedBox(height: 50.0)
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
