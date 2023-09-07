@@ -470,7 +470,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      eachSavedVerse.version == "አማ"
+                                      eachSavedVerse.version == "አማ 1954"
                                           ? Row(
                                               children: [
                                                 Text(
