@@ -126,8 +126,6 @@ class _BookmarksPageState extends State<BookmarksPage> {
   }
 
   void copyAllBookmarks() async {
-    // var copyableText =
-    //     "${widget.abbrv[widget.book]} | ${widget.englishToAmharicMap[widget.abbrv[widget.book]].toString().substring(3, widget.englishToAmharicMap[widget.abbrv[widget.book]].length - 5)} ${widget.chapter}:${widget.verse}\n\n";
     var copyableText = "";
     for (var eachBookmark in savedVerses) {
       print(eachBookmark.version);
@@ -137,7 +135,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
             eachBookmark.chapter.toString() +
             ":" +
             eachBookmark.number.toString() +
-            " አማ (1954)\n\"" +
+            " (አማ 1954)\n\"" +
             eachBookmark.verse +
             "\"\n\n";
       } else {

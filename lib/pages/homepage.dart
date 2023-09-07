@@ -795,8 +795,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // setContent("NASB", "OT", "GEN", 1);
-    loadLastContext();
+    setContent("ERV", "OT", "PSA", 119);
+    // loadLastContext();
     loadAmharicBible();
     createTutorial();
     Future.delayed(const Duration(seconds: 1), showTutorial);

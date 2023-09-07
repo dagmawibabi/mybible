@@ -78,7 +78,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
         chosenVerse["version"] = eachVersion;
         differentVersion.add(chosenVerse);
       } catch (e) {
-        rethrow;
+        print(e);
       }
     }
 
