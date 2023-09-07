@@ -772,14 +772,11 @@ class _HomePageState extends State<HomePage> {
       isAmharic = await savedVersesBox.get("wasAmharic");
       setContent(lastVersion, lastTestament, lastBook, lastChapter);
     }
-    // haveSeenTutorial = haveSeenTutorial ?? false;
-    // await Hive.close();
   }
 
   void copySelectedVerses() async {
     String copyableText = "";
     for (SavedVerse eachSelectedVerse in selectedVerse) {
-      print(eachSelectedVerse.version);
       var abc =
           "\"${eachSelectedVerse.verse}\"\n — ${eachSelectedVerse.version == "አማ 1954" ? eachSelectedVerse.book : abbrv[eachSelectedVerse.book]} ${eachSelectedVerse.chapter}:${eachSelectedVerse.number} (${eachSelectedVerse.version}) \n\n";
       copyableText += abc;
@@ -795,8 +792,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    setContent("ERV", "OT", "PSA", 119);
-    // loadLastContext();
+    // setContent("ERV", "OT", "PSA", 119);
+    loadLastContext();
     loadAmharicBible();
     createTutorial();
     Future.delayed(const Duration(seconds: 1), showTutorial);
@@ -1138,6 +1135,13 @@ class _HomePageState extends State<HomePage> {
                                             Column(
                                               children: [
                                                 GestureDetector(
+                                                  key: int.parse(eachVerse["ID"]
+                                                              .toString()) ==
+                                                          4
+                                                      ? keyButton8
+                                                      : GlobalKey(
+                                                          debugLabel: eachVerse[
+                                                              "text"]),
                                                   onTap: () {
                                                     showDifferentVersions(
                                                       int.parse(
@@ -1153,15 +1157,6 @@ class _HomePageState extends State<HomePage> {
                                                               .toString() !=
                                                           ""
                                                       ? EachVerse(
-                                                          key: int.parse(eachVerse[
-                                                                          "ID"]
-                                                                      .toString()) ==
-                                                                  4
-                                                              ? keyButton8
-                                                              : GlobalKey(
-                                                                  debugLabel:
-                                                                      eachVerse[
-                                                                          "ID"]),
                                                           verseData: eachVerse,
                                                           fontSize:
                                                               eachVerseFontSize,
