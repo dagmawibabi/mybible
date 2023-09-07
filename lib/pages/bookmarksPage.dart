@@ -122,6 +122,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
     await savedVersesBox.put("savedVerses", newSavedVerses);
     await Hive.close();
     savedVerses = newSavedVerses;
+
     setState(() {});
   }
 
@@ -154,6 +155,15 @@ class _BookmarksPageState extends State<BookmarksPage> {
 
     await FlutterClipboard.copy(copyableText).then(
       (value) {},
+    );
+    Fluttertoast.showToast(
+      msg: "All Bookmarked Verses Copied",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.TOP,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+      fontSize: 16.0,
     );
     setState(() {});
   }
@@ -342,7 +352,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  savedVerses[index].version == "አማ"
+                                  savedVerses[index].version == "አማ 1954"
                                       ? "አማ 1954"
                                       : savedVerses[index].version,
                                   style: TextStyle(
@@ -352,7 +362,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                   ),
                                 ),
                                 const SizedBox(height: 10.0),
-                                savedVerses[index].version == "አማ"
+                                savedVerses[index].version == "አማ 1954"
                                     ? Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -504,7 +514,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                               ),
                                             ),
                                       Text(
-                                        eachSavedVerse.version == "አማ"
+                                        eachSavedVerse.version == "አማ 1954"
                                             ? "አማ 1954"
                                             : eachSavedVerse.version,
                                         style: TextStyle(
