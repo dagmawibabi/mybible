@@ -131,13 +131,13 @@ class _BookmarksPageState extends State<BookmarksPage> {
     var copyableText = "";
     for (var eachBookmark in savedVerses) {
       print(eachBookmark.version);
-      if (eachBookmark.version == "አማ") {
+      if (eachBookmark.version == "አማ 1954") {
         copyableText += eachBookmark.book +
             " " +
             eachBookmark.chapter.toString() +
             ":" +
             eachBookmark.number.toString() +
-            " (አማ 1954)\n\"" +
+            " አማ (1954)\n\"" +
             eachBookmark.verse +
             "\"\n\n";
       } else {
@@ -410,7 +410,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                           GestureDetector(
                             onTap: () async {
                               var copyableText =
-                                  "\"${eachSavedVerse.verse}\"\n — ${eachSavedVerse.version == "አማ" ? eachSavedVerse.book : abbrv[eachSavedVerse.book]} ${eachSavedVerse.chapter}:${eachSavedVerse.number} (${eachSavedVerse.version == "አማ" ? "አማ 1954" : eachSavedVerse.version})";
+                                  "\"${eachSavedVerse.verse}\"\n — ${eachSavedVerse.version == "አማ 1954" ? eachSavedVerse.book : abbrv[eachSavedVerse.book]} ${eachSavedVerse.chapter}:${eachSavedVerse.number} (${eachSavedVerse.version == "አማ" ? "አማ (1954" : eachSavedVerse.version})";
                               await FlutterClipboard.copy(copyableText).then(
                                 (value) {},
                               );
