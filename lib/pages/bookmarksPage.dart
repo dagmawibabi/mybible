@@ -125,6 +125,41 @@ class _BookmarksPageState extends State<BookmarksPage> {
     setState(() {});
   }
 
+  void copyAllBookmarks() async {
+    // var copyableText =
+    //     "${widget.abbrv[widget.book]} | ${widget.englishToAmharicMap[widget.abbrv[widget.book]].toString().substring(3, widget.englishToAmharicMap[widget.abbrv[widget.book]].length - 5)} ${widget.chapter}:${widget.verse}\n\n";
+    var copyableText = "";
+    for (var eachBookmark in savedVerses) {
+      print(eachBookmark.version);
+      if (eachBookmark.version == "አማ") {
+        copyableText += eachBookmark.book +
+            " " +
+            eachBookmark.chapter.toString() +
+            ":" +
+            eachBookmark.number.toString() +
+            " (አማ 1954)\n\"" +
+            eachBookmark.verse +
+            "\"\n\n";
+      } else {
+        copyableText += abbrv[eachBookmark.book] +
+            " " +
+            eachBookmark.chapter.toString() +
+            ":" +
+            eachBookmark.number.toString() +
+            " (" +
+            eachBookmark.version +
+            ")\n\"" +
+            eachBookmark.verse +
+            "\"\n\n";
+      }
+    }
+
+    await FlutterClipboard.copy(copyableText).then(
+      (value) {},
+    );
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -146,6 +181,16 @@ class _BookmarksPageState extends State<BookmarksPage> {
           ),
         ),
         actions: [
+          isMemorizing == true
+              ? Container()
+              : IconButton(
+                  onPressed: () {
+                    copyAllBookmarks();
+                  },
+                  icon: const Icon(
+                    Icons.copy_all_outlined,
+                  ),
+                ),
           IconButton(
             icon: isMemorizing == true
                 ? const Icon(Icons.bookmark_border_rounded)
@@ -299,7 +344,9 @@ class _BookmarksPageState extends State<BookmarksPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  savedVerses[index].version,
+                                  savedVerses[index].version == "አማ"
+                                      ? "አማ 1954"
+                                      : savedVerses[index].version,
                                   style: TextStyle(
                                     color: Colors.grey[500]!,
                                     fontWeight: FontWeight.bold,
@@ -363,7 +410,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
                           GestureDetector(
                             onTap: () async {
                               var copyableText =
-                                  "\"${eachSavedVerse.verse}\"\n — ${eachSavedVerse.version == "አማ" ? eachSavedVerse.book : abbrv[eachSavedVerse.book]} ${eachSavedVerse.chapter}:${eachSavedVerse.number} (${eachSavedVerse.version})";
+                                  "\"${eachSavedVerse.verse}\"\n — ${eachSavedVerse.version == "አማ" ? eachSavedVerse.book : abbrv[eachSavedVerse.book]} ${eachSavedVerse.chapter}:${eachSavedVerse.number} (${eachSavedVerse.version == "አማ" ? "አማ 1954" : eachSavedVerse.version})";
                               await FlutterClipboard.copy(copyableText).then(
                                 (value) {},
                               );
@@ -459,7 +506,9 @@ class _BookmarksPageState extends State<BookmarksPage> {
                                               ),
                                             ),
                                       Text(
-                                        eachSavedVerse.version,
+                                        eachSavedVerse.version == "አማ"
+                                            ? "አማ 1954"
+                                            : eachSavedVerse.version,
                                         style: TextStyle(
                                           color: Colors.grey[600]!,
                                           fontWeight: FontWeight.bold,

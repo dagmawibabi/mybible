@@ -22,7 +22,7 @@ class _EachBookButtonState extends State<EachBookButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      // width: double.infinity,
       margin: const EdgeInsets.symmetric(
         vertical: 6.0,
         horizontal: 15.0,
@@ -33,6 +33,7 @@ class _EachBookButtonState extends State<EachBookButton> {
         left: 15.0,
         right: 10.0,
       ),
+      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         color: Colors.grey[900]!,
         border: Border.all(
@@ -50,8 +51,7 @@ class _EachBookButtonState extends State<EachBookButton> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-            width: 160.0,
+          Expanded(
             child: Text(
               widget.english,
               style: TextStyle(
@@ -62,17 +62,10 @@ class _EachBookButtonState extends State<EachBookButton> {
               ),
             ),
           ),
-          // Text(
-          //   "  |  ",
-          //   style: TextStyle(
-          //     color: Colors.grey[850]!,
-          //   ),
-          // ),
-          Container(
-            width: 170.0,
-            alignment: Alignment.centerRight,
+          Expanded(
             child: Text(
               widget.amharic,
+              textAlign: TextAlign.right,
               style: TextStyle(
                 color: widget.isSelected == true
                     ? Colors.greenAccent

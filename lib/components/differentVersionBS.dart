@@ -91,8 +91,12 @@ class _DifferentVersionsState extends State<DifferentVersions> {
 
     for (var eachVersion in differentVersion) {
       if (eachVersion["text"].toString().isNotEmpty) {
-        copyableText +=
-            eachVersion["version"] + "\n\"" + eachVersion["text"] + "\"\n\n";
+        if (eachVersion["version"] == "አማ") {
+          copyableText += "አማ 1954" + "\n\"" + eachVersion["text"] + "\"\n\n";
+        } else {
+          copyableText +=
+              eachVersion["version"] + "\n\"" + eachVersion["text"] + "\"\n\n";
+        }
       }
     }
 
@@ -390,7 +394,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                               GestureDetector(
                                 onTap: () async {
                                   var copyableText =
-                                      "\"${eachVersion["text"]}\"\n — ${eachVersion["version"] == "አማ" ? widget.englishToAmharicMap[widget.abbrv[widget.book]].toString().substring(3, widget.englishToAmharicMap[widget.abbrv[widget.book]].length - 5) : widget.abbrv[widget.book]} ${widget.chapter}:${widget.verse} (${eachVersion["version"]})";
+                                      "\"${eachVersion["text"]}\"\n — ${eachVersion["version"] == "አማ" ? widget.englishToAmharicMap[widget.abbrv[widget.book]].toString().substring(3, widget.englishToAmharicMap[widget.abbrv[widget.book]].length - 5) : widget.abbrv[widget.book]} ${widget.chapter}:${widget.verse} (${eachVersion["version"] == "አማ" ? "አማ 1954" : eachVersion["version"]})";
                                   await FlutterClipboard.copy(copyableText)
                                       .then(
                                     (value) {},
@@ -439,7 +443,9 @@ class _DifferentVersionsState extends State<DifferentVersions> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              eachVersion["version"],
+                                              eachVersion["version"] == "አማ"
+                                                  ? "አማ 1954"
+                                                  : eachVersion["version"],
                                               style: TextStyle(
                                                 fontSize: 14.0,
                                                 color: Colors.grey[500]!,

@@ -548,7 +548,7 @@ class _HomePageState extends State<HomePage> {
       selectedVerse = newSelectedVerse;
     } else {
       SavedVerse newSelectedVerse = SavedVerse()
-        ..version = isAmharic == true ? "አማ" : currentVersion
+        ..version = isAmharic == true ? "አማ 1954" : currentVersion
         ..testament = isAmharic == true
             ? isOT == true
                 ? "ብሉይ ኪዳን"
@@ -773,14 +773,15 @@ class _HomePageState extends State<HomePage> {
       setContent(lastVersion, lastTestament, lastBook, lastChapter);
     }
     // haveSeenTutorial = haveSeenTutorial ?? false;
-    await Hive.close();
+    // await Hive.close();
   }
 
   void copySelectedVerses() async {
     String copyableText = "";
     for (SavedVerse eachSelectedVerse in selectedVerse) {
+      print(eachSelectedVerse.version);
       var abc =
-          "\"${eachSelectedVerse.verse}\"\n — ${eachSelectedVerse.version == "አማ" ? eachSelectedVerse.book : abbrv[eachSelectedVerse.book]} ${eachSelectedVerse.chapter}:${eachSelectedVerse.number} (${eachSelectedVerse.version}) \n\n";
+          "\"${eachSelectedVerse.verse}\"\n — ${eachSelectedVerse.version == "አማ 1954" ? eachSelectedVerse.book : abbrv[eachSelectedVerse.book]} ${eachSelectedVerse.chapter}:${eachSelectedVerse.number} (${eachSelectedVerse.version}) \n\n";
       copyableText += abc;
     }
 
@@ -1049,29 +1050,77 @@ class _HomePageState extends State<HomePage> {
                                                             for (var eachComment
                                                                 in eachVerse[
                                                                     "comments"])
-                                                              Container(
-                                                                width: double
-                                                                    .infinity,
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .symmetric(
-                                                                  horizontal:
-                                                                      30.0,
-                                                                ),
-                                                                margin:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                  bottom: 10.0,
-                                                                ),
-                                                                child: Text(
-                                                                  eachComment,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Colors
-                                                                            .grey[
-                                                                        500]!,
+                                                              GestureDetector(
+                                                                onLongPress:
+                                                                    () async {
+                                                                  var copyableText = abbrv[
+                                                                          currentBook] +
+                                                                      " " +
+                                                                      currentChapter
+                                                                          .toString() +
+                                                                      ":" +
+                                                                      eachVerse[
+                                                                              "ID"]
+                                                                          .toString() +
+                                                                      "\n\"" +
+                                                                      eachVerse[
+                                                                          "text"] +
+                                                                      "\"\n\nCommentary:\n" +
+                                                                      eachComment;
+                                                                  await FlutterClipboard
+                                                                          .copy(
+                                                                              copyableText)
+                                                                      .then(
+                                                                    (value) {},
+                                                                  );
+                                                                  Fluttertoast
+                                                                      .showToast(
+                                                                    msg:
+                                                                        "Comment Copied",
+                                                                    toastLength:
+                                                                        Toast
+                                                                            .LENGTH_SHORT,
+                                                                    gravity:
+                                                                        ToastGravity
+                                                                            .TOP,
+                                                                    timeInSecForIosWeb:
+                                                                        1,
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .black,
+                                                                    textColor:
+                                                                        Colors
+                                                                            .white,
                                                                     fontSize:
-                                                                        eachCommentFontSize,
+                                                                        16.0,
+                                                                  );
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  width: double
+                                                                      .infinity,
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .symmetric(
+                                                                    horizontal:
+                                                                        30.0,
+                                                                  ),
+                                                                  margin:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                    bottom:
+                                                                        10.0,
+                                                                  ),
+                                                                  child: Text(
+                                                                    eachComment,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Colors
+                                                                              .grey[
+                                                                          500]!,
+                                                                      fontSize:
+                                                                          eachCommentFontSize,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               )
