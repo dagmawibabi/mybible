@@ -92,7 +92,7 @@ class _DifferentVersionsState extends State<DifferentVersions> {
     for (var eachVersion in differentVersion) {
       if (eachVersion["text"].toString().isNotEmpty) {
         if (eachVersion["version"] == "አማ") {
-          copyableText += "አማ 1954" + "\n\"" + eachVersion["text"] + "\"\n\n";
+          copyableText += "${"አማ 1954" "\n\"" + eachVersion["text"]}\"\n\n";
         } else {
           copyableText +=
               eachVersion["version"] + "\n\"" + eachVersion["text"] + "\"\n\n";
