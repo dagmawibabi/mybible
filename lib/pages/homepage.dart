@@ -214,8 +214,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void changeToAmharic() async {
-    // isAmharic = !isAmharic;
-    isAmharic = true;
+    isAmharic = !isAmharic;
     Box savedVersesBox = await Hive.openBox("SavedVersesBox");
     await savedVersesBox.put("wasAmharic", isAmharic);
     await Hive.close();
