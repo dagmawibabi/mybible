@@ -89,7 +89,7 @@ class _ChooseVersionBSState extends State<ChooseVersionBS> {
                                 color: Colors.white,
                               ),
                             ),
-                            const SizedBox(width: 10.0),
+                            SizedBox(width: 10.0),
                             const Text(
                               "Versions",
                               style: TextStyle(
