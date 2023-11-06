@@ -30,6 +30,11 @@ class _HomePageState extends State<HomePage> {
   bool isOT = true;
   bool showComments = true;
 
+  late double eachVerseFontSize;
+  late double eachNumberFontSize;
+  late double eachCommentFontSize;
+  late double eachTopicFontSize;
+
   Map abbrv = {
     "GEN": "Genesis",
     "EXO": "Exodus",
@@ -476,15 +481,27 @@ class _HomePageState extends State<HomePage> {
     "Revelation": "66_የዮሐንስ ራእይ.json",
   };
 
-  double eachVerseFontSize = 16.0;
-  double eachNumberFontSize = 10.0;
-  double eachCommentFontSize = 14.0;
-  double eachTopicFontSize = 17.0;
-  void increaseFontSize() {
+  void setFontSize(formerEachVerseFontSize, formerEachNumberFontSize,
+      formerEachCommentFontSize, formerEachTopicFontSize) {
+    setState(() {
+      eachVerseFontSize = formerEachVerseFontSize ?? 16.0;
+      eachNumberFontSize = formerEachNumberFontSize ?? 10.0;
+      eachCommentFontSize = formerEachCommentFontSize ?? 14.0;
+      eachTopicFontSize = formerEachTopicFontSize ?? 17.0;
+    });
+  }
+
+  void increaseFontSize() async {
     eachVerseFontSize++;
     eachNumberFontSize++;
     eachCommentFontSize++;
     eachTopicFontSize++;
+    Box savedFontSizeBox = await Hive.openBox("SavedFontSizeBox");
+    await savedFontSizeBox.put("eachVerseFontSize", eachVerseFontSize);
+    await savedFontSizeBox.put("eachNumberFontSize", eachNumberFontSize);
+    await savedFontSizeBox.put("eachCommentFontSize", eachCommentFontSize);
+    await savedFontSizeBox.put("eachTopicFontSize", eachTopicFontSize);
+    await savedFontSizeBox.close();
     setState(() {});
   }
 
@@ -494,6 +511,12 @@ class _HomePageState extends State<HomePage> {
       eachNumberFontSize--;
       eachCommentFontSize--;
       eachTopicFontSize--;
+      Box savedFontSizeBox = await Hive.openBox("SavedFontSizeBox");
+      await savedFontSizeBox.put("eachVerseFontSize", eachVerseFontSize);
+      await savedFontSizeBox.put("eachNumberFontSize", eachNumberFontSize);
+      await savedFontSizeBox.put("eachCommentFontSize", eachCommentFontSize);
+      await savedFontSizeBox.put("eachTopicFontSize", eachTopicFontSize);
+      await savedFontSizeBox.close();
       setState(() {});
     }
   }
@@ -762,6 +785,11 @@ class _HomePageState extends State<HomePage> {
 
   void loadLastContext() async {
     Box savedVersesBox = await Hive.openBox("SavedVersesBox");
+    Box savedFontSizeBox = await Hive.openBox("SavedFontSizeBox");
+    if (!savedVersesBox.isOpen) {
+      savedVersesBox = await Hive.openBox("SavedVersesBox");
+    }
+    if (savedVersesBox.isOpen) {
     dynamic lastVersion = await savedVersesBox.get("lastVersion");
     if (lastVersion == null) {
       setContent("NASB", "OT", "GEN", 1);
@@ -771,6 +799,22 @@ class _HomePageState extends State<HomePage> {
       var lastChapter = await savedVersesBox.get("lastChapter");
       isAmharic = await savedVersesBox.get("wasAmharic");
       setContent(lastVersion, lastTestament, lastBook, lastChapter);
+      }
+    }
+    var formerEachVerseFontSize =
+        await savedFontSizeBox.get("eachVerseFontSize");
+
+    if (formerEachVerseFontSize == null) {
+      setFontSize(16.0, 10.0, 14.0, 17.0);
+    } else {
+      var formerEachNumberFontSize =
+          await savedFontSizeBox.get("eachNumberFontSize");
+      var formerEachCommentFontSize =
+          await savedFontSizeBox.get("eachCommentFontSize");
+      var formerEachTopicFontSize =
+          await savedFontSizeBox.get("eachTopicFontSize");
+      setFontSize(formerEachVerseFontSize, formerEachNumberFontSize,
+          formerEachCommentFontSize, formerEachTopicFontSize);
     }
   }
 
