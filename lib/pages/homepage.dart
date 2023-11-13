@@ -22,13 +22,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   dynamic content;
-  String currentVersion = "ESV";
+  String currentVersion = "NASB";
   String currentTestament = "OT";
   String currentBook = "GEN";
   int currentChapter = 1;
   int chapterLength = 0;
   bool isOT = true;
   bool showComments = true;
+
+  late double eachVerseFontSize;
+  late double eachNumberFontSize;
+  late double eachCommentFontSize;
+  late double eachTopicFontSize;
 
   Map abbrv = {
     "GEN": "Genesis",
@@ -170,7 +175,7 @@ class _HomePageState extends State<HomePage> {
 
   dynamic ervTitle = [];
 
-  void setContent(version, testament, book, chapter) async {
+  Future<void> setContent(version, testament, book, chapter) async {
     currentVersion = version;
     currentTestament = testament;
     currentBook = book;
@@ -203,21 +208,30 @@ class _HomePageState extends State<HomePage> {
       ervTitle = jsonResult["text"][chapter - 1];
     }
 
-    Box savedVersesBox = await Hive.openBox("SavedVersesBox");
-    await savedVersesBox.put("lastVersion", currentVersion);
-    await savedVersesBox.put("lastTestament", currentTestament);
-    await savedVersesBox.put("lastBook", currentBook);
-    await savedVersesBox.put("lastChapter", currentChapter);
-    await savedVersesBox.put("wasAmharic", isAmharic);
-    await Hive.close();
+    try {
+      Box savedVersesBox = await Hive.openBox("SavedVersesBox");
+      if (!savedVersesBox.isOpen) {
+        savedVersesBox = await Hive.openBox("SavedVersesBox");
+      }
+      if (savedVersesBox.isOpen) {
+        await savedVersesBox.put("lastVersion", currentVersion);
+        await savedVersesBox.put("lastTestament", currentTestament);
+        await savedVersesBox.put("lastBook", currentBook);
+        await savedVersesBox.put("lastChapter", currentChapter);
+        await savedVersesBox.put("wasAmharic", isAmharic);
+        await savedVersesBox.close();
+      }
+    } catch (error) {
+      print(HiveError('${error.toString()}'));
+    }
     setState(() {});
   }
 
   void changeToAmharic() async {
-    isAmharic = !isAmharic;
+    isAmharic = true;
     Box savedVersesBox = await Hive.openBox("SavedVersesBox");
     await savedVersesBox.put("wasAmharic", isAmharic);
-    await Hive.close();
+    await savedVersesBox.close();
     setState(() {});
     loadAmharicBible();
     setState(() {});
@@ -241,7 +255,8 @@ class _HomePageState extends State<HomePage> {
   void setVersion(version) async {
     isAmharic = false;
     currentVersion = version;
-    setContent(currentVersion, currentTestament, currentBook, currentChapter);
+    await setContent(
+        currentVersion, currentTestament, currentBook, currentChapter);
     setState(() {});
   }
 
@@ -476,24 +491,42 @@ class _HomePageState extends State<HomePage> {
     "Revelation": "66_የዮሐንስ ራእይ.json",
   };
 
-  double eachVerseFontSize = 16.0;
-  double eachNumberFontSize = 10.0;
-  double eachCommentFontSize = 14.0;
-  double eachTopicFontSize = 17.0;
-  void increaseFontSize() {
+  void setFontSize(formerEachVerseFontSize, formerEachNumberFontSize,
+      formerEachCommentFontSize, formerEachTopicFontSize) {
+    setState(() {
+      eachVerseFontSize = formerEachVerseFontSize ?? 16.0;
+      eachNumberFontSize = formerEachNumberFontSize ?? 10.0;
+      eachCommentFontSize = formerEachCommentFontSize ?? 14.0;
+      eachTopicFontSize = formerEachTopicFontSize ?? 17.0;
+    });
+  }
+
+  void increaseFontSize() async {
     eachVerseFontSize++;
     eachNumberFontSize++;
     eachCommentFontSize++;
     eachTopicFontSize++;
+    Box savedFontSizeBox = await Hive.openBox("SavedFontSizeBox");
+    await savedFontSizeBox.put("eachVerseFontSize", eachVerseFontSize);
+    await savedFontSizeBox.put("eachNumberFontSize", eachNumberFontSize);
+    await savedFontSizeBox.put("eachCommentFontSize", eachCommentFontSize);
+    await savedFontSizeBox.put("eachTopicFontSize", eachTopicFontSize);
+    await savedFontSizeBox.close();
     setState(() {});
   }
 
-  void decreaseFontSize() {
+  void decreaseFontSize() async {
     if (eachNumberFontSize >= 1) {
       eachVerseFontSize--;
       eachNumberFontSize--;
       eachCommentFontSize--;
       eachTopicFontSize--;
+      Box savedFontSizeBox = await Hive.openBox("SavedFontSizeBox");
+      await savedFontSizeBox.put("eachVerseFontSize", eachVerseFontSize);
+      await savedFontSizeBox.put("eachNumberFontSize", eachNumberFontSize);
+      await savedFontSizeBox.put("eachCommentFontSize", eachCommentFontSize);
+      await savedFontSizeBox.put("eachTopicFontSize", eachTopicFontSize);
+      await savedFontSizeBox.close();
       setState(() {});
     }
   }
@@ -597,7 +630,7 @@ class _HomePageState extends State<HomePage> {
       await savedVersesBox.put("savedVerses", saveableVerses);
     }
     selectedVerse = [];
-    await Hive.close();
+    await savedVersesBox.close();
     setState(() {});
   }
 
@@ -617,7 +650,7 @@ class _HomePageState extends State<HomePage> {
     dynamic haveSeenTutorial = await savedVersesBox.get("seenTutorial");
     haveSeenTutorial = haveSeenTutorial ?? false;
     // await savedVersesBox.clear();
-    await Hive.close();
+    await savedVersesBox.close();
     if (haveSeenTutorial == false) {
       TutorialCoachMark tutorial = TutorialCoachMark(
           targets: targets,
@@ -635,16 +668,16 @@ class _HomePageState extends State<HomePage> {
           onFinish: () async {
             Box savedVersesBox = await Hive.openBox("SavedVersesBox");
             await savedVersesBox.put("seenTutorial", true);
-            await Hive.close();
-            setContent("ERV", "OT", "GEN", 1);
+            await savedVersesBox.close();
+            setContent("NASB", "OT", "GEN", 1);
           },
           onClickTargetWithTapPosition: (target, tapDetails) {},
           onClickTarget: (target) {},
           onSkip: () async {
             Box savedVersesBox = await Hive.openBox("SavedVersesBox");
             await savedVersesBox.put("seenTutorial", true);
-            await Hive.close();
-            setContent("ERV", "OT", "GEN", 1);
+            await savedVersesBox.close();
+            setContent("NASB", "OT", "GEN", 1);
           })
         ..show(context: context);
     }
@@ -762,15 +795,36 @@ class _HomePageState extends State<HomePage> {
 
   void loadLastContext() async {
     Box savedVersesBox = await Hive.openBox("SavedVersesBox");
-    dynamic lastVersion = await savedVersesBox.get("lastVersion");
-    if (lastVersion == null) {
-      setContent("NASB", "OT", "GEN", 1);
+    Box savedFontSizeBox = await Hive.openBox("SavedFontSizeBox");
+    if (!savedVersesBox.isOpen) {
+      savedVersesBox = await Hive.openBox("SavedVersesBox");
+    }
+    if (savedVersesBox.isOpen) {
+      dynamic lastVersion = await savedVersesBox.get("lastVersion");
+      if (lastVersion == null) {
+        setContent("NASB", "OT", "GEN", 1);
+      } else {
+        var lastTestament = await savedVersesBox.get("lastTestament");
+        var lastBook = await savedVersesBox.get("lastBook");
+        var lastChapter = await savedVersesBox.get("lastChapter");
+        isAmharic = await savedVersesBox.get("wasAmharic");
+        setContent(lastVersion, lastTestament, lastBook, lastChapter);
+      }
+    }
+    var formerEachVerseFontSize =
+        await savedFontSizeBox.get("eachVerseFontSize");
+
+    if (formerEachVerseFontSize == null) {
+      setFontSize(16.0, 10.0, 14.0, 17.0);
     } else {
-      var lastTestament = await savedVersesBox.get("lastTestament");
-      var lastBook = await savedVersesBox.get("lastBook");
-      var lastChapter = await savedVersesBox.get("lastChapter");
-      isAmharic = await savedVersesBox.get("wasAmharic");
-      setContent(lastVersion, lastTestament, lastBook, lastChapter);
+      var formerEachNumberFontSize =
+          await savedFontSizeBox.get("eachNumberFontSize");
+      var formerEachCommentFontSize =
+          await savedFontSizeBox.get("eachCommentFontSize");
+      var formerEachTopicFontSize =
+          await savedFontSizeBox.get("eachTopicFontSize");
+      setFontSize(formerEachVerseFontSize, formerEachNumberFontSize,
+          formerEachCommentFontSize, formerEachTopicFontSize);
     }
   }
 
@@ -1135,9 +1189,13 @@ class _HomePageState extends State<HomePage> {
                                             Column(
                                               children: [
                                                 GestureDetector(
-                                                  key: int.parse(eachVerse["ID"]
-                                                              .toString()) ==
-                                                          4
+                                                  key: (eachVerse["ID"] ==
+                                                              "4" &&
+                                                          currentVersion ==
+                                                              "NASB" &&
+                                                          currentTestament ==
+                                                              "OT" &&
+                                                          currentBook == "GEN")
                                                       ? keyButton8
                                                       : GlobalKey(
                                                           debugLabel: eachVerse[

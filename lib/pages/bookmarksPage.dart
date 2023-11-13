@@ -153,6 +153,18 @@ class _BookmarksPageState extends State<BookmarksPage> {
       }
     }
 
+    if (copyableText == "") {
+      Fluttertoast.showToast(
+        msg: "No Bookmarked Verses To Copy",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return;
+    }
     await FlutterClipboard.copy(copyableText).then(
       (value) {},
     );
