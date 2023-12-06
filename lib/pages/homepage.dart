@@ -856,7 +856,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 19, 19, 19),
+      backgroundColor: Color.fromARGB(255, 0, 0, 0),
       body: SafeArea(
         child: ListView(
           children: [
@@ -1018,32 +1018,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             isAmharic == true
                                 ? Column(
-                                    children: [
-                                      for (var eachVerse in amharicBible)
-                                        eachVerse["text"] == "" ||
-                                                eachVerse["text"] == "-"
-                                            ? Container()
-                                            : GestureDetector(
-                                                onTap: () {
-                                                  showDifferentVersions(
-                                                    eachVerse["ID"],
-                                                  );
-                                                },
-                                                onLongPress: () {
-                                                  selectVerses(
-                                                      eachVerse["ID"]
-                                                          .toString(),
-                                                      eachVerse["text"]);
-                                                },
-                                                child: EachVerse(
-                                                  verseData: eachVerse,
-                                                  fontSize: eachVerseFontSize,
-                                                  eachNumberFontSize:
-                                                      eachNumberFontSize,
-                                                  selectedVerse: selectedVerse,
-                                                ),
-                                              ),
-                                    ],
+                                    children: displyEachVerse(amharicBible),
                                   )
                                 : currentVersion == "ERV"
                                     ? Column(
@@ -1397,5 +1372,44 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  List<Widget> displyEachVerse(amharicBible) {
+    int prevNumber = 0;
+    List<Widget> versesColumn = [];
+    for (var eachVerse in amharicBible) {
+      if (eachVerse["text"] == "") {
+        versesColumn.add(Container());
+      } else if (eachVerse["text"] == "-") {
+        if (prevNumber == 0) {
+          prevNumber = eachVerse["ID"];
+        }
+      } else {
+        int id = eachVerse["ID"];
+        if (prevNumber != 0) {
+          eachVerse = {
+            "text": eachVerse["text"],
+            "ID": "$prevNumber-${eachVerse['ID']}",
+            "isMultiVerse": true
+          };
+          prevNumber = 0;
+        }
+        versesColumn.add(GestureDetector(
+          onTap: () {
+            showDifferentVersions(id);
+          },
+          onLongPress: () {
+            selectVerses(id.toString(), eachVerse["text"]);
+          },
+          child: EachVerse(
+            verseData: eachVerse,
+            fontSize: eachVerseFontSize,
+            eachNumberFontSize: eachNumberFontSize,
+            selectedVerse: selectedVerse,
+          ),
+        ));
+      }
+    }
+    return versesColumn;
   }
 }
