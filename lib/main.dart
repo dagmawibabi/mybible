@@ -38,7 +38,6 @@ class _MyAppState extends State<MyApp> {
       initialRoute: "/",
       routes: {
         "/": (context) => SplashScreen(),
-        // "/": (context) => TestZoom(),
         "homePage": (context) => HomePage(),
       },
     );
