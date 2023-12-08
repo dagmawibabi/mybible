@@ -645,6 +645,13 @@ class _HomePageState extends State<HomePage> {
   GlobalKey keyButton8 = GlobalKey();
   GlobalKey keyButton9 = GlobalKey();
 
+  void loadSavedVerses() async {
+    Box savedVersesBox = await Hive.openBox("SavedVersesBox");
+    await savedVersesBox.put("seenTutorial", true);
+    await savedVersesBox.close();
+    setContent("NASB", "OT", "GEN", 1);
+  }
+
   void showTutorial() async {
     Box savedVersesBox = await Hive.openBox("SavedVersesBox");
     dynamic haveSeenTutorial = await savedVersesBox.get("seenTutorial");
@@ -673,11 +680,9 @@ class _HomePageState extends State<HomePage> {
           },
           onClickTargetWithTapPosition: (target, tapDetails) {},
           onClickTarget: (target) {},
-          onSkip: () async {
-            Box savedVersesBox = await Hive.openBox("SavedVersesBox");
-            await savedVersesBox.put("seenTutorial", true);
-            await savedVersesBox.close();
-            setContent("NASB", "OT", "GEN", 1);
+          onSkip: () {
+            loadSavedVerses();
+            return true;
           })
         ..show(context: context);
     }
