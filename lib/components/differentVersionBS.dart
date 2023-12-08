@@ -81,8 +81,9 @@ class _DifferentVersionsState extends State<DifferentVersions> {
         print(e);
       }
     }
-
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void copyDifferentVersion() async {
@@ -92,10 +93,11 @@ class _DifferentVersionsState extends State<DifferentVersions> {
     for (var eachVersion in differentVersion) {
       if (eachVersion["text"].toString().isNotEmpty) {
         if (eachVersion["version"] == "አማ") {
-          copyableText += "አማ 1954" + "\n\"" + eachVersion["text"] + "\"\n\n";
+          copyableText += 'አማ 1954\n"${eachVersion["text"]}"\n\n';
         } else {
           copyableText +=
-              eachVersion["version"] + "\n\"" + eachVersion["text"] + "\"\n\n";
+              '${eachVersion["version"]}\n"${eachVersion["text"]}"\n\n';
+          // copyableText += eachVersion["version"] + "\n\"" + eachVersion["text"] + "\"\n\n";
         }
       }
     }
