@@ -53,7 +53,7 @@ class _EachBookButtonState extends State<EachBookButton> {
         children: [
           Expanded(
             child: Text(
-              widget.english,
+              widget.amharic,
               style: TextStyle(
                 color: widget.isSelected == true
                     ? Colors.greenAccent
@@ -64,7 +64,7 @@ class _EachBookButtonState extends State<EachBookButton> {
           ),
           Expanded(
             child: Text(
-              widget.amharic,
+              widget.english,
               textAlign: TextAlign.right,
               style: TextStyle(
                 color: widget.isSelected == true
