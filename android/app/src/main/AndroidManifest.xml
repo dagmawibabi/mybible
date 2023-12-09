@@ -2,6 +2,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="My Bible"
+        android:enableOnBackInvokedCallback="true"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
